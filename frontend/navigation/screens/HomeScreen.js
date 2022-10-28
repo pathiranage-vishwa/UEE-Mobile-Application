@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.card}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/p1.jpg")}
+          source={require("../../assets/images/wing.png")}
         />
         <Text style={styles.text}>Date :</Text>
         <Text style={styles.text}>Location :</Text>
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 250,
     resizeMode: "cover",
+    zIndex: 1,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },
