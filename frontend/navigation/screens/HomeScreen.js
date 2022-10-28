@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.card}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/wing.png")}
+          source={require("../../assets/images/p1.jpg")}
         />
         <Text style={styles.text}>Date :</Text>
         <Text style={styles.text}>Location :</Text>
