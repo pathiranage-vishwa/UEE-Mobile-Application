@@ -1,20 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import MainContainer from "./navigation/MainContainer";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello UEE 2023 !</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <MainContainer />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
