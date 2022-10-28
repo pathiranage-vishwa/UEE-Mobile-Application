@@ -1,16 +1,69 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
 export default function HomeScreen({ navigation }) {
-  return <Text style={styles.text}>Home Screen</Text>;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}> City Creator </Text>
+      <View style={styles.card}>
+        <Image
+          style={styles.image}
+          source={require("../../assets/images/p1.jpg")}
+        />
+        <Text style={styles.text}>Date :</Text>
+        <Text style={styles.text}>Location :</Text>
+        <Text style={styles.text}>Participants :</Text>
+        <Text style={styles.text}>Participants :</Text>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  card: {
+    width: "92%",
+    marginBottom: 10,
+    marginLeft: "4%",
+    marginRight: "4%",
+    height: "auto",
+    paddingBottom: 15,
+
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    shadowColor: "#000",
+
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  image: {
+    width: "100%",
+    height: 250,
+    resizeMode: "cover",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
   text: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     color: "green",
-    marginTop: 400,
-    marginLeft: 100,
+    marginTop: 10,
+    marginLeft: 10,
+  },
+  header: {
+    fontSize: 35,
+    fontWeight: "bold",
+    color: "green",
+    marginLeft: 10,
+    marginBottom: 10,
   },
 });
