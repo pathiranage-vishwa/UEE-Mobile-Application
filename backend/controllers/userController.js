@@ -77,10 +77,29 @@ const forgetPassword = async (req, res) => {
   }
 };
 
+//reset password
+const resetPassword = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (user) {
+      user.password = password;
+      await user.save();
+      res.status(200).json({ message: "Password updated successfully" });
+    } else {
+      res.status(400).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
   getAllUsers,
   getUserById,
   forgetPassword,
+  resetPassword,
 };
