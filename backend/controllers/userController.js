@@ -17,6 +17,25 @@ const createUser = async (req, res) => {
   }
 };
 
+//login user
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      if (user.password === password) {
+        res.status(200).json({ user });
+      } else {
+        res.status(400).json({ message: "Invalid password" });
+      }
+    } else {
+      res.status(400).json({ message: "Invalid email" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -41,6 +60,7 @@ const getUserById = async (req, res) => {
 
 module.exports = {
   createUser,
+  loginUser,
   getAllUsers,
   getUserById,
 };
