@@ -1,4 +1,4 @@
-const ShareEvent = require("../models/eventModel");
+const ShareEventController = require("../models/eventModel");
 
 //create share Event
 const createShareEvent = async (req, res) => {
