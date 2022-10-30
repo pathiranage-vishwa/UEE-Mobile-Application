@@ -55,8 +55,60 @@ const getEventById = async (req, res) => {
   }
 };
 
+//update event
+const updateEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      eventTitle,
+      eventDescription,
+      eventDate,
+      eventTime,
+      eventLocation,
+      eventImage,
+      eventCategory,
+      eventGoal,
+      eventStatus,
+    } = req.body;
+    const event = await Event.findByIdAndUpdate(
+      id,
+      {
+        eventTitle,
+        eventDescription,
+        eventDate,
+        eventTime,
+        eventLocation,
+        eventImage,
+        eventCategory,
+        eventGoal,
+        eventStatus,
+      },
+      { new: true }
+    );
+    res.status(200).json({ event });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//delete event
+const deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findByIdAndDelete(id);
+    if (event) {
+      return res.status(200).json({ message: "Event deleted" });
+    }
+    res.status(404).send("Event not found");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createEvent,
   getAllEvents,
   getEventById,
+  updateEvent,
+  deleteEvent,
 };
