@@ -4,7 +4,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}> City Creator </Text>
+      <Text
+        style={styles.header}
+        onPress={() => navigation.navigate("AddEvent")}
+      >
+        {" "}
+        City Creator{" "}
+      </Text>
       <View style={styles.card}>
         <Image
           style={styles.image}
