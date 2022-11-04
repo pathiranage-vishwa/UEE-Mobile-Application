@@ -4,30 +4,32 @@ const Event = require("../models/eventModel");
 const createEvent = async (req, res) => {
   try {
     const {
-      eventTitle,
-      eventDescription,
-      eventDate,
-      eventTime,
-      eventLocation,
-      eventImage,
-      eventCategory,
-      eventGoal,
-      eventStatus,
+      title,
+      category,
+      location,
+      date,
+      time,
+      description,
+      goal,
+      image,
+      status,
+      participants,
     } = req.body;
     const event = await Event.create({
-      eventTitle,
-      eventDescription,
-      eventDate,
-      eventTime,
-      eventLocation,
-      eventImage,
-      eventCategory,
-      eventGoal,
-      eventStatus,
+      title,
+      category,
+      location,
+      date,
+      time,
+      description,
+      goal,
+      image,
+      status,
+      participants,
     });
     res.status(201).json({ event });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -60,28 +62,30 @@ const updateEvent = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      eventTitle,
-      eventDescription,
-      eventDate,
-      eventTime,
-      eventLocation,
-      eventImage,
-      eventCategory,
-      eventGoal,
-      eventStatus,
+      title,
+      category,
+      location,
+      date,
+      time,
+      description,
+      goal,
+      image,
+      status,
+      participants,
     } = req.body;
     const event = await Event.findByIdAndUpdate(
       id,
       {
-        eventTitle,
-        eventDescription,
-        eventDate,
-        eventTime,
-        eventLocation,
-        eventImage,
-        eventCategory,
-        eventGoal,
-        eventStatus,
+        title,
+        category,
+        location,
+        date,
+        time,
+        description,
+        goal,
+        image,
+        status,
+        participants,
       },
       { new: true }
     );
@@ -105,10 +109,63 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+//get by event status
+const getEventByStatus = async (req, res) => {
+  try {
+    const newStatus = "completed";
+    const event = await Event.find({ status: newStatus });
+    if (event) {
+      return res.status(200).json({ event });
+    }
+    res.status(404).send("Event not found");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//update event status
+const updateEventStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const event = await Event.findByIdAndUpdate(
+      id,
+      {
+        status,
+      },
+      { new: true }
+    );
+    res.status(200).json({ event });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//update event participants
+const updateEventParticipants = async (req, res) => {
+  try {
+    const { id } = req.params;
+    //increment participants by 1
+    const event = await Event.findByIdAndUpdate(
+      id,
+      {
+        $inc: { participants: 1 },
+      },
+      { new: true }
+    );
+    res.status(200).json({ event });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createEvent,
   getAllEvents,
   getEventById,
   updateEvent,
   deleteEvent,
+  getEventByStatus,
+  updateEventStatus,
+  updateEventParticipants,
 };

@@ -4,9 +4,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Screens
 import HomeScreen from "./screens/HomeScreen";
+import AddEvent from "./screens/eventsScreens/AddEvent";
 
 //Screen names
 const homeName = "Home";
+const addEvent = "AddEvent";
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -21,6 +23,7 @@ function MainContainer() {
         }}
       >
         <Stack.Screen name={homeName} component={HomeScreen} />
+        <Stack.Screen name={addEvent} component={AddEvent} />
       </Stack.Navigator>
     </NavigationContainer>
   );

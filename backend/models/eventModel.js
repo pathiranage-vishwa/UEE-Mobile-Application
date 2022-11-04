@@ -1,51 +1,56 @@
 const mongoose = require("mongoose");
 
 const EventSchema = new mongoose.Schema({
-  eventTitle: {
+  title: {
     type: String,
     required: true,
     trim: true,
   },
-  eventDescription: {
+  category: {
     type: String,
     required: true,
     trim: true,
   },
-  eventDate: {
+  location: {
     type: String,
     required: true,
     trim: true,
   },
-  eventTime: {
+  date: {
     type: String,
     required: true,
     trim: true,
   },
-  eventLocation: {
+  time: {
     type: String,
     required: true,
     trim: true,
   },
-  eventImage: {
+  description: {
     type: String,
     required: true,
     trim: true,
   },
-  eventCategory: {
+  goal: {
     type: String,
     required: true,
     trim: true,
   },
-  eventGoal: {
+  image: {
     type: String,
     required: true,
     trim: true,
   },
-  eventStatus: {
+  status: {
     type: String,
     required: true,
     trim: true,
-    default: "Pending",
+    default: "To Do",
+  },
+  participants: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 
