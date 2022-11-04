@@ -17,6 +17,25 @@ const createUser = async (req, res) => {
   }
 };
 
+//login user
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      if (user.password === password) {
+        res.status(200).json({ user });
+      } else {
+        res.status(400).json({ message: "Invalid password" });
+      }
+    } else {
+      res.status(400).json({ message: "Invalid email" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -39,8 +58,48 @@ const getUserById = async (req, res) => {
   }
 };
 
+//forget password
+const forgetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
+      const url = `http://localhost:3000/reset-password/${token}`;
+      res.status(200).json({ url });
+    } else {
+      res.status(400).json({ message: "Invalid email" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//reset password
+const resetPassword = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (user) {
+      user.password = password;
+      await user.save();
+      res.status(200).json({ message: "Password updated successfully" });
+    } else {
+      res.status(400).json({ message: "Invalid token" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   createUser,
+  loginUser,
   getAllUsers,
   getUserById,
+  forgetPassword,
+  resetPassword,
 };

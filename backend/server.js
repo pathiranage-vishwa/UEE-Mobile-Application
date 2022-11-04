@@ -8,6 +8,7 @@ const colors = require("colors");
 
 //import routes
 const userRoutes = require("./routes/userRoutes");
+const eventRoutes = require("./routes/eventRoutes");
 
 //config
 dotenv.config();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 
 //routes
 app.use("/api/users", userRoutes);
+app.use("/api/events", eventRoutes);
 
 //listen to port
 const PORT = process.env.PORT || 5000;
