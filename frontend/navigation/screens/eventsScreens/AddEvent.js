@@ -26,6 +26,7 @@ import {
   TextArea,
 } from "native-base";
 
+import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
 
@@ -33,7 +34,13 @@ export default function ImagePickerExample() {
   const [image, setImage] = useState(null);
   const [formData, setData] = React.useState({});
   const [date, setDate] = useState(new Date(1598051730000));
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [goal, setGoal] = useState("");
   const [time, setTime] = useState("");
+
   const [show, setShow] = useState(false);
 
   const pickImage = async () => {
@@ -77,7 +84,64 @@ export default function ImagePickerExample() {
         console.log(err);
       });
   };
-  console.log(time);
+
+  const handleSubmit = () => {
+    if (title === "") {
+      Alert.alert("Please enter a title");
+      return;
+    } else if (category === "") {
+      Alert.alert("Please enter a category");
+      return;
+    } else if (location === "") {
+      Alert.alert("Please enter a location");
+      return;
+    } else if (description === "") {
+      Alert.alert("Please enter a description");
+      return;
+    } else if (goal === "") {
+      Alert.alert("Please enter a goal");
+      return;
+    } else if (time === "") {
+      Alert.alert("Please enter a time");
+      return;
+    } else if (image === null) {
+      Alert.alert("Please upload an image");
+      return;
+    } else if (date === "") {
+      Alert.alert("Please enter a date");
+      return;
+    }
+
+    const data = {
+      title,
+      category,
+      location,
+      date,
+      time,
+      description,
+      goal,
+      image,
+    };
+
+    axios
+      .post("http://192.168.8.144:5000/api/events", data)
+      .then((res) => {
+        console.log(res.data);
+        Alert.alert("Event added successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setTitle("");
+    setCategory("");
+    setLocation("");
+    setDate("");
+    setTime("");
+    setDescription("");
+    setGoal("");
+    setImage(null);
+  };
 
   return (
     <NativeBaseProvider style={styles.main1}>
@@ -116,154 +180,162 @@ export default function ImagePickerExample() {
       </Button>
 
       <ScrollView style={styles.main}>
-        <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.image1} />
-          ) : (
-            <Image
-              source={require("../../../assets/images/upload.png")}
-              style={styles.image2}
-            />
-          )}
-        </TouchableOpacity>
-        <Spacer />
-        <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
-          <FormControl isRequired>
-            <FormControl.Label
-              _text={{
-                bold: true,
-              }}
-            >
-              Event Title
-            </FormControl.Label>
-            <Input
-              placeholder="Event Title"
-              borderColor={"#000"}
-              height={12}
-              onChangeText={(value) => setData({ ...formData, name: value })}
-            />
-          </FormControl>
-          <FormControl isRequired>
-            <Box maxW="350" mt="5">
+        <VStack style={styles.border}>
+          <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.image1} />
+            ) : (
+              <Image
+                source={require("../../../assets/images/upload.png")}
+                style={styles.image2}
+              />
+            )}
+          </TouchableOpacity>
+          <Spacer />
+          <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
+            <FormControl isRequired>
               <FormControl.Label
                 _text={{
                   bold: true,
                 }}
               >
-                Event Category
+                Event Title
               </FormControl.Label>
-              <Select
-                minWidth="200"
+              <Input
+                placeholder="Event Title"
                 borderColor={"#000"}
                 height={12}
-                accessibilityLabel="Choose Service"
-                placeholder="Choose Service"
-                _selectedItem={{
-                  bg: "green",
-                  endIcon: <CheckIcon size="5" />,
-                  fontSize: "lg",
-                  fontWeight: "bold",
+                onChangeText={(value) => setTitle(value)}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <Box maxW="350" mt="5">
+                <FormControl.Label
+                  _text={{
+                    bold: true,
+                  }}
+                >
+                  Event Category
+                </FormControl.Label>
+                <Select
+                  minWidth="200"
+                  borderColor={"#000"}
+                  selectedValue={category}
+                  height={12}
+                  accessibilityLabel="Choose Service"
+                  placeholder="Choose Service"
+                  _selectedItem={{
+                    bg: "green",
+                    endIcon: <CheckIcon size="5" />,
+                    fontSize: "lg",
+                    fontWeight: "bold",
+                  }}
+                  onValueChange={(itemValue) => setCategory(itemValue)}
+                  mt={1}
+                >
+                  <Select.Item label="Charity Service" value="charity" />
+                  <Select.Item label="Planting" value="planting" />
+                  <Select.Item label="Repairs" value="repair" />
+                </Select>
+              </Box>
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
                 }}
-                mt={1}
               >
-                <Select.Item label="Charity Service" value="charity" />
-                <Select.Item label="Planting" value="planting" />
-                <Select.Item label="Repairs" value="repair" />
-              </Select>
-            </Box>
-          </FormControl>
-          <FormControl isRequired mt={5}>
-            <FormControl.Label
-              _text={{
-                bold: true,
-              }}
-            >
-              Event Location
-            </FormControl.Label>
-            <Input
-              placeholder="Event Location"
-              borderColor={"#000"}
-              height={12}
-              onChangeText={(value) => setData({ ...formData, name: value })}
-            />
-          </FormControl>
-          <FormControl isRequired mt={5}>
-            <FormControl.Label
-              _text={{
-                bold: true,
-              }}
-            >
-              Event Date
-            </FormControl.Label>
-            <DatePicker
-              date={date}
-              mode="date"
-              selectorStartingYear={2022}
-              options={{
-                selectedTextColor: "white",
-                mainColor: "green",
-                textColor: "black",
-                backgroundColor: "white",
-                borderColor: "green",
-                doneButtonColor: "green",
-              }}
-              onDateChange={(date) => setDate(date)}
-            />
-          </FormControl>
-          <FormControl isRequired mt={5}>
-            <FormControl.Label
-              _text={{
-                bold: true,
-              }}
-            >
-              Event Time
-            </FormControl.Label>
-            <DatePicker
-              date={time}
-              mode="time"
-              selectorStartingYear={2022}
-              options={{
-                selectedTextColor: "white",
-                mainColor: "green",
-                textColor: "black",
-                backgroundColor: "white",
-                borderColor: "green",
-                borderwidth: 2,
-                doneButtonColor: "green",
-              }}
-              onTimeChange={(time) => setTime(time)}
-            />
-          </FormControl>
-          <FormControl isRequired mt={5}>
-            <FormControl.Label
-              _text={{
-                bold: true,
-              }}
-            >
-              Event Description
-            </FormControl.Label>
-            <TextArea
-              placeholder="Event Location"
-              borderColor={"#000"}
-              w="100%"
-              onChangeText={(value) => setData({ ...formData, name: value })}
-            />
-          </FormControl>
-          <FormControl isRequired mt={5}>
-            <FormControl.Label
-              _text={{
-                bold: true,
-              }}
-            >
-              Goal
-            </FormControl.Label>
-            <TextArea
-              placeholder="Goal"
-              borderColor={"#000"}
-              w="100%"
-              onChangeText={(value) => setData({ ...formData, name: value })}
-            />
-          </FormControl>
+                Event Location
+              </FormControl.Label>
+              <Input
+                placeholder="Event Location"
+                borderColor={"#000"}
+                height={12}
+                onChangeText={(value) => setLocation(value)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Event Date
+              </FormControl.Label>
+              <DatePicker
+                date={date}
+                mode="date"
+                selectorStartingYear={2022}
+                options={{
+                  selectedTextColor: "white",
+                  mainColor: "green",
+                  textColor: "black",
+                  backgroundColor: "rgba(245, 245, 245, 1)",
+                  borderColor: "black",
+                  borderWidth: 2,
+                  doneButtonColor: "green",
+                }}
+                onDateChange={(date) => setDate(date)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Event Time
+              </FormControl.Label>
+              <DatePicker
+                date={time}
+                mode="time"
+                selectorStartingYear={2022}
+                options={{
+                  selectedTextColor: "white",
+                  mainColor: "rgba(26, 182, 92, 1)",
+                  textColor: "black",
+                  backgroundColor: "rgba(245, 245, 245, 1)",
+                  borderColor: "black",
+                  borderwidth: 2,
+                  doneButtonColor: "rgba(26, 182, 92, 1)",
+                }}
+                onTimeChange={(time) => setTime(time)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Event Description
+              </FormControl.Label>
+              <TextArea
+                placeholder="Event Location"
+                borderColor={"#000"}
+                w="100%"
+                onChangeText={(value) => setDescription(value)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Goal
+              </FormControl.Label>
+              <TextArea
+                placeholder="Goal"
+                borderColor={"#000"}
+                w="100%"
+                onChangeText={(value) => setGoal(value)}
+              />
+            </FormControl>
+            <Button style={styles.uploadButton} onPress={handleSubmit}>
+              <Text style={styles.uploadButtonText}> Create Event</Text>
+            </Button>
+          </VStack>
         </VStack>
       </ScrollView>
     </NativeBaseProvider>
@@ -271,29 +343,39 @@ export default function ImagePickerExample() {
 }
 
 const styles = StyleSheet.create({
-  //   uploadButton: {
-  //     borderRadius: 16,
-  //     alignSelf: "center",
-  //     shadowColor: "#000",
-  //     shadowOffset: {
-  //       width: 7,
-  //       height: 5,
-  //     },
-  //     shadowOpacity: 1.58,
-  //     shadowRadius: 9,
-  //     elevation: 4,
-  //     margin: 10,
-  //     padding: 10,
-  //     backgroundColor: "white",
-  //     width: Dimensions.get("window").width - 60,
-  //     alignItems: "center",
-  //   },
-  //   uploadButtonText: {
-  //     color: "#f6f5f8",
-  //     fontSize: 20,
-  //     fontFamily: "Roboto",
-  //   },
+  uploadButton: {
+    borderRadius: 10,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 10,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "45%",
+    marginLeft: "auto",
+    height: 60,
+  },
+  uploadButtonText: {
+    color: "#f6f5f8",
+    fontSize: 20,
+    fontFamily: "Roboto",
+  },
   main1: {
+    backgroundColor: "white",
+  },
+  border: {
+    borderWidth: 2,
+    borderColor: "green",
+    width: "95%",
+    alignSelf: "center",
+    borderRadius: 10,
+    marginBottom: "10%",
     backgroundColor: "white",
   },
   main: {
@@ -307,6 +389,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   imageCon: {
+    marginTop: 20,
     borderRadius: 16,
     alignSelf: "center",
     shadowColor: "#000",
