@@ -1,77 +1,205 @@
-//create card for each donation
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import Constants from "../../../constants/Constants";
+import axios from "axios";
+import {
+  VStack,
+  Image,
+  Input,
+  Button,
+  IconButton,
+  Icon,
+  Text,
+  NativeBaseProvider,
+  Center,
+  FlatList,
+  Box,
+  Divider,
+  Heading,
+  ScrollView,
+  Card,
+  Flex,
+  Stack,
+  Container,
+} from "native-base";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import { Formik } from "formik";
-import * as yup from "yup";
+export default function () {
+  const [event, setEvent] = React.useState([]);
 
-const reviewSchema = yup.object({
-    title: yup.string().required().min(4),
-    body: yup.string().required().min(8),
-    rating: yup.string().required().test('is-num-1-5', 'Rating must be a number 1-5', (val) => {
-        return parseInt(val) < 6 && parseInt(val) > 0;
-    }
-    ),
-});
+  useEffect(() => {
+    axios
+      .get(`${Constants.URL}/api/events`)
+      .then((response) => {
+        setEvent(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-export default function AddDonation({ navigation }) {
+  console.log(event);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.card}>
-                    <Image
-                    style={styles.image}
-                    source={require("../../assets/images/p1.jpg")}
-                    />
-                    <Text style={styles.text}>Date :</Text>
-                    <Text style={styles.text}>Location :</Text>
-                    <Text style={styles.text}>Participants :</Text>
-                    <Text style={styles.text}>Participants :</Text>
-            </View>
-            <Formik
-                initialValues={{ title: '', body: '', rating: '' }}
-                validationSchema={reviewSchema}
-                onSubmit={(values, actions) => {
-                    actions.resetForm();
-                    console.log(values);
-                    navigation.navigate('Home');
+  return (
+    <NativeBaseProvider>
+      <Box
+        p="2"
+        alignSelf={{ base: "center", md: "flex-start" }}
+        mt="20%"
+        rounded="xl"
+        style={styles.header}
+        _text={{
+          fontSize: "32",
+          fontWeight: "medium",
+          color: "black",
+          alignSelf: "center",
+          letterSpacing: "lg",
+          fontFamily: "Roboto",
+        }}
+      >
+        UPCOMING EVENTS
+      </Box>
+
+      <VStack w="100%" space={5} alignSelf="center">
+        <Input
+          placeholder="Search upcoming events here"
+          width="95%"
+          borderRadius="6"
+          alignSelf={{ base: "center", md: "flex-start" }}
+          py="3"
+          px="1"
+          backgroundColor="rgba(230, 255, 214, 1)"
+          marginTop={5}
+          fontSize="14"
+          InputLeftElement={
+            <Icon
+              m="2"
+              ml="3"
+              size="6"
+              color="black"
+              as={<MaterialIcons name="search" />}
+            />
+          }
+        />
+      </VStack>
+
+      <FlatList
+        data={event}
+        renderItem={({ item }) => (
+          <Card style={styles.item} key={item._id}>
+            {/* <Image source={""} style={styles.image} /> */}
+            <Flex direction="row">
+              <Image
+                width={100}
+                height={200}
+                source={{
+                  uri: item.image,
                 }}
-            >
-                {(props) => (
-                    <View>
-                        <TextInput
-                            style={styles.input}
-                            placeholder='Title'
-                            onChangeText={props.handleChange('title')}
-                            value={props.values.title}
-                            onBlur={props.handleBlur('title')}
-                        />
-                        <Text style={styles.errorText}>{props.touched.title && props.errors.title}</Text>
+                alt="Alternate Text"
+              />
+              <Stack space={2} p="4" w="100%">
+                <Heading size="sm" ml="-1" style={styles.title1}>
+                  {item.title}
+                </Heading>
 
-                        <TextInput
-                            multiline
-                            style={styles.input}
-                            placeholder='Body'
-                            onChangeText={props.handleChange('body')}
-                            value={props.values.body}
-                            onBlur={props.handleBlur('body')}
-                        />
-                        <Text style={styles.errorText}>{props.touched.body && props.errors.body}</Text>
-
-                        <TextInput
-                            keyboardType='numeric'
-                            style={styles.input}
-                            placeholder='Rating (1-5)'
-                            onChangeText={props.handleChange('rating')}
-                            value={props.values.rating}
-                            onBlur={props.handleBlur('rating')}
-                        />
-                        <Text style={styles.errorText}>{props.touched.rating && props.errors.rating}</Text>
-
-                        <Button title='submit' color='maroon' onPress={props.handleSubmit} />
-                    </View>
-                )}
-            </Formik>
-        </View>
-    );
+                <Text style={styles.title}>
+                  <Text style={styles.sub1}> DATE : {item.date}</Text>
+                </Text>
+                <Text style={styles.title}>
+                  <Text style={styles.sub}> Location :</Text> {item.location}
+                </Text>
+              </Stack>
+            </Flex>
+          </Card>
+        )}
+      />
+    </NativeBaseProvider>
+  );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    width: "90%",
+    alignSelf: "center",
+    height: 60,
+  },
+  container: {
+    flex: 1,
+    paddingTop: 22,
+    borderRadius: 10,
+  },
+  item: {
+    fontSize: 18,
+    width: "95%",
+    alignSelf: "center",
+    height: "auto",
+    marginBottom: 20,
+  },
+  button: {
+    marginTop: 10,
+    borderColor: "orange",
+    borderWidth: 2,
+    width: "30%",
+    margin: 10,
+    height: 50,
+  },
+  button1: {
+    marginTop: 10,
+    borderColor: "orange",
+    borderWidth: 2,
+    width: "30%",
+    marginLeft: "auto",
+    marginRight: 10,
+    margin: 10,
+    height: 50,
+  },
+  button2: {
+    marginTop: 10,
+    borderColor: "red",
+    borderWidth: 2,
+    width: "30%",
+    margin: 10,
+  },
+  title: {
+    fontSize: 18,
+    margin: 10,
+    fontWeight: "semibold",
+  },
+  title1: {
+    margin: 5,
+    fontSize: 28,
+    padding: 5,
+    paddingLeft: 14,
+    paddingTop: 10,
+  },
+  sub: {
+    fontWeight: "bold",
+  },
+  sub1: {
+    fontWeight: "bold",
+    fontSize: 22,
+  },
+  sub2: {
+    fontWeight: "bold",
+
+    color: "orange",
+  },
+  sub3: {
+    fontWeight: "bold",
+    color: "orange",
+    marginLeft: 10,
+  },
+  sub5: {
+    fontSize: 15,
+    marginBottom: 10,
+    marginLeft: 10,
+    fontWeight: "bold",
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+});
