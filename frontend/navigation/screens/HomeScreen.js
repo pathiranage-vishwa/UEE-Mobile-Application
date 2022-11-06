@@ -1,36 +1,34 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
+import { Button, NativeBaseProvider } from "native-base";
+
 export default function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text
-        style={styles.header}
-        onPress={() => navigation.navigate("AddEvent")}
-      >
-        {" "}
-        City Creator{" "}
-      </Text>
-      <Text
-        style={styles.header}
-        onPress={() => navigation.navigate("AddDonation")}
-      >
-        {" "}
-        Add Donation{" "}
-      </Text>
-      <View style={styles.card}>
-
-
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/p1.jpg")}
-        />
-        <Text style={styles.text}>Date :</Text>
-        <Text style={styles.text}>Location :</Text>
-        <Text style={styles.text}>Participants :</Text>
-        <Text style={styles.text}>Participants :</Text>
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("AddEvent")}
+        >
+          {" "}
+          City Creator{" "}
+        </Text>
+        <View style={styles.card}>
+          <Image
+            style={styles.image}
+            source={require("../../assets/images/p1.jpg")}
+          />
+          <Text style={styles.text}>Date :</Text>
+          <Text style={styles.text}>Location :</Text>
+          <Text style={styles.text}>Participants :</Text>
+          <Text style={styles.text}>Participants :</Text>
+        </View>
+        <Button onPress={() => navigation.navigate("UpcomingEvent")}>
+          Upcoming Event
+        </Button>
       </View>
-    </View>
+    </NativeBaseProvider>
   );
 }
 
