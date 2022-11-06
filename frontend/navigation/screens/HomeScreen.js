@@ -11,7 +11,16 @@ export default function HomeScreen({ navigation }) {
         {" "}
         City Creator{" "}
       </Text>
+      <Text
+        style={styles.header}
+        onPress={() => navigation.navigate("AddDonation")}
+      >
+        {" "}
+        Add Donation{" "}
+      </Text>
       <View style={styles.card}>
+
+
         <Image
           style={styles.image}
           source={require("../../assets/images/p1.jpg")}
