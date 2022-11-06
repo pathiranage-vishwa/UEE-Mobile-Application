@@ -29,6 +29,7 @@ import {
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
+import Constants from "../../../constants/Constants";
 
 export default function ImagePickerExample() {
   const [image, setImage] = useState(null);
@@ -124,7 +125,7 @@ export default function ImagePickerExample() {
     };
 
     axios
-      .post("http://192.168.8.144:5000/api/events", data)
+      .post(`${Constants.URL}/api/events`, data)
       .then((res) => {
         console.log(res.data);
         Alert.alert("Event added successfully");
