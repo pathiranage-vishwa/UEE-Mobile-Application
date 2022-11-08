@@ -1,205 +1,199 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
-import Constants from "../../../constants/Constants";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
-  VStack,
-  Image,
-  Input,
-  Button,
-  IconButton,
-  Icon,
-  Text,
-  NativeBaseProvider,
-  Center,
-  FlatList,
-  Box,
-  Divider,
-  Heading,
+  Alert,
+  View,
   ScrollView,
-  Card,
-  Flex,
-  Stack,
-  Container,
+  SafeAreaView,
+  StyleSheet,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+
+import {
+  Box,
+  Text,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  Button,
+  HStack,
+  Center,
+  NativeBaseProvider,
+  Checkbox,
 } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { URL } from "../../constants/Constants";
 
-export default function () {
-  const [event, setEvent] = React.useState([]);
+export default function LoginScreen({ navigation }) {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [isSelected, setSelection] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(`${Constants.URL}/api/events`)
-      .then((response) => {
-        setEvent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const login = async () => {
+    if (email == "" || password == "") {
+      Alert.alert("Please fill all the fields");
+    } else {
+      const user = {
+        email: email,
+        password: password,
+      };
+      if (isSelected) {
+        var url = `http://192.168.8.144:5000/api/supplier/supplierlogin`;
+      } else {
+        var url = `http://192.168.8.144:5000/api/users/login`;
+      }
 
-  console.log(event);
+      await axios
+        .post(url, user)
+        .then((response) => {
+          Alert.alert("successfully logged in");
+          AsyncStorage.setItem("id", response.data.user._id);
+          AsyncStorage.setItem("name", response.data.user.name);
+          AsyncStorage.setItem("email", response.data.user.email);
+          AsyncStorage.setItem("role", response.data.user.role);
+          navigation.navigate("BottomBar");
+        })
+        .catch((error) => {
+          Alert.alert(error.response.data.msg);
+        });
+    }
+  };
 
   return (
     <NativeBaseProvider>
-      <Box
-        p="2"
-        alignSelf={{ base: "center", md: "flex-start" }}
-        mt="20%"
-        rounded="xl"
-        style={styles.header}
-        _text={{
-          fontSize: "32",
-          fontWeight: "medium",
-          color: "black",
-          alignSelf: "center",
-          letterSpacing: "lg",
-          fontFamily: "Roboto",
-        }}
-      >
-        UPCOMING EVENTS
-      </Box>
+      <Center w="100%">
+        <Box safeArea p="0" py="8" w="100%" maxW="340">
+          <Heading
+            size="lg"
+            fontWeight="600"
+            color="coolGray.800"
+            _dark={{
+              color: "warmGray.50",
+            }}
+            onPress={() => navigation.navigate("BottomBar")}
+          >
+            Welcome
+          </Heading>
+          <Heading
+            mt="1"
+            _dark={{
+              color: "warmGray.200",
+            }}
+            color="coolGray.600"
+            fontWeight="medium"
+            size="xs"
+          >
+            Sign in to continue!
+          </Heading>
 
-      <VStack w="100%" space={5} alignSelf="center">
-        <Input
-          placeholder="Search upcoming events here"
-          width="95%"
-          borderRadius="6"
-          alignSelf={{ base: "center", md: "flex-start" }}
-          py="3"
-          px="1"
-          backgroundColor="rgba(230, 255, 214, 1)"
-          marginTop={5}
-          fontSize="14"
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="black"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-        />
-      </VStack>
-
-      <FlatList
-        data={event}
-        renderItem={({ item }) => (
-          <Card style={styles.item} key={item._id}>
-            {/* <Image source={""} style={styles.image} /> */}
-            <Flex direction="row">
-              <Image
-                width={100}
-                height={200}
-                source={{
-                  uri: item.image,
-                }}
-                alt="Alternate Text"
+          <VStack space={3} mt="5">
+            <FormControl>
+              <FormControl.Label>Email</FormControl.Label>
+              <Input height={50} onChangeText={(email) => setEmail(email)} />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Password</FormControl.Label>
+              <Input
+                height={50}
+                type="password"
+                onChangeText={(password) => setPassword(password)}
               />
-              <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.title}
-                </Heading>
-
-                <Text style={styles.title}>
-                  <Text style={styles.sub1}> DATE : {item.date}</Text>
-                </Text>
-                <Text style={styles.title}>
-                  <Text style={styles.sub}> Location :</Text> {item.location}
-                </Text>
-              </Stack>
-            </Flex>
-          </Card>
-        )}
-      />
+            </FormControl>
+            <Checkbox
+              colorScheme="orange"
+              value={isSelected}
+              onChange={setSelection}
+            >
+              <Text fontSize="sm" ml="2" color="coolGray.800">
+                Login as a Supplier
+              </Text>
+            </Checkbox>
+            <Button mt="2" colorScheme="orange" height={50} onPress={login}>
+              Sign in
+            </Button>
+            <HStack mt="6" justifyContent="center">
+              <Text
+                fontSize="sm"
+                color="coolGray.600"
+                _dark={{
+                  color: "warmGray.200",
+                }}
+              >
+                I'm a new user.{" "}
+              </Text>
+              <Text
+                onPress={() => navigation.navigate("Register")}
+                style={{ fontSize: 16, color: "orange" }}
+                _text={{
+                  color: "green.500",
+                  fontWeight: "medium",
+                  fontSize: "sm",
+                }}
+              >
+                Sign Up
+              </Text>
+            </HStack>
+          </VStack>
+        </Box>
+      </Center>
     </NativeBaseProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    width: "90%",
-    alignSelf: "center",
-    height: 60,
-  },
   container: {
     flex: 1,
-    paddingTop: 22,
-    borderRadius: 10,
   },
-  item: {
-    fontSize: 18,
-    width: "95%",
-    alignSelf: "center",
-    height: "auto",
-    marginBottom: 20,
-  },
-  button: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-    height: 50,
-  },
-  button1: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    marginLeft: "auto",
-    marginRight: 10,
-    margin: 10,
-    height: 50,
-  },
-  button2: {
-    marginTop: 10,
-    borderColor: "red",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-  },
-  title: {
-    fontSize: 18,
-    margin: 10,
-    fontWeight: "semibold",
-  },
-  title1: {
-    margin: 5,
-    fontSize: 28,
-    padding: 5,
-    paddingLeft: 14,
-    paddingTop: 10,
-  },
-  sub: {
-    fontWeight: "bold",
-  },
-  sub1: {
-    fontWeight: "bold",
-    fontSize: 22,
-  },
-  sub2: {
-    fontWeight: "bold",
 
-    color: "orange",
-  },
-  sub3: {
-    fontWeight: "bold",
-    color: "orange",
-    marginLeft: 10,
-  },
-  sub5: {
-    fontSize: 15,
-    marginBottom: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
-  },
   image: {
-    width: 100,
-    height: 100,
+    width: "100%",
+    height: 320,
+    resizeMode: "cover",
+  },
+  formInput: {
+    marginTop: 20,
+    padding: 10,
+  },
+  textInput: {
+    padding: 10,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "#a7a7a7",
     borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
+    height: 50,
+  },
+  defaultButton: {
+    padding: 15,
+    backgroundColor: "#0e8c19",
+    borderRadius: 10,
+    width: "50%",
+    alignSelf: "center",
+    marginLeft: 130,
+  },
+  FormBorder: {
+    borderWidth: 1,
+    borderColor: "#a7a7a7",
+    backgroundColor: "white",
+    borderRadius: 8,
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 20,
+  },
+  shadowProp: {
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 10,
+    alignSelf: "center",
   },
 });

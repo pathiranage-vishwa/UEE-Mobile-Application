@@ -1,205 +1,107 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
-import Constants from "../../../constants/Constants";
-import axios from "axios";
+import React from "react";
+import { Alert, View, Text } from "react-native";
 import {
+  Box,
+  Heading,
   VStack,
-  Image,
+  FormControl,
   Input,
   Button,
-  IconButton,
-  Icon,
-  Text,
-  NativeBaseProvider,
   Center,
-  FlatList,
-  Box,
-  Divider,
-  Heading,
-  ScrollView,
-  Card,
-  Flex,
-  Stack,
-  Container,
+  NativeBaseProvider,
 } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import axios from "axios";
+import { URL } from "../../constants/Constants";
 
-export default function () {
-  const [event, setEvent] = React.useState([]);
+export default function RegisterScreen({ navigation }) {
+  const [userId, setId] = React.useState("");
+  const [role, setRole] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-  useEffect(() => {
-    axios
-      .get(`${Constants.URL}/api/events`)
-      .then((response) => {
-        setEvent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const register = () => {
+    if (name == "" || email == "" || password == "") {
+      Alert.alert("Please fill all the fields");
+    } else {
+      const user = {
+        name: name,
+        email: email,
+        password: password,
+      };
 
-  console.log(event);
+      var url = `http://192.168.8.144:5000/api/users/createUser`;
+
+      axios
+        .post(url, user)
+        .then((response) => {
+          console.log(response.data);
+          Alert.alert("User created successfully");
+          navigation.navigate("Login");
+        })
+        .catch((error) => {
+          Alert.alert(error.response.data.msg);
+        });
+    }
+  };
 
   return (
     <NativeBaseProvider>
-      <Box
-        p="2"
-        alignSelf={{ base: "center", md: "flex-start" }}
-        mt="20%"
-        rounded="xl"
-        style={styles.header}
-        _text={{
-          fontSize: "32",
-          fontWeight: "medium",
-          color: "black",
-          alignSelf: "center",
-          letterSpacing: "lg",
-          fontFamily: "Roboto",
-        }}
-      >
-        UPCOMING EVENTS
-      </Box>
-
-      <VStack w="100%" space={5} alignSelf="center">
-        <Input
-          placeholder="Search upcoming events here"
-          width="95%"
-          borderRadius="6"
-          alignSelf={{ base: "center", md: "flex-start" }}
-          py="3"
-          px="1"
-          backgroundColor="rgba(230, 255, 214, 1)"
-          marginTop={5}
-          fontSize="14"
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="black"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-        />
-      </VStack>
-
-      <FlatList
-        data={event}
-        renderItem={({ item }) => (
-          <Card style={styles.item} key={item._id}>
-            {/* <Image source={""} style={styles.image} /> */}
-            <Flex direction="row">
-              <Image
-                width={100}
-                height={200}
-                source={{
-                  uri: item.image,
-                }}
-                alt="Alternate Text"
+      <Center w="100%">
+        <Box safeArea p="0" w="90%" maxW="340" py="12">
+          <Heading
+            onPress={() => navigation.navigate("Login")}
+            size="lg"
+            color="coolGray.800"
+            _dark={{
+              color: "warmGray.50",
+            }}
+            fontWeight="semibold"
+          >
+            Welcome
+          </Heading>
+          <Heading
+            mt="1"
+            color="coolGray.600"
+            _dark={{
+              color: "warmGray.200",
+            }}
+            fontWeight="medium"
+            size="xs"
+          >
+            Sign up to continue!
+          </Heading>
+          <VStack space={3} mt="5">
+            <FormControl>
+              <FormControl.Label>Name</FormControl.Label>
+              <Input height={50} onChangeText={(name) => setName(name)} />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Email</FormControl.Label>
+              <Input
+                type="email"
+                height={50}
+                onChangeText={(email) => setEmail(email)}
               />
-              <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.title}
-                </Heading>
-
-                <Text style={styles.title}>
-                  <Text style={styles.sub1}> DATE : {item.date}</Text>
-                </Text>
-                <Text style={styles.title}>
-                  <Text style={styles.sub}> Location :</Text> {item.location}
-                </Text>
-              </Stack>
-            </Flex>
-          </Card>
-        )}
-      />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Password</FormControl.Label>
+              <Input
+                height={50}
+                type="password"
+                onChangeText={(password) => setPassword(password)}
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Confirm Password</FormControl.Label>
+              <Input height={50} type="password" />
+            </FormControl>
+            <Button height={50} mt="2" colorScheme="orange" onPress={() => navigation.navigate("BottomBar")}>
+              Sign up
+            </Button>
+          </VStack>
+        </Box>
+      </Center>
     </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    width: "90%",
-    alignSelf: "center",
-    height: 60,
-  },
-  container: {
-    flex: 1,
-    paddingTop: 22,
-    borderRadius: 10,
-  },
-  item: {
-    fontSize: 18,
-    width: "95%",
-    alignSelf: "center",
-    height: "auto",
-    marginBottom: 20,
-  },
-  button: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-    height: 50,
-  },
-  button1: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    marginLeft: "auto",
-    marginRight: 10,
-    margin: 10,
-    height: 50,
-  },
-  button2: {
-    marginTop: 10,
-    borderColor: "red",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-  },
-  title: {
-    fontSize: 18,
-    margin: 10,
-    fontWeight: "semibold",
-  },
-  title1: {
-    margin: 5,
-    fontSize: 28,
-    padding: 5,
-    paddingLeft: 14,
-    paddingTop: 10,
-  },
-  sub: {
-    fontWeight: "bold",
-  },
-  sub1: {
-    fontWeight: "bold",
-    fontSize: 22,
-  },
-  sub2: {
-    fontWeight: "bold",
-
-    color: "orange",
-  },
-  sub3: {
-    fontWeight: "bold",
-    color: "orange",
-    marginLeft: 10,
-  },
-  sub5: {
-    fontSize: 15,
-    marginBottom: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-});

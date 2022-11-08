@@ -161,34 +161,8 @@ export default function CreateRequest() {
 
       <ScrollView style={styles.main}>
         <VStack style={styles.border}>
-          <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
-            {image ? (
-              <Image source={{ uri: image }} style={styles.image1} />
-            ) : (
-              <Image
-                source={require("../../../assets/images/upload.png")}
-                style={styles.image2}
-              />
-            )}
-          </TouchableOpacity>
-          <Spacer />
-          <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
-            <FormControl isRequired>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
-              >
-                Request Title
-              </FormControl.Label>
-              <Input
-                placeholder="Event Title"
-                borderColor={"#000"}
-                height={12}
-                onChangeText={(value) => setTitle(value)}
-              />
-            </FormControl>
-            <FormControl isRequired>
+        <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
+        <FormControl isRequired>
               <Box maxW="350" mt="5">
                 <FormControl.Label
                   _text={{
@@ -219,6 +193,21 @@ export default function CreateRequest() {
                 </Select>
               </Box>
             </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Request Title
+              </FormControl.Label>
+              <Input
+                placeholder="Event Title"
+                borderColor={"#000"}
+                height={12}
+                onChangeText={(value) => setTitle(value)}
+              />
+            </FormControl>
             <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
@@ -234,6 +223,20 @@ export default function CreateRequest() {
                 onChangeText={(value) => setLocation(value)}
               />
             </FormControl>
+          </VStack>
+          <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.image1} />
+            ) : (
+              <Image
+                source={require("../../../assets/images/upload.png")}
+                style={styles.image2}
+              />
+            )}
+          </TouchableOpacity>
+          <Spacer />
+          <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
+
             <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
@@ -271,12 +274,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.58,
     shadowRadius: 9,
     elevation: 4,
-    margin: 10,
+    margin: 12,
     padding: 10,
     backgroundColor: "rgba(26, 182, 92, 1)",
     width: "45%",
     marginLeft: "auto",
-    height: 60,
+    height: 70,
   },
   uploadButtonText: {
     color: "#f6f5f8",
