@@ -19,6 +19,8 @@ export default function RegisterScreen({ navigation }) {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [contactNumber, setContactNumber] = React.useState("");
 
   const register = () => {
     if (name == "" || email == "" || password == "") {
@@ -28,6 +30,8 @@ export default function RegisterScreen({ navigation }) {
         name: name,
         email: email,
         password: password,
+        confirmPassword: confirmPassword,
+        contactNumber: contactNumber,
       };
 
       var url = `http://192.168.8.144:5000/api/users/createUser`;
@@ -60,6 +64,11 @@ export default function RegisterScreen({ navigation }) {
           >
             Welcome
           </Heading>
+          <View style={styles.container}>
+            <Image source={image} resizeMode="cover" style={styles.image}>
+             <Text style={styles.text}>Inside</Text>
+            </Image >
+          </View>
           <Heading
             mt="1"
             color="coolGray.600"
@@ -73,15 +82,23 @@ export default function RegisterScreen({ navigation }) {
           </Heading>
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Name</FormControl.Label>
+              <FormControl.Label>Full Name</FormControl.Label>
               <Input height={50} onChangeText={(name) => setName(name)} />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Email</FormControl.Label>
+              <FormControl.Label>Email Address</FormControl.Label>
               <Input
                 type="email"
                 height={50}
                 onChangeText={(email) => setEmail(email)}
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Contact Number</FormControl.Label>
+              <Input
+                height={50}
+                type="contactNumber"
+                onChangeText={(contactNumber) => setContactNumber(contactNumber)}
               />
             </FormControl>
             <FormControl>
@@ -94,7 +111,9 @@ export default function RegisterScreen({ navigation }) {
             </FormControl>
             <FormControl>
               <FormControl.Label>Confirm Password</FormControl.Label>
-              <Input height={50} type="password" />
+              <Input height={50} type="password"
+              onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+              />
             </FormControl>
             <Button height={50} mt="2" colorScheme="orange" onPress={() => navigation.navigate("BottomBar")}>
               Sign up
