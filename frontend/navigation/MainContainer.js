@@ -9,6 +9,7 @@ import AddEvent from "./screens/eventsScreens/AddEvent";
 import UpcomingEvent from "./screens/eventsScreens/UpcomingEvent";
 import CreateRequest from "./screens/requestsScreens/CreateRequest";
 import Login from "./screens/AuthScreens/Login";
+import Register from "./screens/AuthScreens/Register";
 
 //Screen names
 const homeName = "Home";
@@ -17,6 +18,7 @@ const addDonation = "AddDonation";
 const upcomingEvent = "UpcomingEvent";
 const createRequest = "CreateRequest";
 const login = "Login";
+const register = "Register";
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -25,12 +27,12 @@ function MainContainer() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={login}
+        initialRouteName={register}
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen name={login} component={Login} />
+        <Stack.Screen name={register} component={Register} />
         <Stack.Screen name={addEvent} component={AddEvent} />
         <Stack.Screen name={upcomingEvent} component={UpcomingEvent} />
       </Stack.Navigator>

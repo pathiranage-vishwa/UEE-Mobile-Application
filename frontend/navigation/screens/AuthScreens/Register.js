@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, View, Text } from "react-native";
+import { Alert, View, Text, StyleSheet, Image } from "react-native";
 import {
   Box,
   Heading,
@@ -11,9 +11,26 @@ import {
   NativeBaseProvider,
 } from "native-base";
 import axios from "axios";
-import { URL } from "../../constants/Constants";
 
-export default function RegisterScreen({ navigation }) {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  text: {
+    color: "white",
+    fontSize: 42,
+    lineHeight: 84,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000c0"
+  }
+});
+
+export default function Register({ navigation }) {
   const [userId, setId] = React.useState("");
   const [role, setRole] = React.useState("");
   const [name, setName] = React.useState("");
@@ -21,6 +38,8 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [contactNumber, setContactNumber] = React.useState("");
+
+  const image = { uri: "https://reactjs.org/logo-og.png" };
 
   const register = () => {
     if (name == "" || email == "" || password == "") {
@@ -30,11 +49,11 @@ export default function RegisterScreen({ navigation }) {
         name: name,
         email: email,
         password: password,
-        confirmPassword: confirmPassword,
         contactNumber: contactNumber,
+        confirmPassword: confirmPassword,
       };
 
-      var url = `http://192.168.8.144:5000/api/users/createUser`;
+      var url = `http://192.168.1.100:5000/api/users/`;
 
       axios
         .post(url, user)
@@ -64,11 +83,6 @@ export default function RegisterScreen({ navigation }) {
           >
             Welcome
           </Heading>
-          <View style={styles.container}>
-            <Image source={image} resizeMode="cover" style={styles.image}>
-             <Text style={styles.text}>Inside</Text>
-            </Image >
-          </View>
           <Heading
             mt="1"
             color="coolGray.600"
@@ -115,7 +129,7 @@ export default function RegisterScreen({ navigation }) {
               onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
               />
             </FormControl>
-            <Button height={50} mt="2" colorScheme="orange" onPress={() => navigation.navigate("BottomBar")}>
+            <Button height={50} mt="2" colorScheme="orange" onPress={register}>
               Sign up
             </Button>
           </VStack>
