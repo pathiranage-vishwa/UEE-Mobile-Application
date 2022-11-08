@@ -36,21 +36,19 @@ const createUser = async (req, res) => {
 };
 
 //login user
-const loginUser = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (user) {
-      if (user.password === password) {
-        res.status(200).json({ user });
-      } else {
-        res.status(400).json({ message: "Invalid password" });
-      }
-    } else {
-      res.status(400).json({ message: "Invalid email" });
-    }
+    console.log(email, password);
+    const user = await Users.findOne({ email });
+    if (!user) return res.status(400).json({ msg: "User does not exist." });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
+    
+    res.json({ user });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 
@@ -115,7 +113,7 @@ const resetPassword = async (req, res) => {
 
 module.exports = {
   createUser,
-  loginUser,
+  login,
   getAllUsers,
   getUserById,
   forgetPassword,
