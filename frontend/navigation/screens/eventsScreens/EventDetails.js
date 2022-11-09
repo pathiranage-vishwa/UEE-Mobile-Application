@@ -93,9 +93,7 @@ export default function EventDetails({ route, navigation }) {
         <Text style={styles.sub}>
           <Text style={styles.date}>Status :</Text> {event.status}
         </Text>
-        <Text style={styles.sub3}>
-          gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-        </Text>
+        <Text style={styles.sub3}>{event.description}</Text>
       </View>
     </NativeBaseProvider>
   );
