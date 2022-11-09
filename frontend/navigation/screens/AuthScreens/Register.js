@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, View, Text } from "react-native";
+import { Alert, View, Text, StyleSheet, Image } from "react-native";
 import {
   Box,
   Heading,
@@ -11,14 +11,35 @@ import {
   NativeBaseProvider,
 } from "native-base";
 import axios from "axios";
-import { URL } from "../../constants/Constants";
 
-export default function RegisterScreen({ navigation }) {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  text: {
+    color: "white",
+    fontSize: 42,
+    lineHeight: 84,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000c0"
+  }
+});
+
+export default function Register({ navigation }) {
   const [userId, setId] = React.useState("");
   const [role, setRole] = React.useState("");
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [contactNumber, setContactNumber] = React.useState("");
+
+  const image = { uri: "https://reactjs.org/logo-og.png" };
 
   const register = () => {
     if (name == "" || email == "" || password == "") {
@@ -28,9 +49,11 @@ export default function RegisterScreen({ navigation }) {
         name: name,
         email: email,
         password: password,
+        contactNumber: contactNumber,
+        confirmPassword: confirmPassword,
       };
 
-      var url = `http://192.168.8.144:5000/api/users/createUser`;
+      var url = `http://192.168.1.100:5000/api/users/`;
 
       axios
         .post(url, user)
@@ -73,15 +96,23 @@ export default function RegisterScreen({ navigation }) {
           </Heading>
           <VStack space={3} mt="5">
             <FormControl>
-              <FormControl.Label>Name</FormControl.Label>
+              <FormControl.Label>Full Name</FormControl.Label>
               <Input height={50} onChangeText={(name) => setName(name)} />
             </FormControl>
             <FormControl>
-              <FormControl.Label>Email</FormControl.Label>
+              <FormControl.Label>Email Address</FormControl.Label>
               <Input
                 type="email"
                 height={50}
                 onChangeText={(email) => setEmail(email)}
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Contact Number</FormControl.Label>
+              <Input
+                height={50}
+                type="contactNumber"
+                onChangeText={(contactNumber) => setContactNumber(contactNumber)}
               />
             </FormControl>
             <FormControl>
@@ -94,9 +125,11 @@ export default function RegisterScreen({ navigation }) {
             </FormControl>
             <FormControl>
               <FormControl.Label>Confirm Password</FormControl.Label>
-              <Input height={50} type="password" />
+              <Input height={50} type="password"
+              onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+              />
             </FormControl>
-            <Button height={50} mt="2" colorScheme="orange" onPress={() => navigation.navigate("BottomBar")}>
+            <Button height={50} mt="2" colorScheme="orange" onPress={register}>
               Sign up
             </Button>
           </VStack>
