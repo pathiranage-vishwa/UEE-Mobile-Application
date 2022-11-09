@@ -159,6 +159,22 @@ const updateEventParticipants = async (req, res) => {
   }
 };
 
+//search event by title and location
+const searchEvent = async (req, res) => {
+  try {
+    const { title } = req.query;
+    const event = await Event.find({
+      $or: [{ title: title }],
+    });
+    if (event) {
+      return res.status(200).json(event);
+    }
+    res.status(404).send("Event not found");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createEvent,
   getAllEvents,
@@ -168,4 +184,5 @@ module.exports = {
   getEventByStatus,
   updateEventStatus,
   updateEventParticipants,
+  searchEvent,
 };
