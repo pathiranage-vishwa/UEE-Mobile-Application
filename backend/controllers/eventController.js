@@ -115,7 +115,7 @@ const getEventByStatus = async (req, res) => {
     const newStatus = "completed";
     const event = await Event.find({ status: newStatus });
     if (event) {
-      return res.status(200).json({ event });
+      return res.status(200).json(event);
     }
     res.status(404).send("Event not found");
   } catch (err) {

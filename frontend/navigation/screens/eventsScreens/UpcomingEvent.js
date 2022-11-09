@@ -135,6 +135,11 @@ export default function ({ navigation }) {
                       style={styles.button1}
                       size="sm"
                       backgroundColor={"rgba(26, 182, 92, 1)"}
+                      onPress={() =>
+                        navigation.navigate("UpdateEvent", {
+                          item: item,
+                        })
+                      }
                     >
                       <Text style={styles.text1}>Edit</Text>
                     </Button>

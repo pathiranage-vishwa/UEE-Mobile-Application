@@ -74,7 +74,7 @@ export default function LoginScreen({ navigation }) {
             _dark={{
               color: "warmGray.50",
             }}
-            onPress={() => navigation.navigate("BottomBar")}
+            onPress={() => navigation.navigate("Home")}
           >
             Welcome
           </Heading>
