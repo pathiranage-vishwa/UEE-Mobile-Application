@@ -1,10 +1,9 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import Constants from "../../../constants/Constants";
 import axios from "axios";
 import {
   VStack,
-  Image,
   Input,
   Button,
   IconButton,
@@ -23,9 +22,11 @@ import {
   Container,
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function () {
+export default function ({ navigation }) {
   const [event, setEvent] = React.useState([]);
+  const [search, setSearch] = React.useState("");
 
   useEffect(() => {
     axios
@@ -36,83 +37,126 @@ export default function () {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [event]);
 
-  console.log(event);
+  //serach event
+  // const searchEvent = (title) => {
+  //   axios
+  //     .get(`${Constants.URL}/api/events/search?title=${title}`)
+  //     .then((response) => {
+  //       setEvent(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // const handleView = (item) => {
+  //   console.log(item_id);
+  //   navigation.navigate("EventDetails", {
+  //     id: item._id,
+  //   });
+  // };
 
   return (
     <NativeBaseProvider>
-      <Box
-        p="2"
-        alignSelf={{ base: "center", md: "flex-start" }}
-        mt="20%"
-        rounded="xl"
-        style={styles.header}
-        _text={{
-          fontSize: "32",
-          fontWeight: "medium",
-          color: "black",
-          alignSelf: "center",
-          letterSpacing: "lg",
-          fontFamily: "Roboto",
-        }}
-      >
-        UPCOMING EVENTS
-      </Box>
-
-      <VStack w="100%" space={5} alignSelf="center">
-        <Input
-          placeholder="Search upcoming events here"
-          width="95%"
-          borderRadius="6"
+      <ScrollView>
+        <Box
+          p="2"
           alignSelf={{ base: "center", md: "flex-start" }}
-          py="3"
-          px="1"
-          backgroundColor="rgba(230, 255, 214, 1)"
-          marginTop={5}
-          fontSize="14"
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="black"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-        />
-      </VStack>
+          mt="20%"
+          rounded="xl"
+          style={styles.header}
+          _text={{
+            fontSize: "32",
+            fontWeight: "medium",
+            color: "black",
+            alignSelf: "center",
+            letterSpacing: "lg",
+            fontFamily: "Roboto",
+          }}
+        >
+          UPCOMING EVENTS
+        </Box>
 
-      <FlatList
-        data={event}
-        renderItem={({ item }) => (
-          <Card style={styles.item} key={item._id}>
-            {/* <Image source={""} style={styles.image} /> */}
-            <Flex direction="row">
-              <Image
-                width={100}
-                height={200}
-                source={{
-                  uri: item.image,
-                }}
-                alt="Alternate Text"
+        <VStack w="100%" space={5} alignSelf="center">
+          <Input
+            placeholder="Search upcoming events here"
+            width="95%"
+            borderRadius="6"
+            alignSelf={{ base: "center", md: "flex-start" }}
+            py="3"
+            mb={5}
+            px="1"
+            backgroundColor="rgba(230, 255, 214, 1)"
+            marginTop={5}
+            fontSize="14"
+            InputLeftElement={
+              <Icon
+                m="2"
+                ml="3"
+                size="6"
+                color="black"
+                as={<MaterialIcons name="search" />}
               />
-              <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.title}
-                </Heading>
+            }
+          />
+        </VStack>
 
-                <Text style={styles.title}>
-                  <Text style={styles.sub1}> DATE : {item.date}</Text>
-                </Text>
-                <Text style={styles.title}>
-                  <Text style={styles.sub}> Location :</Text> {item.location}
-                </Text>
-              </Stack>
-            </Flex>
-          </Card>
-        )}
-      />
+        <FlatList
+          data={event}
+          renderItem={({ item }) => (
+            <View style={styles.card} key={item._id} shadow={1}>
+              {/* <Image source={""} style={styles.image} /> */}
+              <Flex direction="row">
+                <Image
+                  style={styles.image}
+                  source={
+                    item.image
+                      ? { uri: item.image }
+                      : require("../../../assets/images/p1.jpg")
+                  }
+                />
+                <Stack space={2} p="4" w="100%">
+                  <Heading size="sm" ml="-1" style={styles.title1}>
+                    {item.title}
+                  </Heading>
+
+                  <Text style={styles.sub1}>
+                    <Text style={styles.date}>DATE : </Text> {item.date}
+                  </Text>
+
+                  <Text style={styles.sub}>
+                    <Text style={styles.date}>Location :</Text> {item.location}
+                  </Text>
+                  {/* flex two button */}
+                  <Flex direction="row">
+                    <Button
+                      style={styles.button1}
+                      size="sm"
+                      backgroundColor={"rgba(26, 182, 92, 1)"}
+                    >
+                      <Text style={styles.text1}>Edit</Text>
+                    </Button>
+                    <Button
+                      style={styles.button2}
+                      size="sm"
+                      onPress={() =>
+                        navigation.navigate("EventDetails", {
+                          item: item,
+                        })
+                      }
+                      backgroundColor={"white"}
+                    >
+                      <Text style={styles.text2}>View</Text>
+                    </Button>
+                  </Flex>
+                </Stack>
+              </Flex>
+            </View>
+          )}
+        />
+      </ScrollView>
     </NativeBaseProvider>
   );
 }
@@ -128,78 +172,84 @@ const styles = StyleSheet.create({
     paddingTop: 22,
     borderRadius: 10,
   },
-  item: {
-    fontSize: 18,
-    width: "95%",
-    alignSelf: "center",
-    height: "auto",
-    marginBottom: 20,
-  },
-  button: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-    height: 50,
-  },
+
   button1: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    marginLeft: "auto",
+    marginTop: 20,
+    width: "24%",
+    marginLeft: -10,
     marginRight: 10,
     margin: 10,
+    borderRadius: 10,
     height: 50,
   },
   button2: {
-    marginTop: 10,
-    borderColor: "red",
+    marginTop: 20,
+    borderColor: "rgba(26, 182, 92, 1)",
     borderWidth: 2,
-    width: "30%",
+    width: "24%",
+    borderRadius: 10,
     margin: 10,
   },
-  title: {
-    fontSize: 18,
-    margin: 10,
-    fontWeight: "semibold",
-  },
+
   title1: {
-    margin: 5,
-    fontSize: 28,
+    margin: 1,
+    fontSize: 24,
     padding: 5,
+    alignItems: "center",
     paddingLeft: 14,
+    width: "60%",
     paddingTop: 10,
+  },
+  date: {
+    color: "rgba(26, 182, 92, 1)",
   },
   sub: {
     fontWeight: "bold",
+    fontSize: 16,
+    width: "50%",
   },
   sub1: {
+    marginTop: 15,
     fontWeight: "bold",
-    fontSize: 22,
+    fontSize: 16,
   },
   sub2: {
     fontWeight: "bold",
+    color: "orange",
+  },
 
-    color: "orange",
-  },
-  sub3: {
-    fontWeight: "bold",
-    color: "orange",
-    marginLeft: 10,
-  },
-  sub5: {
-    fontSize: 15,
-    marginBottom: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
-  },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
+    width: 160,
+    height: 230,
+    borderBottomLeftRadius: 30,
+    borderTopLeftRadius: 30,
+  },
+  card: {
+    width: "96%",
+    marginBottom: 10,
+    marginLeft: "2%",
+    marginRight: "2%",
+    height: 230,
+    paddingBottom: 0,
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  text1: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  text2: {
+    color: "rgba(26, 182, 92, 1)",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
