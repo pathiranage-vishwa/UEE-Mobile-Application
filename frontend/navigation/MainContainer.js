@@ -5,13 +5,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Screens
 import HomeScreen from "./screens/HomeScreen";
 import AddEvent from "./screens/eventsScreens/AddEvent";
-//import AddDonation from "./screens/donatsScreens/AddDonation";
 import UpcomingEvent from "./screens/eventsScreens/UpcomingEvent";
+import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
+import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
+import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
 
 //Screen names
 const homeName = "Home";
 const addEvent = "AddEvent";
-const addDonation = "AddDonation";
+const addMoneyDonation = "AddMoneyDonation";
+const addPlantDonation = "AddPlantDonation";
+const displayAllDonations = "DisplayAllDonations";
 const upcomingEvent = "UpcomingEvent";
 
 //Stack navigator
@@ -29,6 +33,9 @@ function MainContainer() {
         <Stack.Screen name={homeName} component={HomeScreen} />
         <Stack.Screen name={addEvent} component={AddEvent} />
         <Stack.Screen name={upcomingEvent} component={UpcomingEvent} />
+        <Stack.Screen name={addMoneyDonation} component={AddMoneyDonation} />
+        <Stack.Screen name={addPlantDonation} component={AddPlantDonation} />
+        <Stack.Screen name={displayAllDonations} component={DisplayAllDonations} />
       </Stack.Navigator>
     </NavigationContainer>
   );

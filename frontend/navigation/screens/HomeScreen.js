@@ -14,6 +14,27 @@ export default function HomeScreen({ navigation }) {
           {" "}
           City Creator{" "}
         </Text>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("AddMoneyDonation")}
+        >
+          {" "}
+          Add Money Donation{" "}
+        </Text>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("AddPlantDonation")}
+        >
+          {" "}
+          Add Plant Donation{" "}
+        </Text>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("DisplayAllDonations")}
+        >
+          {" "}
+         Previous Donation{" "}
+        </Text>
         <View style={styles.card}>
           <Image
             style={styles.image}

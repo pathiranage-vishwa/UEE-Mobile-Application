@@ -25,20 +25,20 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function () {
-  const [event, setEvent] = React.useState([]);
+  const [donation, setDonation] = React.useState([]);
 
   useEffect(() => {
     axios
-      .get(`${Constants.URL}/api/events`)
+      .get(`${Constants.URL}/api/moneyDonations`)
       .then((response) => {
-        setEvent(response.data);
+        setDonation(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  console.log(event);
+  console.log(donation);
 
   return (
     <NativeBaseProvider>
@@ -57,12 +57,29 @@ export default function () {
           fontFamily: "Roboto",
         }}
       >
-        UPCOMING EVENTS
+        Previous Donation
       </Box>
-
+      <Box
+        p="2"
+        alignSelf={{ base: "center", md: "flex-start" }}
+        mt="20%"
+        rounded="xl"
+        style={styles.header2}
+        _text={{
+          fontSize: "32",
+          fontWeight: "medium",
+          color: "black",
+          alignSelf: "center",
+          letterSpacing: "lg",
+          fontFamily: "Roboto",
+        }}
+        shadow={3}
+      >
+        Plant Donation
+      </Box>
       <VStack w="100%" space={5} alignSelf="center">
         <Input
-          placeholder="Search upcoming events here"
+          placeholder="Search upcoming donations here"
           width="95%"
           borderRadius="6"
           alignSelf={{ base: "center", md: "flex-start" }}
@@ -84,7 +101,7 @@ export default function () {
       </VStack>
 
       <FlatList
-        data={event}
+        data={donation}
         renderItem={({ item }) => (
           <Card style={styles.item} key={item._id}>
             {/* <Image source={""} style={styles.image} /> */}
@@ -98,15 +115,15 @@ export default function () {
                 alt="Alternate Text"
               />
               <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.title}
+                <Heading style={styles.title1}>
+                <Text style={styles.sub}> DONATOR :{item.eventName}</Text>
                 </Heading>
 
                 <Text style={styles.title}>
-                  <Text style={styles.sub1}> DATE : {item.date}</Text>
+                  <Text style={styles.sub}> DONATED DATE : {item.date}</Text>
                 </Text>
                 <Text style={styles.title}>
-                  <Text style={styles.sub}> Location :</Text> {item.location}
+                  <Text style={styles.sub}> AMOUNT :</Text> {item.amount}
                 </Text>
               </Stack>
             </Flex>
@@ -119,6 +136,12 @@ export default function () {
 
 const styles = StyleSheet.create({
   header: {
+    width: "90%",
+    alignSelf: "center",
+    height: 60,
+  },
+  header2: {
+    backgroundColor: "rgba(230, 255, 214, 1)",
     width: "90%",
     alignSelf: "center",
     height: 60,

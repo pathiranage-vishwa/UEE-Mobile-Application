@@ -9,6 +9,8 @@ const colors = require("colors");
 //import routes
 const userRoutes = require("./routes/userRoutes");
 const eventRoutes = require("./routes/eventRoutes");
+const mDonationRoutes = require("./routes/mDonationRouter");
+const pDonationRoutes = require("./routes/pDonationRouter");
 
 //config
 dotenv.config();
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
 //routes
 app.use("/api/users", userRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/moneyDonations", mDonationRoutes);
+app.use("/api/plantDonations", pDonationRoutes);
 
 //listen to port
 const PORT = process.env.PORT || 5000;
