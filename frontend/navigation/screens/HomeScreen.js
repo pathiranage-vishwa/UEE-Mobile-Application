@@ -27,6 +27,9 @@ export default function HomeScreen({ navigation }) {
         <Button onPress={() => navigation.navigate("UpcomingEvent")}>
           Upcoming Event
         </Button>
+        <Button mt={10} onPress={() => navigation.navigate("EventDashboard")}>
+          Event Dashboard
+        </Button>
       </View>
     </NativeBaseProvider>
   );

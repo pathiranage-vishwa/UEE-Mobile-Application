@@ -23,39 +23,22 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function ({ navigation }) {
+export default function PreviousEvents({ navigation }) {
   const [event, setEvent] = React.useState([]);
   const [search, setSearch] = React.useState("");
 
   useEffect(() => {
     axios
-      .get(`${Constants.URL}/api/events`)
+      .get(`${Constants.URL}/api/events/status`)
       .then((response) => {
         setEvent(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [event]);
+  }, []);
 
-  //serach event
-  // const searchEvent = (title) => {
-  //   axios
-  //     .get(`${Constants.URL}/api/events/search?title=${title}`)
-  //     .then((response) => {
-  //       setEvent(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // const handleView = (item) => {
-  //   console.log(item_id);
-  //   navigation.navigate("EventDetails", {
-  //     id: item._id,
-  //   });
-  // };
+  console.log(event);
 
   return (
     <NativeBaseProvider>
@@ -75,12 +58,12 @@ export default function ({ navigation }) {
             fontFamily: "Roboto",
           }}
         >
-          UPCOMING EVENTS
+          Previous Events
         </Box>
 
         <VStack w="100%" space={5} alignSelf="center">
           <Input
-            placeholder="Search upcoming events here"
+            placeholder="Search previous events here"
             width="95%"
             borderRadius="6"
             alignSelf={{ base: "center", md: "flex-start" }}
@@ -129,32 +112,19 @@ export default function ({ navigation }) {
                     <Text style={styles.date}>Location :</Text> {item.location}
                   </Text>
                   {/* flex two button */}
-                  <Flex direction="row">
-                    <Button
-                      style={styles.button1}
-                      size="sm"
-                      backgroundColor={"rgba(26, 182, 92, 1)"}
-                      onPress={() =>
-                        navigation.navigate("UpdateEvent", {
-                          item: item,
-                        })
-                      }
-                    >
-                      <Text style={styles.text1}>Edit</Text>
-                    </Button>
-                    <Button
-                      style={styles.button2}
-                      size="sm"
-                      onPress={() =>
-                        navigation.navigate("EventDetails", {
-                          item: item,
-                        })
-                      }
-                      backgroundColor={"white"}
-                    >
-                      <Text style={styles.text2}>View</Text>
-                    </Button>
-                  </Flex>
+
+                  <Button
+                    style={styles.button1}
+                    size="sm"
+                    onPress={() =>
+                      navigation.navigate("PreviousDetails", {
+                        item: item,
+                      })
+                    }
+                    backgroundColor={"rgba(26, 182, 92, 1)"}
+                  >
+                    <Text style={styles.text1}>View</Text>
+                  </Button>
                 </Stack>
               </Flex>
             </View>
@@ -179,12 +149,19 @@ const styles = StyleSheet.create({
 
   button1: {
     marginTop: 20,
-    width: "24%",
-    marginLeft: -10,
+    width: "26%",
+    marginLeft: "13%",
     marginRight: 10,
     margin: 10,
     borderRadius: 10,
-    height: 50,
+    height: 40,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   button2: {
     marginTop: 20,

@@ -19,30 +19,55 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import Constants from "../../../constants/Constants";
+import { printToFileAsync } from "expo-print";
+import { shareAsync } from "expo-sharing";
 
-export default function EventDetails({ route, navigation }) {
+export default function PreviousDetails({ route, navigation }) {
   const [event, setEvent] = React.useState({});
-
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const onClose = () => setIsOpen(false);
-
-  const cancelRef = React.useRef(null);
 
   React.useEffect(() => {
     setEvent(route.params.item);
   }, [event]);
 
-  const handleJoin = () => {
-    //update event participants
-    axios
-      .put(`${Constants.URL}/api/events/participants/${event._id}`)
-      .then((response) => {
-        setIsOpen(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  //event details to be print in pdf
+  const eventDetails = `
+    <html>
+      <body>
+
+      
+      <div style="width: 90%; height: auto; background-color: #fff; border-radius: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); padding: 20px; margin: 20px;"
+      border-color="green"
+      >
+        
+       <h1><center>${event.title}</center> </h1>
+        <img src=${event.image} alt="Italian Trulli" width="100%">
+        <h2>Event Date: ${event.date}</h2>
+        <h2>Event Time: ${event.time}</h2>
+        <h2>Event Location: ${event.location}</h2>
+        <h2>Event Status: ${event.status}</h2>
+         <h2> ${event.description}</h2>
+         <h2>${event.goal}</h2>
+         
+      </div>
+       
+       
+      </body>
+    </html>
+  
+  `;
+  const genereatePdf = async () => {
+    const file = await printToFileAsync({
+      html: eventDetails,
+      base64: false,
+      fileName: "eventDetails",
+    });
+
+    //share with pdf name
+    await shareAsync(file.uri, {
+      mimeType: "application/pdf",
+      dialogTitle: "Share PDF",
+      UTI: "com.adobe.pdf",
+    });
   };
 
   return (
@@ -70,30 +95,6 @@ export default function EventDetails({ route, navigation }) {
           style={styles.image}
           source={event.image ? { uri: event.image } : null}
         />
-        <Flex direction="row">
-          {/* group icon with text */}
-          <Flex direction="row" alignItems="center" mr="2" ml={5}>
-            <Icon as={<MaterialIcons name="group" />} size="xl" color="black" />
-            <Text style={styles.iGroup}>{event.participants} Joined</Text>
-          </Flex>
-
-          <Button
-            style={styles.button2}
-            size="sm"
-            onPress={handleJoin}
-            backgroundColor={"rgba(26, 182, 92, 1)"}
-          >
-            <Flex direction="row" alignItems="center" mr="2" m={1}>
-              <Text style={styles.text1}>Join</Text>
-              <Icon
-                as={<MaterialIcons name="group" />}
-                size="lg"
-                color="white"
-                ms="2"
-              />
-            </Flex>
-          </Button>
-        </Flex>
 
         <Text style={styles.sub1}>
           <Text style={styles.date}>Date : </Text> {event.date}
@@ -107,37 +108,17 @@ export default function EventDetails({ route, navigation }) {
           <Text style={styles.date}>Status :</Text> {event.status}
         </Text>
         <Text style={styles.sub3}>{event.description}</Text>
+
+        <Text style={styles.sub3}>{event.goal}</Text>
+
+        <Button
+          style={styles.button1}
+          backgroundColor="#rgba(26, 182, 92, 1)"
+          onPress={genereatePdf}
+        >
+          <Text style={styles.text1}>Get Report</Text>
+        </Button>
       </View>
-      {/* Alert Dialog */}
-      <AlertDialog
-        leastDestructiveRef={cancelRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <AlertDialog.Content>
-          <AlertDialog.CloseButton />
-          <AlertDialog.Header>Delete Customer</AlertDialog.Header>
-          <AlertDialog.Body>
-            This will remove all data relating to Alex. This action cannot be
-            reversed. Deleted data can not be recovered.
-          </AlertDialog.Body>
-          <AlertDialog.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="unstyled"
-                colorScheme="coolGray"
-                onPress={onClose}
-                ref={cancelRef}
-              >
-                Cancel
-              </Button>
-              <Button colorScheme="danger" onPress={onClose}>
-                Delete
-              </Button>
-            </Button.Group>
-          </AlertDialog.Footer>
-        </AlertDialog.Content>
-      </AlertDialog>
     </NativeBaseProvider>
   );
 }
@@ -215,12 +196,21 @@ const styles = StyleSheet.create({
   },
   button1: {
     marginTop: 20,
-    width: "24%",
-    marginLeft: -10,
+    width: "30%",
+    marginLeft: "65%",
     marginRight: 10,
     margin: 10,
     borderRadius: 10,
-    height: 50,
+    height: 45,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
   },
   button2: {
     marginTop: 20,

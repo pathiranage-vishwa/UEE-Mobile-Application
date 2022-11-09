@@ -10,7 +10,14 @@ import UpcomingEvent from "./screens/eventsScreens/UpcomingEvent";
 import EventDetails from "./screens/eventsScreens/EventDetails";
 import CreateRequest from "./screens/requestsScreens/CreateRequest";
 import Login from "./screens/AuthScreens/Login";
+import UpdateEvent from "./screens/eventsScreens/UpdateEvent";
+import Instructions from "./screens/eventsScreens/Instructions";
+import EventDashboard from "./screens/eventsScreens/EventDashboard";
+import PreviousEvents from "./screens/eventsScreens/PreviousEvents";
+import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
+
 import Register from "./screens/AuthScreens/Register";
+
 
 
 //Screen names
@@ -21,6 +28,12 @@ const upcomingEvent = "UpcomingEvent";
 const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
 const login = "Login";
+
+const updateEvent = "UpdateEvent";
+const instructions = "Instructions";
+const previousEvents = "PreviousEvents";
+const previousDetails = "PreviousDetails";
+const eventDashboard = "EventDashboard";
 const register = "Register";
 
 
@@ -40,6 +53,12 @@ function MainContainer() {
         <Stack.Screen name={addEvent} component={AddEvent} />
         <Stack.Screen name={upcomingEvent} component={UpcomingEvent} />
         <Stack.Screen name={eventDetails} component={EventDetails} />
+        <Stack.Screen name={homeName} component={HomeScreen} />
+        <Stack.Screen name={updateEvent} component={UpdateEvent} />
+        <Stack.Screen name={instructions} component={Instructions} />
+        <Stack.Screen name={previousEvents} component={PreviousEvents} />
+        <Stack.Screen name={previousDetails} component={PreviousDetails} />
+        <Stack.Screen name={eventDashboard} component={EventDashboard} />
       </Stack.Navigator>
     </NavigationContainer>
   );
