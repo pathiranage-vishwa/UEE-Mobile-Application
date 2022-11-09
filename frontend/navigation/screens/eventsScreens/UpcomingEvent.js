@@ -22,7 +22,6 @@ import {
   Container,
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ({ navigation }) {
   const [event, setEvent] = React.useState([]);
