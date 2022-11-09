@@ -19,6 +19,8 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import Constants from "../../../constants/Constants";
+import { printToFileAsync } from "expo-print";
+import { shareAsync } from "expo-sharing";
 
 export default function PreviousDetails({ route, navigation }) {
   const [event, setEvent] = React.useState({});
@@ -26,6 +28,47 @@ export default function PreviousDetails({ route, navigation }) {
   React.useEffect(() => {
     setEvent(route.params.item);
   }, [event]);
+
+  //event details to be print in pdf
+  const eventDetails = `
+    <html>
+      <body>
+
+      
+      <div style="width: 90%; height: auto; background-color: #fff; border-radius: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); padding: 20px; margin: 20px;"
+      border-color="green"
+      >
+        
+       <h1><center>${event.title}</center> </h1>
+        <img src=${event.image} alt="Italian Trulli" width="100%">
+        <h2>Event Date: ${event.date}</h2>
+        <h2>Event Time: ${event.time}</h2>
+        <h2>Event Location: ${event.location}</h2>
+        <h2>Event Status: ${event.status}</h2>
+         <h2> ${event.description}</h2>
+         <h2>${event.goal}</h2>
+         
+      </div>
+       
+       
+      </body>
+    </html>
+  
+  `;
+  const genereatePdf = async () => {
+    const file = await printToFileAsync({
+      html: eventDetails,
+      base64: false,
+      fileName: "eventDetails",
+    });
+
+    //share with pdf name
+    await shareAsync(file.uri, {
+      mimeType: "application/pdf",
+      dialogTitle: "Share PDF",
+      UTI: "com.adobe.pdf",
+    });
+  };
 
   return (
     <NativeBaseProvider style={styles.container}>
@@ -68,7 +111,11 @@ export default function PreviousDetails({ route, navigation }) {
 
         <Text style={styles.sub3}>{event.goal}</Text>
 
-        <Button style={styles.button1} backgroundColor="#rgba(26, 182, 92, 1)">
+        <Button
+          style={styles.button1}
+          backgroundColor="#rgba(26, 182, 92, 1)"
+          onPress={genereatePdf}
+        >
           <Text style={styles.text1}>Get Report</Text>
         </Button>
       </View>
