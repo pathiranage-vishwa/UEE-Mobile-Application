@@ -16,6 +16,10 @@ import EventDashboard from "./screens/eventsScreens/EventDashboard";
 import PreviousEvents from "./screens/eventsScreens/PreviousEvents";
 import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
 
+import Register from "./screens/AuthScreens/Register";
+
+
+
 //Screen names
 const homeName = "Home";
 const addEvent = "AddEvent";
@@ -24,11 +28,14 @@ const upcomingEvent = "UpcomingEvent";
 const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
 const login = "Login";
+
 const updateEvent = "UpdateEvent";
 const instructions = "Instructions";
 const previousEvents = "PreviousEvents";
 const previousDetails = "PreviousDetails";
 const eventDashboard = "EventDashboard";
+const register = "Register";
+
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -37,12 +44,12 @@ function MainContainer() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={login}
+        initialRouteName={register}
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen name={login} component={Login} />
+        <Stack.Screen name={register} component={Register} />
         <Stack.Screen name={addEvent} component={AddEvent} />
         <Stack.Screen name={upcomingEvent} component={UpcomingEvent} />
         <Stack.Screen name={eventDetails} component={EventDetails} />
