@@ -18,17 +18,17 @@ import PreviousEvents from "./screens/eventsScreens/PreviousEvents";
 import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
 
 import Register from "./screens/AuthScreens/Register";
-import JoinEvent from "./screens/CommunityScreens/JoinEvent";
-import { Hidden } from "native-base";
 
 import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
 import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
 import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
 
+import JoinEvent from "./screens/CommunityScreens/JoinEvent";
 import DisplayJoinEvents from "./screens/CommunityScreens/DisplayJoinEvents";
 import ShareEvent from "./screens/CommunityScreens/ShareEvent";
 import CommunityFeed from "./screens/CommunityScreens/CommunityFeed";
-
+import Comments from "./screens/CommunityScreens/Comments";
+import AddComment from "./screens/CommunityScreens/AddComment";
 //Screen names
 const homeName = "Home";
 const addEvent = "AddEvent";
@@ -52,6 +52,8 @@ const drawer = "Drawer";
 const displayJoinEvents = "DisplayJoinEvents";
 const shareEvent = "ShareEvent";
 const communityFeed = "CommunityFeed";
+const comments = "Comments";
+const addComment = "AddComment";
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -87,6 +89,8 @@ function MainContainer() {
         <Stack.Screen name={displayJoinEvents} component={DisplayJoinEvents} />
         <Stack.Screen name={shareEvent} component={ShareEvent} />
         <Stack.Screen name={communityFeed} component={CommunityFeed} />
+        <Stack.Screen name={comments} component={Comments} />
+        <Stack.Screen name={addComment} component={AddComment} />
       </Stack.Navigator>
     </NavigationContainer>
   );
