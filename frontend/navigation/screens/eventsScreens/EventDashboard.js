@@ -33,40 +33,73 @@ export default function EventDashboard({ navigation }) {
 
   return (
     <NativeBaseProvider>
-      <Box
-        p="2"
-        alignSelf={{ base: "center", md: "flex-start" }}
-        mt="20%"
-        rounded="xl"
-        style={styles.header}
-        _text={{
-          fontSize: "32",
-          fontWeight: "medium",
-          color: "black",
-          alignSelf: "center",
-          letterSpacing: "lg",
-          fontFamily: "Roboto",
-        }}
-      >
-        Event Dashboard
-      </Box>
-      <ScrollView>
-        <Flex direction="row" style={styles.container}>
-          <View style={styles.card}>
+      <View style={styles.container}>
+        <Box
+          p="2"
+          alignSelf={{ base: "center", md: "flex-start" }}
+          mt="20%"
+          rounded="xl"
+          style={styles.header}
+          _text={{
+            fontSize: "32",
+            fontWeight: "medium",
+            color: "black",
+            alignSelf: "center",
+            letterSpacing: "lg",
+            fontFamily: "Roboto",
+          }}
+        >
+          Event Dashboard
+        </Box>
+        <ScrollView>
+          <Flex direction="row" style={styles.container}>
+            <View style={styles.card}>
+              <Image
+                style={styles.image}
+                source={require("../../../assets/images/previous.png")}
+              />
+              <Flex direction="row" style={styles.cardContent}>
+                <Text style={styles.text1}>Previous Events</Text>
+                <Button
+                  style={styles.button1}
+                  size="sm"
+                  onPress={() => navigation.navigate("PreviousEvents")}
+                  backgroundColor={"rgba(26, 182, 92, 1)"}
+                >
+                  <Text style={styles.textBtn1}>View</Text>
+                </Button>
+              </Flex>
+            </View>
+
+            <View style={styles.card}>
+              <Image
+                style={styles.image}
+                source={require("../../../assets/images/create.png")}
+              />
+              <Flex direction="row" style={styles.cardContent}>
+                <Text style={styles.text1}>Create Event</Text>
+                <Button
+                  style={styles.button1}
+                  size="sm"
+                  onPress={() => navigation.navigate("AddEvent")}
+                  backgroundColor={"rgba(26, 182, 92, 1)"}
+                >
+                  <Text style={styles.textBtn1}>Go</Text>
+                </Button>
+              </Flex>
+            </View>
+          </Flex>
+          <View style={styles.card2}>
             <Image
-              style={styles.image}
-              source={require("../../../assets/images/wing.png")}
+              style={styles.image2}
+              source={require("../../../assets/images/upcoming.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text1}>Previous Events</Text>
+              <Text style={styles.text2}>Upcoming Events</Text>
               <Button
-                style={styles.button1}
+                style={styles.button2}
                 size="sm"
-                onPress={() =>
-                  navigation.navigate("PreviousDetails", {
-                    item: item,
-                  })
-                }
+                onPress={() => navigation.navigate("UpcomingEvent")}
                 backgroundColor={"rgba(26, 182, 92, 1)"}
               >
                 <Text style={styles.textBtn1}>View</Text>
@@ -74,81 +107,33 @@ export default function EventDashboard({ navigation }) {
             </Flex>
           </View>
 
-          <View style={styles.card}>
+          <View style={styles.card2}>
             <Image
-              style={styles.image}
-              source={require("../../../assets/images/wing.png")}
+              style={styles.image2}
+              source={require("../../../assets/images/request.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text1}>Create Event</Text>
+              <Text style={styles.text2}>Event Requests</Text>
               <Button
-                style={styles.button1}
+                style={styles.button2}
                 size="sm"
-                onPress={() =>
-                  navigation.navigate("PreviousDetails", {
-                    item: item,
-                  })
-                }
                 backgroundColor={"rgba(26, 182, 92, 1)"}
               >
-                <Text style={styles.textBtn1}>Go</Text>
+                <Text style={styles.textBtn1}>View</Text>
               </Button>
             </Flex>
           </View>
-        </Flex>
-        <View style={styles.card2}>
-          <Image
-            style={styles.image2}
-            source={require("../../../assets/images/wing.png")}
-          />
-          <Flex direction="row" style={styles.cardContent}>
-            <Text style={styles.text2}>Upcoming Events</Text>
-            <Button
-              style={styles.button2}
-              size="sm"
-              onPress={() =>
-                navigation.navigate("PreviousDetails", {
-                  item: item,
-                })
-              }
-              backgroundColor={"rgba(26, 182, 92, 1)"}
-            >
-              <Text style={styles.textBtn1}>View</Text>
-            </Button>
-          </Flex>
-        </View>
 
-        <View style={styles.card2}>
-          <Image
-            style={styles.image2}
-            source={require("../../../assets/images/wing.png")}
-          />
-          <Flex direction="row" style={styles.cardContent}>
-            <Text style={styles.text2}>Event Requests</Text>
-            <Button
-              style={styles.button2}
-              size="sm"
-              onPress={() =>
-                navigation.navigate("PreviousDetails", {
-                  item: item,
-                })
-              }
-              backgroundColor={"rgba(26, 182, 92, 1)"}
-            >
-              <Text style={styles.textBtn1}>View</Text>
+          <View style={styles.container}>
+            <Button onPress={() => navigation.navigate("PreviousEvents")}>
+              previous Events
             </Button>
-          </Flex>
-        </View>
-
-        <View style={styles.container}>
-          <Button onPress={() => navigation.navigate("PreviousEvents")}>
-            previous Events
-          </Button>
-          <Button m={10} onPress={sendEmail}>
-            open Email
-          </Button>
-        </View>
-      </ScrollView>
+            <Button m={10} onPress={sendEmail}>
+              open Email
+            </Button>
+          </View>
+        </ScrollView>
+      </View>
     </NativeBaseProvider>
   );
 }
@@ -158,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
+    backgroundColor: "white",
   },
   header: {
     width: "90%",
@@ -175,12 +160,12 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "46%",
-    marginTop: 30,
+    marginTop: 35,
     marginLeft: "1%",
     marginRight: "2%",
     height: 200,
     paddingBottom: 15,
-
+    marginBottom: 20,
     backgroundColor: "#fff",
     borderRadius: 24.43,
     shadowColor: "#000",
@@ -194,11 +179,35 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: "100%",
-    height: 130,
-    resizeMode: "cover",
-    zIndex: 1,
-    position: "relative",
+    width: "95%",
+    alignSelf: "center",
+    height: 160,
+    marginTop: -30,
+    marginBottom: 10,
+    resizeMode: "contain",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
+  },
+  image2: {
+    width: "75%",
+    marginTop: -35,
+    height: 160,
+    resizeMode: "contain",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
   },
   text: {
     fontSize: 20,
@@ -219,7 +228,7 @@ const styles = StyleSheet.create({
 
   card2: {
     width: "82%",
-    marginBottom: 10,
+    marginBottom: 15,
     marginTop: 40,
     marginLeft: "8%",
     marginRight: "8%",
@@ -238,13 +247,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  image2: {
-    width: "60%",
-    height: 150,
-    resizeMode: "cover",
-    alignSelf: "center",
-    zIndex: 1,
-  },
+
   text2: {
     fontSize: 22,
     fontWeight: "bold",
