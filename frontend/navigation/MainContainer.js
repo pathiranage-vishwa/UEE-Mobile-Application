@@ -18,15 +18,12 @@ import PreviousEvents from "./screens/eventsScreens/PreviousEvents";
 import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
 
 import Register from "./screens/AuthScreens/Register";
-
+import JoinEvent from "./screens/CommunityScreens/JoinEvent";
 import { Hidden } from "native-base";
-
-
 
 import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
 import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
 import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
-
 
 //Screen names
 const homeName = "Home";
@@ -39,6 +36,7 @@ const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
 const login = "Login";
 const profile = "Profile";
+const joinEvent = "JoinEvent";
 
 const updateEvent = "UpdateEvent";
 const instructions = "Instructions";
@@ -74,7 +72,11 @@ function MainContainer() {
         <Stack.Screen name={eventDashboard} component={EventDashboard} />
         <Stack.Screen name={addMoneyDonation} component={AddMoneyDonation} />
         <Stack.Screen name={addPlantDonation} component={AddPlantDonation} />
-        <Stack.Screen name={displayAllDonations} component={DisplayAllDonations} />
+        <Stack.Screen
+          name={displayAllDonations}
+          component={DisplayAllDonations}
+        />
+        <Stack.Screen name={joinEvent} component={JoinEvent} />
       </Stack.Navigator>
     </NavigationContainer>
   );
