@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   text: {
     color: "white",
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     lineHeight: 84,
     fontWeight: "bold",
     textAlign: "center",
-    backgroundColor: "#000000c0"
-  }
+    backgroundColor: "#000000c0",
+  },
 });
 
 export default function Register({ navigation }) {
@@ -84,6 +84,7 @@ export default function Register({ navigation }) {
             Welcome
           </Heading>
           <Heading
+            onPress={() => navigation.navigate("Home")}
             mt="1"
             color="coolGray.600"
             _dark={{
@@ -112,7 +113,9 @@ export default function Register({ navigation }) {
               <Input
                 height={50}
                 type="contactNumber"
-                onChangeText={(contactNumber) => setContactNumber(contactNumber)}
+                onChangeText={(contactNumber) =>
+                  setContactNumber(contactNumber)
+                }
               />
             </FormControl>
             <FormControl>
@@ -125,8 +128,12 @@ export default function Register({ navigation }) {
             </FormControl>
             <FormControl>
               <FormControl.Label>Confirm Password</FormControl.Label>
-              <Input height={50} type="password"
-              onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+              <Input
+                height={50}
+                type="password"
+                onChangeText={(confirmPassword) =>
+                  setConfirmPassword(confirmPassword)
+                }
               />
             </FormControl>
             <Button height={50} mt="2" colorScheme="orange" onPress={register}>
