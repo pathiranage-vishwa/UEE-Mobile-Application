@@ -13,7 +13,7 @@ const requestRoutes = require("./routes/requestRoutes");
 const mDonationRoutes = require("./routes/mDonationRouter");
 const pDonationRoutes = require("./routes/pDonationRouter");
 const joinEventRoutes = require("./routes/joinEventRoutes");
-
+const shareRoutes = require("./routes/shareRoutes");
 //config
 dotenv.config();
 const app = express();
@@ -35,6 +35,7 @@ app.use("/api/requests", requestRoutes);
 app.use("/api/moneyDonations", mDonationRoutes);
 app.use("/api/plantDonations", pDonationRoutes);
 app.use("/api/joinEvents", joinEventRoutes);
+app.use("/api/shares", shareRoutes);
 
 //listen to port
 const PORT = process.env.PORT || 5000;

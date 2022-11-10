@@ -24,31 +24,7 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function DisplayJoinEvents({ navigation }) {
-  const [event, setEvent] = React.useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${Constants.URL}/api/joinEvents`)
-      .then((response) => {
-        setEvent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [event]);
-
-  const deleteEvent = (item) => {
-    axios
-      .delete(`${Constants.URL}/api/joinEvents/${item}`)
-      .then((response) => {
-        Alert.alert("Successfully leave from event");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
+export default function CommunityFeed({ navigation }) {
   return (
     <NativeBaseProvider>
       <Box
@@ -66,60 +42,14 @@ export default function DisplayJoinEvents({ navigation }) {
           fontFamily: "Roboto",
         }}
       >
-        My EVENTS
+        Community Feed
       </Box>
-
-      <FlatList
-        data={event}
-        renderItem={({ item }) => (
-          <View style={styles.card} key={item._id} shadow={1}>
-            {/* <Image source={""} style={styles.image} /> */}
-            <Flex direction="row">
-              <Image
-                style={styles.image}
-                source={
-                  item.image
-                    ? { uri: item.image }
-                    : require("../../../assets/images/p1.jpg")
-                }
-                alt="image base"
-              />
-              <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.eventName}
-                </Heading>
-
-                <Text style={styles.sub1}>
-                  <Text style={styles.eventDate}>DATE : </Text> {item.date}
-                </Text>
-
-                <Text style={styles.sub}>
-                  <Text style={styles.date}>Location :</Text>
-                  {item.eventLocation}
-                </Text>
-                {/* flex two button */}
-                <Flex direction="row">
-                  <Button
-                    style={styles.button1}
-                    size="sm"
-                    backgroundColor={"rgba(26, 182, 92, 1)"}
-                  >
-                    <Text style={styles.text1}>{item.status}</Text>
-                  </Button>
-                  <Button
-                    style={styles.button2}
-                    size="sm"
-                    onPress={() => deleteEvent(item._id)}
-                    backgroundColor={"white"}
-                  >
-                    <Text style={styles.text2}>Leave</Text>
-                  </Button>
-                </Flex>
-              </Stack>
-            </Flex>
-          </View>
-        )}
-      />
+      <Button
+        style={styles.button}
+        onPress={() => navigation.navigate("ShareEvent")}
+      >
+        Share Event
+      </Button>
     </NativeBaseProvider>
   );
 }

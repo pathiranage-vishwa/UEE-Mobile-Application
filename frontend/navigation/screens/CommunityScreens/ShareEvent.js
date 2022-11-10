@@ -31,47 +31,74 @@ import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
 import Constants from "../../../constants/Constants";
 
-export default function JoinEvent({ route, navigation }) {
-  const [event, setEvent] = React.useState({});
+export default function ShareEvent({ navigation }) {
   const [name, setName] = React.useState("");
-  const [community, setCommunity] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [caption, setCaption] = React.useState("");
+  const [date, setDate] = React.useState(new Date());
+  const [image, setImage] = React.useState(null);
 
-  React.useEffect(() => {
-    setEvent(route.params.item);
-  }, [event]);
+  const pickImage = async () => {
+    let permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    //this tells the application to give an alert if someone doesn't allow //permission.  It will return to the previous screen.
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    let base64Img = `data:image/jpg;base64,${result.base64}`;
+    uploadImage(base64Img);
+  };
+
+  //image upload start
+  const uploadImage = (photo) => {
+    const data = new FormData();
+    data.append("file", photo);
+    data.append("upload_preset", "Chat-app");
+
+    fetch("https://api.cloudinary.com/v1_1/donfmtaf4/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setImage(data.secure_url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleSubmit = async () => {
-    if (name == "" || community == "" || description == "") {
-      Alert.alert("Please fill all the fields");
+    if (name === "" || caption === "" || date === "" || image === null) {
+      alert("Please fill all the details");
       return;
     }
 
     const data = {
-      eventId: event._id,
-      eventName: event.title,
-      eventDate: event.date,
-      eventLocation: event.location,
       name: name,
-      community: community,
-      description: description,
-      image: event.image,
+      caption: caption,
+      date: date,
+      image: image,
     };
 
-    await axios
-      .post(`${Constants.URL}/api/joinEvents/`, data)
-      .then((res) => {
-        axios
-          .put(`${Constants.URL}/api/events/participants/${event._id}`)
-          .then((response) => {
-            setIsOpen(true);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    console.log(data);
 
-        Alert.alert("Success", "You have successfully joined the event");
-        navigation.navigate("DisplayJoinEvents");
+    await axios
+      .post(`${Constants.URL}/api/shares/`, data)
+      .then((res) => {
+        Alert.alert("Event shared successfully");
+        navigation.navigate("CommunityFeed");
       })
       .catch((err) => {
         console.log(err);
@@ -96,24 +123,23 @@ export default function JoinEvent({ route, navigation }) {
         }}
         shadow={3}
       >
-        Join For Event
+        Share Events
       </Box>
+      <Spacer />
       <ScrollView>
-        <TouchableOpacity style={styles.imageCon}>
-          <Image source={{ uri: event.image }} style={styles.image1} />
-        </TouchableOpacity>
         <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
           <FormControl isRequired>
             <FormControl.Label
+              marginTop={10}
               _text={{
                 bold: true,
                 fontSize: "16",
               }}
             >
-              Name
+              Event Name
             </FormControl.Label>
             <Input
-              placeholder="Candidate Name"
+              placeholder="Event Name"
               borderColor={"#000"}
               style={styles.input}
               marginBottom={5}
@@ -128,35 +154,61 @@ export default function JoinEvent({ route, navigation }) {
                 fontSize: "16",
               }}
             >
-              Community Name
+              Caption
             </FormControl.Label>
             <Input
-              placeholder="Community Name"
+              placeholder="Caption"
               borderColor={"#000"}
               style={styles.input}
               height={12}
-              onChangeText={(value) => setCommunity(value)}
+              onChangeText={(value) => setCaption(value)}
             />
           </FormControl>
           <FormControl isRequired mt={5}>
             <FormControl.Label
               _text={{
                 bold: true,
-                fontSize: "16",
               }}
             >
-              Why do you like to join?
+              Date
             </FormControl.Label>
-            <TextArea
-              placeholder="Description"
-              borderColor={"#000"}
-              style={styles.input}
-              w="100%"
-              onChangeText={(value) => setDescription(value)}
+            <DatePicker
+              date={date}
+              mode="date"
+              selectorStartingYear={2022}
+              options={{
+                selectedTextColor: "white",
+                mainColor: "green",
+                textColor: "black",
+                backgroundColor: "rgba(245, 245, 245, 1)",
+                borderColor: "black",
+                borderWidth: 2,
+                doneButtonColor: "green",
+              }}
+              onDateChange={(date) => setDate(date)}
             />
           </FormControl>
+          <FormControl isRequired mt={5}>
+            <FormControl.Label
+              _text={{
+                bold: true,
+              }}
+            >
+              Upload image
+            </FormControl.Label>
+            <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
+              {image ? (
+                <Image source={{ uri: image }} style={styles.image1} />
+              ) : (
+                <Image
+                  source={require("../../../assets/images/upload.png")}
+                  style={styles.image2}
+                />
+              )}
+            </TouchableOpacity>
+          </FormControl>
           <Button style={styles.uploadButton} onPress={handleSubmit}>
-            <Text style={styles.uploadButtonText}> Join</Text>
+            <Text style={styles.uploadButtonText}> Post</Text>
           </Button>
         </VStack>
       </ScrollView>

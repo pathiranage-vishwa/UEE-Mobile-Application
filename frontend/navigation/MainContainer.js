@@ -25,6 +25,10 @@ import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
 import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
 import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
 
+import DisplayJoinEvents from "./screens/CommunityScreens/DisplayJoinEvents";
+import ShareEvent from "./screens/CommunityScreens/ShareEvent";
+import CommunityFeed from "./screens/CommunityScreens/CommunityFeed";
+
 //Screen names
 const homeName = "Home";
 const addEvent = "AddEvent";
@@ -45,6 +49,9 @@ const previousDetails = "PreviousDetails";
 const eventDashboard = "EventDashboard";
 const register = "Register";
 const drawer = "Drawer";
+const displayJoinEvents = "DisplayJoinEvents";
+const shareEvent = "ShareEvent";
+const communityFeed = "CommunityFeed";
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -77,6 +84,9 @@ function MainContainer() {
           component={DisplayAllDonations}
         />
         <Stack.Screen name={joinEvent} component={JoinEvent} />
+        <Stack.Screen name={displayJoinEvents} component={DisplayJoinEvents} />
+        <Stack.Screen name={shareEvent} component={ShareEvent} />
+        <Stack.Screen name={communityFeed} component={CommunityFeed} />
       </Stack.Navigator>
     </NavigationContainer>
   );
