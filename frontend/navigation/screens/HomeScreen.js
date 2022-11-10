@@ -65,6 +65,7 @@ export default function HomeScreen({ navigation }) {
             fontFamily: "Roboto",
           }}
         >
+
           <Text style={styles.headerText1}>
             Hey <Text style={styles.name}>Mark,</Text>
           </Text>
@@ -198,6 +199,7 @@ export default function HomeScreen({ navigation }) {
             </Flex>
           </View>
         </ScrollView>
+
       </View>
     </NativeBaseProvider>
   );

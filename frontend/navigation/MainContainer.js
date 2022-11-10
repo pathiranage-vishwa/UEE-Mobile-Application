@@ -7,7 +7,6 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 // Screens
 import HomeScreen from "./screens/HomeScreen";
 import AddEvent from "./screens/eventsScreens/AddEvent";
-//import AddDonation from "./screens/donatsScreens/AddDonation";
 import UpcomingEvent from "./screens/eventsScreens/UpcomingEvent";
 import EventDetails from "./screens/eventsScreens/EventDetails";
 import CreateRequest from "./screens/requestsScreens/CreateRequest";
@@ -19,12 +18,22 @@ import PreviousEvents from "./screens/eventsScreens/PreviousEvents";
 import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
 
 import Register from "./screens/AuthScreens/Register";
+
 import { Hidden } from "native-base";
+
+
+
+import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
+import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
+import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
+
 
 //Screen names
 const homeName = "Home";
 const addEvent = "AddEvent";
-const addDonation = "AddDonation";
+const addMoneyDonation = "AddMoneyDonation";
+const addPlantDonation = "AddPlantDonation";
+const displayAllDonations = "DisplayAllDonations";
 const upcomingEvent = "UpcomingEvent";
 const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
@@ -63,6 +72,9 @@ function MainContainer() {
         <Stack.Screen name={previousEvents} component={PreviousEvents} />
         <Stack.Screen name={previousDetails} component={PreviousDetails} />
         <Stack.Screen name={eventDashboard} component={EventDashboard} />
+        <Stack.Screen name={addMoneyDonation} component={AddMoneyDonation} />
+        <Stack.Screen name={addPlantDonation} component={AddPlantDonation} />
+        <Stack.Screen name={displayAllDonations} component={DisplayAllDonations} />
       </Stack.Navigator>
     </NavigationContainer>
   );
