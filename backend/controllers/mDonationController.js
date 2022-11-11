@@ -4,12 +4,13 @@ const MoneyDonation = require('../models/moneyDonation');
 //create Donation
 const createMoneyDonation = async (req, res) => {
     try {
-        const { eventID, eventName, userId, accountNumber, bankName, branchCode, amount, image, date } = req.body;
+        const { eventID, eventName, userId,userName, accountNumber, bankName, branchCode, amount, image, date } = req.body;
 
         const donation = await MoneyDonation.create({
             eventID,
             eventName,
             userId,
+            userName,
             accountNumber,
             bankName,
             branchCode,
@@ -49,10 +50,21 @@ const getMoneyDonationById = function(req, res) {
 };
 //create MoneyDonation update function
 const updateMoneyDonation = function(req, res) {
-    MoneyDonation.findByIdAndUpdate(req.params.id, req.body, function(err, result) {
+
+    //create funtion to update amount with new amount
+    MoneyDonation.findById(req.params.id, function(err, result) {
         if (err) {
             res.status(500).send(err);
         } else {
+
+            //increse amount
+            result.amount = Number(result.amount) + Number(req.body.amount);
+            result.accountNumber = req.body.accountNumber;
+            result.bankName = req.body.bankName;
+            result.branchCode = req.body.branchCode;
+            result.image = req.body.image;
+            result.date = req.body.date;
+            result.save();
             res.json(result);
         }
     });

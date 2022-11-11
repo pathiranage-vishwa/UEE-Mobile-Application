@@ -1,47 +1,47 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
-import Constants from "../../../constants/Constants";
-import axios from "axios";
 import {
-  VStack,
-  Image,
-  Input,
-  Button,
-  IconButton,
-  Icon,
+  View,
+  Platform,
+  StyleSheet,
   Text,
+  Alert,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import {
   NativeBaseProvider,
-  Center,
-  FlatList,
-  Box,
-  Divider,
-  Heading,
   ScrollView,
-  Card,
+  Center,
+  Heading,
+  Button,
+  Box,
+  VStack,
+  FormControl,
+  Input,
+  Spacer,
+  Select,
+  CheckIcon,
   Flex,
-  Stack,
-  Container,
+  TextArea,
 } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function () {
-  const [event, setEvent] = React.useState([]);
+import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
+import DatePicker from "react-native-modern-datepicker";
+import Constants from "../../../constants/Constants";
 
-  useEffect(() => {
-    axios
-      .get(`${Constants.URL}/api/events`)
-      .then((response) => {
-        setEvent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+export default function PreviousDonationDetails({ route, navigation }) {
 
-  console.log(event);
+  const [donation, setDonation] = React.useState({});
 
+  React.useEffect(() => {
+    setDonation(route.params.item);
+  }, [donation]);
+
+console.log(donation);
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider style={styles.main1}>
       <Box
         p="2"
         alignSelf={{ base: "center", md: "flex-start" }}
@@ -56,150 +56,309 @@ export default function () {
           letterSpacing: "lg",
           fontFamily: "Roboto",
         }}
+        shadow={3}
       >
-        UPCOMING EVENTS
+        Money Donation
       </Box>
 
-      <VStack w="100%" space={5} alignSelf="center">
-        <Input
-          placeholder="Search upcoming events here"
-          width="95%"
-          borderRadius="6"
-          alignSelf={{ base: "center", md: "flex-start" }}
-          py="3"
-          px="1"
-          backgroundColor="rgba(230, 255, 214, 1)"
-          marginTop={5}
-          fontSize="14"
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="black"
-              as={<MaterialIcons name="search" />}
-            />
-          }
-        />
-      </VStack>
-
-      <FlatList
-        data={event}
-        renderItem={({ item }) => (
-          <Card style={styles.item} key={item._id}>
-            {/* <Image source={""} style={styles.image} /> */}
-            <Flex direction="row">
-              <Image
-                width={100}
-                height={200}
-                source={{
-                  uri: item.image,
+      <ScrollView style={styles.main}>
+        <VStack >
+        <View style={styles.card}>
+          <Image
+            style={styles.image}
+            source={require("../../../assets/images/p1.jpg")}
+          />
+        </View>
+          <Spacer />
+          <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
+            <FormControl isRequired>
+              <FormControl.Label
+                _text={{
+                  bold: true,
                 }}
-                alt="Alternate Text"
+              >
+                Event ID
+              </FormControl.Label>
+              <Input
+                 borderColor = {"#000"}
+                 heigh = {12}
+                 backgroundColor = {"rgba(217, 217, 217, 1)"}
+                 borderBottomLeftRadius ={10}
+                 borderBottomRightRadius = {10}
+                 borderTopLeftRadius = {10}
+                 borderTopRightRadius = {10}
+                placeholder="Event eventID"
+                value={donation.eventID}
+                isDisabled={true}
+                nativeID="eventID"
+                type="text"
               />
-              <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.title}
-                </Heading>
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Event Name
+              </FormControl.Label>
+              <Input
+                 borderColor = {"#000"}
+                 heigh = {12}
 
-                <Text style={styles.title}>
-                  <Text style={styles.sub1}> DATE : {item.date}</Text>
-                </Text>
-                <Text style={styles.title}>
-                  <Text style={styles.sub}> Location :</Text> {item.location}
-                </Text>
-              </Stack>
-            </Flex>
-          </Card>
-        )}
-      />
+                 backgroundColor = {"rgba(217, 217, 217, 1)"}
+                 borderBottomLeftRadius ={10}
+                 borderBottomRightRadius = {10}
+                 borderTopLeftRadius = {10}
+                 borderTopRightRadius = {10}
+                placeholder="Event Name"
+                value={donation.eventName}
+                isDisabled={true}
+                nativeID="eventName"
+                type="text"
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Account Number
+              </FormControl.Label>
+              <Input
+                placeholder="Account Number"
+                borderColor={"#000"}
+                height={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={donation.accountNumber.toString()} 
+                isDisabled={true}
+                nativeID="accountNumber"
+                name = "accountNumber"
+                type="number"
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Bank Name
+              </FormControl.Label>
+              <Input
+                placeholder="Bank Name"
+                borderColor={"#000"}
+                height={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={donation.bankName}
+                isDisabled={true}
+                nativeID="bankName"
+                type="text"
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Enter Branch Code
+              </FormControl.Label>
+              <Input
+                placeholder="Branch Code"
+                borderColor={"#000"}
+                w="100%"
+                height={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={donation.branchCode.toString()}
+                isDisabled={true}
+                nativeID="branchCode"
+                type="number"
+              />
+            </FormControl>
+          <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Donate Amount
+              </FormControl.Label>
+              <Input
+                placeholder="Donate Amount"
+                borderColor={"#000"}
+                w="100%"
+                height={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={donation.amount.toString()}
+                isDisabled={true}
+                nativeID="amount"
+                type="number"
+              />
+            </FormControl>
+          <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Date
+              </FormControl.Label>
+              <Input
+                placeholder="Date"
+                borderColor={"#000"}
+                w="100%"
+                height={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={donation.date.toString()}
+                isDisabled={true}
+                nativeID="date"
+                type="text"
+              />
+            </FormControl>
+          </VStack>
+        </VStack>
+      </ScrollView>
     </NativeBaseProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  uploadButton: {
+    borderRadius: 10,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 10,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "45%",
+    height: 60,
+  },
+  uploadButtonText: {
+    color: "#f6f5f8",
+    fontSize: 20,
+    fontFamily: "Roboto",
+  },
+  main1: {
+    backgroundColor: "white",
+  },
+  border: {
+    borderWidth: 2,
+    borderColor: "green",
+    width: "95%",
+    alignSelf: "center",
+    borderRadius: 10,
+    marginBottom: "10%",
+    backgroundColor: "white",
+  },
+  main: {
+    marginTop: "10%",
+    height: "100%",
+  },
+  image1: {
+    width: "100%",
+    height: "100%",
+
+  },
+  imageCon: {
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+
+    backgroundColor: "white",
+    width: "100%",
+    height: 155,
+  },
+  image2: {
+    width: "100%",
+    resizeMode: "contain",
+    height: "100%",
+  },
   header: {
+    backgroundColor: "rgba(230, 255, 214, 1)",
     width: "90%",
     alignSelf: "center",
     height: 60,
   },
-  container: {
-    flex: 1,
-    paddingTop: 22,
-    borderRadius: 10,
-  },
-  item: {
-    fontSize: 18,
-    width: "95%",
+  helpBtn: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "20%",
     alignSelf: "center",
-    height: "auto",
-    marginBottom: 20,
+    marginLeft: "70%",
+    marginTop: "6%",
+    color: "black",
+    height: 70,
+    borderRadius: 40,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
   },
-  button: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-    height: 50,
-  },
-  button1: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    marginLeft: "auto",
-    marginRight: 10,
-    margin: 10,
-    height: 50,
-  },
-  button2: {
-    marginTop: 10,
-    borderColor: "red",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-  },
-  title: {
-    fontSize: 18,
-    margin: 10,
-    fontWeight: "semibold",
-  },
-  title1: {
-    margin: 5,
-    fontSize: 28,
-    padding: 5,
-    paddingLeft: 14,
-    paddingTop: 10,
-  },
-  sub: {
-    fontWeight: "bold",
-  },
-  sub1: {
-    fontWeight: "bold",
-    fontSize: 22,
-  },
-  sub2: {
-    fontWeight: "bold",
-
-    color: "orange",
-  },
-  sub3: {
-    fontWeight: "bold",
-    color: "orange",
-    marginLeft: 10,
-  },
-  sub5: {
-    fontSize: 15,
+  card: {
+    width: "90%",
     marginBottom: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
+    marginLeft: "5%",
+    height: "auto",
+    marginTop: 10,
+
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    shadowColor: "#000",
+
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
+    width: "100%",
+    height: 250,
+    resizeMode: "cover",
+    zIndex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
 });

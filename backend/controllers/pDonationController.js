@@ -4,12 +4,13 @@ const PlantDonation = require('../models/plantDonation');
 //create Donation
 const createPlantDonation = async (req, res) => {
     try {
-        const { eventID, eventName, userId, plantName, description, amount, date } = req.body;
+        const { eventID, eventName, userId,userName, plantName, description, amount, date } = req.body;
 
         const donation = await PlantDonation.create({
             eventID,
             eventName,
             userId,
+            userName,
             plantName,
             description,
             amount,

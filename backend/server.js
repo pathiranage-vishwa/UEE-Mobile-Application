@@ -12,6 +12,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const mDonationRoutes = require("./routes/mDonationRouter");
 const pDonationRoutes = require("./routes/pDonationRouter");
+const taskRoutes = require("./routes/eventTaskRouter");
 
 //config
 dotenv.config();
@@ -33,6 +34,8 @@ app.use("/api/events", eventRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/moneyDonations", mDonationRoutes);
 app.use("/api/plantDonations", pDonationRoutes);
+app.use("/api/tasks", taskRoutes);
+
 
 //listen to port
 const PORT = process.env.PORT || 5000;

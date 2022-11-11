@@ -24,24 +24,41 @@ import {
   CheckIcon,
   Flex,
   TextArea,
+  NumberInput,
 } from "native-base";
 
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
+import Constants from "../../../constants/Constants";
 
-export default function ImagePickerExample() {
+export default function ImagePickerExample({ route, navigation }) {
   const [image, setImage] = useState(null);
   const [formData, setData] = React.useState({});
   const [date, setDate] = useState(new Date(1598051730000));
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
-  const [goal, setGoal] = useState("");
-  const [time, setTime] = useState("");
+  const [eventID, setEventID] = useState("123456789");
+  const [eventName, setEventName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [branchCode, setBranchCode] = useState("");
+  const [amount, setAmount] = useState("");
 
   const [show, setShow] = useState(false);
+
+  const [donation, setDonation] = React.useState({});
+
+  React.useEffect(() => {
+    setDonation(route.params.item);
+
+    setEventID(donation.eventID);
+    setEventName(donation.eventName);
+    setAccountNumber(String(donation.accountNumber));
+    setBankName(donation.bankName);
+    setBranchCode(String(donation.branchCode));
+    setAmount(String(donation.amount));
+    setDate(donation.date);
+  }, [donation]);
+
 
   const pickImage = async () => {
     let permissionResult =
@@ -86,23 +103,23 @@ export default function ImagePickerExample() {
   };
 
   const handleSubmit = () => {
-    if (title === "") {
-      Alert.alert("Please enter a title");
+    if (eventID === "") {
+      Alert.alert("Please enter a eventID");
       return;
-    } else if (category === "") {
-      Alert.alert("Please enter a category");
+    } else if (eventName === "") {
+      Alert.alert("Please enter a eventName");
       return;
-    } else if (location === "") {
-      Alert.alert("Please enter a location");
+    } else if (accountNumber === "") {
+      Alert.alert("Please enter a accountNumber");
       return;
-    } else if (description === "") {
-      Alert.alert("Please enter a description");
+    } else if (bankName === "") {
+      Alert.alert("Please enter a bankName");
       return;
-    } else if (goal === "") {
-      Alert.alert("Please enter a goal");
+    } else if (branchCode === "") {
+      Alert.alert("Please enter a branchCode");
       return;
-    } else if (time === "") {
-      Alert.alert("Please enter a time");
+    } else if (amount === "") {
+      Alert.alert("Please enter a amount");
       return;
     } else if (image === null) {
       Alert.alert("Please upload an image");
@@ -113,33 +130,36 @@ export default function ImagePickerExample() {
     }
 
     const data = {
-      title,
-      category,
-      location,
+      eventID,
+      eventName,
+      userId: "123456789",
+      userName: "test",
+      accountNumber,
       date,
-      time,
-      description,
-      goal,
+      amount,
+      bankName,
+      branchCode,
       image,
     };
 
     axios
-      .post("http://192.168.8.144:5000/api/events", data)
+      .put(`${Constants.URL}/api/moneyDonations/${donation._id}`, data)
       .then((res) => {
+        Alert.alert("Donation update successfully");
         console.log(res.data);
-        Alert.alert("Event added successfully");
       })
+
       .catch((err) => {
         console.log(err);
       });
 
-    setTitle("");
-    setCategory("");
-    setLocation("");
+    setEventID("");
+    setEventName("");
+    setAccountNumber("");
     setDate("");
-    setTime("");
-    setDescription("");
-    setGoal("");
+    setAmount("");
+    setBankName("");
+    setBranchCode("");
     setImage(null);
   };
 
@@ -161,36 +181,17 @@ export default function ImagePickerExample() {
         }}
         shadow={3}
       >
-        CREATE EVENT
+        Money Donation
       </Box>
-      <Button
-        shadow={3}
-        _text={{
-          color: "white",
-          fontSize: "lg",
-          alignSelf: "center",
-          fontWeight: "medium",
-          letterSpacing: "lg",
-          fontFamily: "Roboto",
-          shadow: 3,
-        }}
-        style={styles.helpBtn}
-      >
-        Help ?
-      </Button>
 
       <ScrollView style={styles.main}>
-        <VStack style={styles.border}>
-          <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
-            {image ? (
-              <Image source={{ uri: image }} style={styles.image1} />
-            ) : (
-              <Image
-                source={require("../../../assets/images/upload.png")}
-                style={styles.image2}
-              />
-            )}
-          </TouchableOpacity>
+        <VStack >
+        <View style={styles.card}>
+          <Image
+            style={styles.image}
+            source={require("../../../assets/images/p1.jpg")}
+          />
+        </View>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
             <FormControl isRequired>
@@ -199,13 +200,67 @@ export default function ImagePickerExample() {
                   bold: true,
                 }}
               >
-                Event Title
+                Event ID
               </FormControl.Label>
               <Input
-                placeholder="Event Title"
+                 borderColor = {"#000"}
+                 heigh = {12}
+                 backgroundColor = {"rgba(217, 217, 217, 1)"}
+                 borderBottomLeftRadius ={10}
+                 borderBottomRightRadius = {10}
+                 borderTopLeftRadius = {10}
+                 borderTopRightRadius = {10}
+                placeholder="Event eventID"
+                value={eventID}
+                isDisabled={true}
+                type="text"
+                onChangeText={(value) => setEventID(value)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Event Name
+              </FormControl.Label>
+              <Input
+                 borderColor = {"#000"}
+                 heigh = {12}
+
+                 backgroundColor = {"rgba(217, 217, 217, 1)"}
+                 borderBottomLeftRadius ={10}
+                 borderBottomRightRadius = {10}
+                 borderTopLeftRadius = {10}
+                 borderTopRightRadius = {10}
+                placeholder="Event Name"
+                value={eventName}
+                isDisabled={true}
+                type="text"
+                onChangeText={(value) => setEventName(value)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Account Number
+              </FormControl.Label>
+              <Input
+                placeholder="Account Number"
                 borderColor={"#000"}
                 height={12}
-                onChangeText={(value) => setTitle(value)}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={accountNumber}
+                type="number"
+                onChangeText={(value) => setAccountNumber(value)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -215,27 +270,32 @@ export default function ImagePickerExample() {
                     bold: true,
                   }}
                 >
-                  Event Category
+                  Select Bank Name
                 </FormControl.Label>
                 <Select
                   minWidth="200"
                   borderColor={"#000"}
-                  selectedValue={category}
+                  selectedValue={bankName}
                   height={12}
-                  accessibilityLabel="Choose Service"
-                  placeholder="Choose Service"
+                  backgroundColor={"rgba(217, 217, 217, 1)"}
+                  accessibilityLabel="Select your Bank Name"
+                  placeholder="Select Bank Name"
+                  borderTopLeftRadius={10}
+                  borderTopRightRadius={10}
+                  borderBottomLeftRadius={10}
+                  borderBottomRightRadius={10}
                   _selectedItem={{
                     bg: "green",
                     endIcon: <CheckIcon size="5" />,
                     fontSize: "lg",
                     fontWeight: "bold",
                   }}
-                  onValueChange={(itemValue) => setCategory(itemValue)}
+                  onValueChange={(itemValue) => setBankName(itemValue)}
                   mt={1}
                 >
-                  <Select.Item label="Charity Service" value="charity" />
-                  <Select.Item label="Planting" value="planting" />
-                  <Select.Item label="Repairs" value="repair" />
+                  <Select.Item label="Commercial Bank" value="commercial" />
+                  <Select.Item label="People's Bank" value="people" />
+                  <Select.Item label="Sampath Bank" value="sampath" />
                 </Select>
               </Box>
             </FormControl>
@@ -245,22 +305,74 @@ export default function ImagePickerExample() {
                   bold: true,
                 }}
               >
-                Event Location
+                Enter Branch Code
               </FormControl.Label>
               <Input
-                placeholder="Event Location"
+                placeholder="Branch Code"
                 borderColor={"#000"}
+                w="100%"
                 height={12}
-                onChangeText={(value) => setLocation(value)}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={branchCode}
+                type="number"
+                onChangeText={(value) => setBranchCode(value)}
               />
             </FormControl>
-            <FormControl isRequired mt={5}>
+            <VStack mt={5}>
+            <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Upload Payment Slip
+              </FormControl.Label>
+              <TouchableOpacity isRequired style={styles.imageCon} onPress={pickImage}>
+             
+            {image ? (
+              <Image source={{ uri: image }} style={styles.image1} />
+            ) : (
+              <Image
+                source={require("../../../assets/images/upload_donation.png")}
+                style={styles.image2}
+              />
+            )}
+          </TouchableOpacity>
+            </VStack>
+          <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
                 }}
               >
-                Event Date
+                Donate Amount
+              </FormControl.Label>
+              <Input
+                placeholder="Donate Amount"
+                borderColor={"#000"}
+                w="100%"
+                height={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
+                value={amount}
+                type="number"
+                keyboardType="numeric"
+                onChangeText={(value) => setAmount(value)}
+              />
+            </FormControl>
+          <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Date
               </FormControl.Label>
               <DatePicker
                 date={date}
@@ -278,62 +390,8 @@ export default function ImagePickerExample() {
                 onDateChange={(date) => setDate(date)}
               />
             </FormControl>
-            <FormControl isRequired mt={5}>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
-              >
-                Event Time
-              </FormControl.Label>
-              <DatePicker
-                date={time}
-                mode="time"
-                selectorStartingYear={2022}
-                options={{
-                  selectedTextColor: "white",
-                  mainColor: "rgba(26, 182, 92, 1)",
-                  textColor: "black",
-                  backgroundColor: "rgba(245, 245, 245, 1)",
-                  borderColor: "black",
-                  borderwidth: 2,
-                  doneButtonColor: "rgba(26, 182, 92, 1)",
-                }}
-                onTimeChange={(time) => setTime(time)}
-              />
-            </FormControl>
-            <FormControl isRequired mt={5}>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
-              >
-                Event Description
-              </FormControl.Label>
-              <TextArea
-                placeholder="Event Location"
-                borderColor={"#000"}
-                w="100%"
-                onChangeText={(value) => setDescription(value)}
-              />
-            </FormControl>
-            <FormControl isRequired mt={5}>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
-              >
-                Goal
-              </FormControl.Label>
-              <TextArea
-                placeholder="Goal"
-                borderColor={"#000"}
-                w="100%"
-                onChangeText={(value) => setGoal(value)}
-              />
-            </FormControl>
             <Button style={styles.uploadButton} onPress={handleSubmit}>
-              <Text style={styles.uploadButtonText}> Create Event</Text>
+              <Text style={styles.uploadButtonText}>Donate</Text>
             </Button>
           </VStack>
         </VStack>
@@ -358,7 +416,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "rgba(26, 182, 92, 1)",
     width: "45%",
-    marginLeft: "auto",
     height: 60,
   },
   uploadButtonText: {
@@ -385,12 +442,9 @@ const styles = StyleSheet.create({
   image1: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover",
-    borderRadius: 16,
+
   },
   imageCon: {
-    marginTop: 20,
-    borderRadius: 16,
     alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -402,9 +456,8 @@ const styles = StyleSheet.create({
     elevation: 4,
 
     backgroundColor: "white",
-    width: "90%",
-    height: 300,
-    marginBottom: 20,
+    width: "100%",
+    height: 155,
   },
   image2: {
     width: "100%",
@@ -434,5 +487,34 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.58,
     shadowRadius: 9,
     elevation: 4,
+  },
+  card: {
+    width: "90%",
+    marginBottom: 10,
+    marginLeft: "5%",
+    height: "auto",
+    marginTop: 10,
+
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    shadowColor: "#000",
+
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  image: {
+    width: "100%",
+    height: 250,
+    resizeMode: "cover",
+    zIndex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
 });

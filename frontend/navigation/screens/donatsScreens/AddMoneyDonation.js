@@ -117,6 +117,7 @@ export default function ImagePickerExample() {
       eventID,
       eventName,
       userId: "123456789",
+      userName: "test",
       accountNumber,
       date,
       amount,

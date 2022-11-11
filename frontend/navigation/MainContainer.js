@@ -14,6 +14,9 @@ import Instructions from "./screens/eventsScreens/Instructions";
 import EventDashboard from "./screens/eventsScreens/EventDashboard";
 import PreviousEvents from "./screens/eventsScreens/PreviousEvents";
 import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
+import AddProcess from "./screens/processScreens.js/AddProcess";
+import DisplayProcess from "./screens/processScreens.js/DisplayProcess";
+import DisplayAccount from "./screens/AccountScreens.js/DisplayAccount";
 
 import Register from "./screens/AuthScreens/Register";
 
@@ -21,6 +24,8 @@ import Register from "./screens/AuthScreens/Register";
 import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
 import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
 import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
+import DisplayDonations from "./screens/donatsScreens/DisplayDonations";
+import UpdateMoneyDonation from "./screens/donatsScreens/UpdateMoneyDonation";
 
 //Screen names
 const homeName = "Home";
@@ -28,6 +33,11 @@ const addEvent = "AddEvent";
 const addMoneyDonation = "AddMoneyDonation";
 const addPlantDonation = "AddPlantDonation";
 const displayAllDonations = "DisplayAllDonations";
+const displayDonations = "DisplayDonations";
+const updateMoneyDonation = "UpdateMoneyDonation";
+const addProcess = "AddProcess";
+const displayProcess = "DisplayProcess";
+const displayAccount = "DisplayAccount";
 const upcomingEvent = "UpcomingEvent";
 const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
@@ -66,6 +76,14 @@ function MainContainer() {
         <Stack.Screen name={addMoneyDonation} component={AddMoneyDonation} />
         <Stack.Screen name={addPlantDonation} component={AddPlantDonation} />
         <Stack.Screen name={displayAllDonations} component={DisplayAllDonations} />
+        <Stack.Screen name={displayDonations} component={DisplayDonations} />
+        <Stack.Screen name={updateMoneyDonation} component={UpdateMoneyDonation} />
+        <Stack.Screen name={addProcess} component={AddProcess} />
+        <Stack.Screen name={displayProcess} component={DisplayProcess} />
+        <Stack.Screen name={displayAccount} component={DisplayAccount} />
+        <Stack.Screen name={createRequest} component={CreateRequest} />
+        <Stack.Screen name={login} component={Login} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

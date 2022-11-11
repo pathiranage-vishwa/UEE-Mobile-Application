@@ -35,6 +35,27 @@ export default function HomeScreen({ navigation }) {
           {" "}
          Previous Donation{" "}
         </Text>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("AddProcess")}
+        >
+          {" "}
+         Add Process{" "}
+        </Text>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("DisplayProcess")}
+        >
+          {" "}
+         Display Process{" "}
+        </Text>
+        <Text
+          style={styles.header}
+          onPress={() => navigation.navigate("DisplayAccount")}
+        >
+          {" "}
+         Display Account{" "}
+        </Text>
         <View style={styles.card}>
           <Image
             style={styles.image}

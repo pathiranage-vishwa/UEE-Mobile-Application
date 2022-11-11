@@ -19,6 +19,11 @@ var donationSchema = new Schema
         required: true,
         trim: true
     },
+    userName: {
+        type: String,
+        required: true,
+        trim: true
+    },
     plantName: {
         type: String,
         required: true,
