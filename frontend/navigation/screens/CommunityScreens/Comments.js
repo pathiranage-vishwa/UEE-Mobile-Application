@@ -26,6 +26,18 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function Comments({ route, navigation }) {
   const [event, setEvent] = React.useState(route.params.item);
+  const [comments, setComments] = React.useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${Constants.URL}/api/comments/${event._id}`)
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [comments]);
 
   return (
     <NativeBaseProvider>
@@ -44,32 +56,25 @@ export default function Comments({ route, navigation }) {
           fontFamily: "Roboto",
         }}
       >
-        Comments
+        {event.name}
       </Box>
       <ScrollView>
-        {/* <FlatList
-          data={event}
+        <FlatList
+          data={comments}
           renderItem={({ item }) => (
             <View style={styles.card} key={item._id} shadow={1}>
-            
               <Flex direction="row">
-                
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    {item.eventName}
+                    -- {item.name} --
                   </Heading>
 
-                  <Text style={styles.sub1}>
-                    <Text style={styles.eventDate}>DATE : </Text> {item.date}
-                  </Text>
-
-                 
+                  <Text style={styles.sub1}>{item.comment}</Text>
                 </Stack>
               </Flex>
             </View>
           )}
-        /> 
-        */}
+        />
 
         <Button
           style={styles.button3}
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
 
   title1: {
     margin: 1,
-    fontSize: 24,
+    fontSize: 22,
     padding: 5,
     alignItems: "center",
     paddingLeft: 14,
@@ -139,9 +144,10 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   sub1: {
-    marginTop: 15,
+    marginTop: 0,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
+    width: "100%",
   },
   sub2: {
     fontWeight: "bold",
@@ -155,11 +161,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
   },
   card: {
-    width: "96%",
+    width: "92%",
     marginBottom: 20,
-    marginLeft: "2%",
-    marginRight: "2%",
-    height: 230,
+    marginLeft: "4%",
+    marginRight: "4%",
+    height: "auto",
     paddingBottom: 0,
     backgroundColor: "#fff",
     borderRadius: 30,

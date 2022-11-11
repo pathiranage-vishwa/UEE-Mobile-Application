@@ -57,11 +57,13 @@ export default function AddComment({ route, navigation }) {
       .post(`${Constants.URL}/api/comments`, data)
       .then((res) => {
         Alert.alert("Comment added successfully");
-        navigation.navigate("Comments");
       })
       .catch((err) => {
         console.log(err);
       });
+
+    setName("");
+    setComment("");
   };
 
   return (
@@ -129,6 +131,12 @@ export default function AddComment({ route, navigation }) {
             <Text style={styles.uploadButtonText}> Ok</Text>
           </Button>
         </VStack>
+        <Button
+          style={styles.uploadButton1}
+          onPress={() => navigation.navigate("CommunityFeed")}
+        >
+          <Text style={styles.uploadButtonText1}> Back</Text>
+        </Button>
       </ScrollView>
     </NativeBaseProvider>
   );
@@ -153,14 +161,39 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     backgroundColor: "rgba(26, 182, 92, 1)",
-    width: "30%",
+    width: "20%",
     alignSelf: "center",
     height: 50,
     marginBottom: 20,
   },
+  uploadButton1: {
+    borderRadius: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 10,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "20%",
+
+    height: 35,
+    marginBottom: 20,
+  },
+
   uploadButtonText: {
     color: "#f6f5f8",
     fontSize: 20,
+    fontFamily: "Roboto",
+  },
+  uploadButtonText1: {
+    color: "#f6f5f8",
+    fontSize: 12,
     fontFamily: "Roboto",
   },
   main1: {
