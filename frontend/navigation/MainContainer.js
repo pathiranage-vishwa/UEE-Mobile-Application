@@ -1,6 +1,8 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 // Screens
 import HomeScreen from "./screens/HomeScreen";
@@ -20,12 +22,16 @@ import DisplayAccount from "./screens/AccountScreens.js/DisplayAccount";
 
 import Register from "./screens/AuthScreens/Register";
 
+import { Hidden } from "native-base";
+
+
 
 import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
 import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
 import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
 import DisplayDonations from "./screens/donatsScreens/DisplayDonations";
 import UpdateMoneyDonation from "./screens/donatsScreens/UpdateMoneyDonation";
+
 
 //Screen names
 const homeName = "Home";
@@ -42,6 +48,7 @@ const upcomingEvent = "UpcomingEvent";
 const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
 const login = "Login";
+const profile = "Profile";
 
 const updateEvent = "UpdateEvent";
 const instructions = "Instructions";
@@ -49,21 +56,23 @@ const previousEvents = "PreviousEvents";
 const previousDetails = "PreviousDetails";
 const eventDashboard = "EventDashboard";
 const register = "Register";
-
+const drawer = "Drawer";
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
+//Drawer navigator
+const Drawer = createDrawerNavigator();
 
 function MainContainer() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={register}
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen name={register} component={Register} />
+        <Stack.Screen name={drawer} component={DrawerFun} />
+
         <Stack.Screen name={addEvent} component={AddEvent} />
         <Stack.Screen name={upcomingEvent} component={UpcomingEvent} />
         <Stack.Screen name={eventDetails} component={EventDetails} />
@@ -86,6 +95,56 @@ function MainContainer() {
 
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+function DrawerFun() {
+  return (
+    <Drawer.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        drawerActiveBackgroundColor: "rgba(230, 255, 214, 1)",
+        drawerActiveTintColor: "rgba(26, 182, 92, 1)",
+        drawerInactiveTintColor: "black",
+        drawerLabelStyle: {
+          fontSize: 18,
+          fontWeight: "bold",
+        },
+        drawerContentContainerStyle: {
+          marginTop: 20,
+          borderRadius: 10,
+        },
+        drawerStyle: {
+          backgroundColor: "white",
+          width: 280,
+        },
+
+        drawerIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === profile) {
+            iconName = "person";
+          } else if (route.name === homeName) {
+            iconName = "home";
+          } else if (route.name === register) {
+            iconName = "add-circle";
+          } else if (route.name === eventDashboard) {
+            iconName = "people";
+          } else if (route.name === upcomingEvent) {
+            iconName = "calendar";
+          }
+
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={40} color={color} />;
+        },
+      })}
+      //add icon to drawer
+    >
+      <Stack.Screen name={register} component={Register} />
+      <Drawer.Screen name={homeName} component={HomeScreen} />
+      <Drawer.Screen name={eventDashboard} component={EventDashboard} />
+      <Drawer.Screen name={upcomingEvent} component={UpcomingEvent} />
+    </Drawer.Navigator>
   );
 }
 
