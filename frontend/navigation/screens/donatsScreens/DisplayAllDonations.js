@@ -102,7 +102,6 @@ export default function ({ route, navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
           marginbottom: "10%",
         }}
         shadow={3}

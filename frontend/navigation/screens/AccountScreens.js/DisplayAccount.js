@@ -48,8 +48,6 @@ export default function DisplayAccount() {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
-          textAlign: "center",
         }}
         shadow={3}
       >

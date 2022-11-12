@@ -54,7 +54,6 @@ console.log(donation);
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >

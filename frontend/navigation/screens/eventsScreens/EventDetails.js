@@ -34,18 +34,6 @@ export default function EventDetails({ route, navigation }) {
     setEvent(route.params.item);
   }, [event]);
 
-  const handleJoin = () => {
-    //update event participants
-    axios
-      .put(`${Constants.URL}/api/events/participants/${event._id}`)
-      .then((response) => {
-        setIsOpen(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   return (
     
     <NativeBaseProvider style={styles.container}>
@@ -62,7 +50,6 @@ export default function EventDetails({ route, navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -84,7 +71,7 @@ export default function EventDetails({ route, navigation }) {
           <Button
             style={styles.button2}
             size="sm"
-            onPress={handleJoin}
+            onPress={() => navigation.navigate("JoinEvent", { item: event })}
             backgroundColor={"rgba(26, 182, 92, 1)"}
           >
             <Flex direction="row" alignItems="center" mr="2" m={1}>

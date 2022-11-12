@@ -1,6 +1,6 @@
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect } from "react";
-import Constants from "../../constants/Constants";
+import Constants from "../../../constants/Constants";
 import axios from "axios";
 import {
   VStack,
@@ -23,7 +23,7 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function HomeScreen({ navigation }) {
+export default function RequestDashboard({ navigation }) {
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -72,45 +72,21 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </Box>
         <Image
-          source={require("../../assets/images/navi.png")}
+          source={require("../../../assets/favicon.png")}
           style={styles.imageHead}
         />
 
         <ScrollView>
           <Flex direction="row" style={styles.container}>
-            <View style={styles.card}>
+            <View style={styles.card2}>
               <Image
-                style={styles.image}
-                source={require("../../assets/images/commiunity.png")}
+                style={styles.image2}
+                source={require("../../../assets/favicon.png")}
               />
               <Flex direction="row" style={styles.cardContent}>
-                <Text style={styles.text1}>Community Feed</Text>
+                <Text style={styles.text2}>Donations</Text>
                 <Button
-                  style={styles.button1}
-                  size="sm"
-                  onPress={() => navigation.navigate("CommunityFeed")}
-                  backgroundColor={"rgba(26, 182, 92, 1)"}
-                >
-                  <Text style={styles.textBtn1}>
-                    <Ionicons
-                      name="ios-arrow-forward"
-                      size={26}
-                      color="white"
-                    />
-                  </Text>
-                </Button>
-              </Flex>
-            </View>
-
-            <View style={styles.card}>
-              <Image
-                style={styles.image}
-                source={require("../../assets/images/joinCom.png")}
-              />
-              <Flex direction="row" style={styles.cardContent}>
-                <Text style={styles.text1}>Join Community</Text>
-                <Button
-                  style={styles.button1}
+                  style={styles.button2}
                   size="sm"
                   onPress={() => navigation.navigate("PreviousEvents")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
@@ -126,43 +102,18 @@ export default function HomeScreen({ navigation }) {
               </Flex>
             </View>
           </Flex>
-
           <Flex direction="row" style={styles.container}>
-            <View style={styles.card}>
+            <View style={styles.card2}>
               <Image
-                style={styles.image}
-                source={require("../../assets/images/eventDash.png")}
+                style={styles.image2}
+                source={require("../../../assets/favicon.png")}
               />
               <Flex direction="row" style={styles.cardContent}>
-                <Text style={styles.text1}>Event Dashboard</Text>
+                <Text style={styles.text2}>Donations</Text>
                 <Button
-                  style={styles.button1}
+                  style={styles.button2}
                   size="sm"
-                  onPress={() => navigation.navigate("EventDashboard")}
-                  backgroundColor={"rgba(26, 182, 92, 1)"}
-                >
-                  <Text style={styles.textBtn1}>
-                    <Ionicons
-                      name="ios-arrow-forward"
-                      size={26}
-                      color="white"
-                    />
-                  </Text>
-                </Button>
-              </Flex>
-            </View>
-
-            <View style={styles.card}>
-              <Image
-                style={styles.image}
-                source={require("../../assets/images/ourGoals.png")}
-              />
-              <Flex direction="row" style={styles.cardContent}>
-                <Text style={styles.text1}>Our Goals</Text>
-                <Button
-                  style={styles.button1}
-                  size="sm"
-                  onPress={() => navigation.navigate("DisplayJoinEvents")}
+                  onPress={() => navigation.navigate("PreviousEvents")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
                 >
                   <Text style={styles.textBtn1}>
@@ -176,26 +127,31 @@ export default function HomeScreen({ navigation }) {
               </Flex>
             </View>
           </Flex>
-
-          <View style={styles.card2}>
-            <Image
-              style={styles.image2}
-              source={require("../../assets/images/donations.png")}
-            />
-            <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Donations</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("DonationUpcomingEvent")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
-            </Flex>
-          </View>
+          <Flex direction="row" style={styles.container}>
+            <View style={styles.card2}>
+              <Image
+                style={styles.image2}
+                source={require("../../../assets/favicon.png")}
+              />
+              <Flex direction="row" style={styles.cardContent}>
+                <Text style={styles.text2}>Donations</Text>
+                <Button
+                  style={styles.button2}
+                  size="sm"
+                  onPress={() => navigation.navigate("PreviousEvents")}
+                  backgroundColor={"rgba(26, 182, 92, 1)"}
+                >
+                  <Text style={styles.textBtn1}>
+                    <Ionicons
+                      name="ios-arrow-forward"
+                      size={26}
+                      color="white"
+                    />
+                  </Text>
+                </Button>
+              </Flex>
+            </View>
+          </Flex>
         </ScrollView>
       </View>
     </NativeBaseProvider>
@@ -237,10 +193,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   card: {
-    width: "48%",
+    width: "46%",
     marginTop: 35,
     marginLeft: "1%",
-    marginRight: "1%",
+    marginRight: "2%",
     height: 200,
     paddingBottom: 15,
     marginBottom: 20,

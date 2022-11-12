@@ -46,7 +46,6 @@ export default function EventDashboard({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
         >
           Event Dashboard

@@ -1,9 +1,10 @@
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import Constants from "../../../constants/Constants";
 import axios from "axios";
 import {
   VStack,
+  Image,
   Input,
   Button,
   IconButton,
@@ -23,86 +24,48 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function ({ navigation }) {
-  const [event, setEvent] = React.useState([]);
-  const [search, setSearch] = React.useState("");
+export default function CommunityFeed({ navigation }) {
+  const [share, setShare] = React.useState([]);
 
   useEffect(() => {
     axios
-      .get(`${Constants.URL}/api/events`)
+      .get(`${Constants.URL}/api/shares`)
       .then((response) => {
-        setEvent(response.data);
+        setShare(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [event]);
-
-  //serach event
-  // const searchEvent = (title) => {
-  //   axios
-  //     .get(`${Constants.URL}/api/events/search?title=${title}`)
-  //     .then((response) => {
-  //       setEvent(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // const handleView = (item) => {
-  //   console.log(item_id);
-  //   navigation.navigate("EventDetails", {
-  //     id: item._id,
-  //   });
-  // };
+  }, [share]);
 
   return (
     <NativeBaseProvider>
+      <Box
+        p="2"
+        alignSelf={{ base: "center", md: "flex-start" }}
+        mt="20%"
+        rounded="xl"
+        style={styles.header}
+        _text={{
+          fontSize: "32",
+          fontWeight: "medium",
+          color: "black",
+          alignSelf: "center",
+          letterSpacing: "lg",
+        }}
+      >
+        Community Feed
+      </Box>
+      <Button
+        style={styles.button3}
+        backgroundColor={"rgba(26, 182, 92, 1)"}
+        onPress={() => navigation.navigate("ShareEvent")}
+      >
+        Share Event
+      </Button>
       <ScrollView>
-        <Box
-          p="2"
-          alignSelf={{ base: "center", md: "flex-start" }}
-          mt="20%"
-          rounded="xl"
-          style={styles.header}
-          _text={{
-            fontSize: "32",
-            fontWeight: "medium",
-            color: "black",
-            alignSelf: "center",
-            letterSpacing: "lg",
-          }}
-        >
-          UPCOMING EVENTS
-        </Box>
-
-        <VStack w="100%" space={5} alignSelf="center">
-          <Input
-            placeholder="Search upcoming events here"
-            width="95%"
-            borderRadius="6"
-            alignSelf={{ base: "center", md: "flex-start" }}
-            py="3"
-            mb={5}
-            px="1"
-            backgroundColor="rgba(230, 255, 214, 1)"
-            marginTop={5}
-            fontSize="14"
-            InputLeftElement={
-              <Icon
-                m="2"
-                ml="3"
-                size="6"
-                color="black"
-                as={<MaterialIcons name="search" />}
-              />
-            }
-          />
-        </VStack>
-
         <FlatList
-          data={event}
+          data={share}
           renderItem={({ item }) => (
             <View style={styles.card} key={item._id} shadow={1}>
               {/* <Image source={""} style={styles.image} /> */}
@@ -114,44 +77,31 @@ export default function ({ navigation }) {
                       ? { uri: item.image }
                       : require("../../../assets/images/p1.jpg")
                   }
+                  alt="image base"
                 />
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    {item.title}
+                    {item.name}
                   </Heading>
 
                   <Text style={styles.sub1}>
                     <Text style={styles.date}>DATE : </Text> {item.date}
                   </Text>
 
-                  <Text style={styles.sub}>
-                    <Text style={styles.date}>Location :</Text> {item.location}
-                  </Text>
+                  <Text style={styles.sub}>{item.caption}</Text>
                   {/* flex two button */}
                   <Flex direction="row">
                     <Button
                       style={styles.button1}
                       size="sm"
+                      onPress={() =>
+                        navigation.navigate("Comments", {
+                          item: item,
+                        })
+                      }
                       backgroundColor={"rgba(26, 182, 92, 1)"}
-                      onPress={() =>
-                        navigation.navigate("UpdateEvent", {
-                          item: item,
-                        })
-                      }
                     >
-                      <Text style={styles.text1}>Edit</Text>
-                    </Button>
-                    <Button
-                      style={styles.button2}
-                      size="sm"
-                      onPress={() =>
-                        navigation.navigate("EventDetails", {
-                          item: item,
-                        })
-                      }
-                      backgroundColor={"white"}
-                    >
-                      <Text style={styles.text2}>View</Text>
+                      <Text style={styles.text1}>Comments</Text>
                     </Button>
                   </Flex>
                 </Stack>
@@ -168,7 +118,9 @@ const styles = StyleSheet.create({
   header: {
     width: "90%",
     alignSelf: "center",
+    backgroundColor: "rgba(230, 255, 214, 1)",
     height: 60,
+    marginBottom: 20,
   },
   container: {
     flex: 1,
@@ -177,17 +129,27 @@ const styles = StyleSheet.create({
   },
 
   button1: {
-    marginTop: 20,
-    width: "24%",
-    marginLeft: -10,
+    marginTop: "5%",
+    width: "30%",
+    marginLeft: 80,
     marginRight: 10,
     margin: 10,
     borderRadius: 10,
-    height: 50,
+    height: 40,
+  },
+  button3: {
+    marginTop: "5%",
+    width: "30%",
+    marginLeft: "auto",
+    marginBottom: 20,
+    marginRight: 10,
+    margin: 10,
+    borderRadius: 10,
+    height: 40,
   },
   button2: {
     marginTop: 20,
-    borderColor: "rgba(26, 182, 92, 1)",
+    borderColor: "red",
     borderWidth: 2,
     width: "24%",
     borderRadius: 10,
@@ -223,16 +185,16 @@ const styles = StyleSheet.create({
 
   image: {
     width: 160,
-    height: 230,
+    height: "100%",
     borderBottomLeftRadius: 30,
     borderTopLeftRadius: 30,
   },
   card: {
     width: "96%",
-    marginBottom: 10,
+    marginBottom: 20,
     marginLeft: "2%",
     marginRight: "2%",
-    height: 230,
+    height: "auto",
     paddingBottom: 0,
     backgroundColor: "#fff",
     borderRadius: 30,
@@ -251,7 +213,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   text2: {
-    color: "rgba(26, 182, 92, 1)",
+    color: "red",
     fontSize: 16,
     fontWeight: "bold",
   },

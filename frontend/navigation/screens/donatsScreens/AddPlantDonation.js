@@ -158,7 +158,6 @@ export default function ImagePickerExample({ route, navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -184,13 +183,13 @@ export default function ImagePickerExample({ route, navigation }) {
                 Event ID
               </FormControl.Label>
               <Input
-                 borderColor = {"#000"}
-                 heigh = {12}
-                 backgroundColor = {"rgba(217, 217, 217, 1)"}
-                 borderBottomLeftRadius ={10}
-                 borderBottomRightRadius = {10}
-                 borderTopLeftRadius = {10}
-                 borderTopRightRadius = {10}
+                borderColor={"#000"}
+                heigh={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
                 placeholder="Event eventID"
                 value={eventID}
                 type="text"
@@ -207,14 +206,13 @@ export default function ImagePickerExample({ route, navigation }) {
                 Event Name
               </FormControl.Label>
               <Input
-                 borderColor = {"#000"}
-                 heigh = {12}
-
-                 backgroundColor = {"rgba(217, 217, 217, 1)"}
-                 borderBottomLeftRadius ={10}
-                 borderBottomRightRadius = {10}
-                 borderTopLeftRadius = {10}
-                 borderTopRightRadius = {10}
+                borderColor={"#000"}
+                heigh={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
                 placeholder="Event Name"
                 value={eventName}
                 type="text"
@@ -289,7 +287,7 @@ export default function ImagePickerExample({ route, navigation }) {
                 onChangeText={(value) => setDescription(value)}
               />
             </FormControl>
-          <FormControl isRequired mt={5}>
+            <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
@@ -344,7 +342,6 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#f6f5f8",
     fontSize: 20,
-    fontFamily: "Roboto",
   },
   main1: {
     backgroundColor: "white",
@@ -365,7 +362,6 @@ const styles = StyleSheet.create({
   image1: {
     width: "100%",
     height: "100%",
-
   },
   imageCon: {
     alignSelf: "center",

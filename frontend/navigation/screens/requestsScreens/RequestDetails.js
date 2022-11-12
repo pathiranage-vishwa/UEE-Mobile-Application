@@ -1,13 +1,5 @@
-import {
-  NativeBaseProvider,
-  Box,
-  Flex,
-  Button,
-  Icon,
-  AlertDialog,
-} from "native-base";
+import { NativeBaseProvider, Box, Flex, Button, Icon } from "native-base";
 import React from "react";
-import { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -19,55 +11,25 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import Constants from "../../../constants/Constants";
-import { printToFileAsync } from "expo-print";
-import { shareAsync } from "expo-sharing";
 
-export default function PreviousDetails({ route, navigation }) {
-  const [event, setEvent] = React.useState({});
+export default function RequestDetails({ route, navigation }) {
+  const [request, setRequest] = React.useState({});
 
   React.useEffect(() => {
-    setEvent(route.params.item);
-  }, [event]);
+    setRequest(route.params.item);
+  }, [request]);
 
-  //event details to be print in pdf
-  const eventDetails = `
-    <html>
-      <body>
-
-      
-      <div style="width: 90%; height: auto; background-color: #fff; border-radius: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); padding: 20px; margin: 20px;"
-      border-color="green"
-      >
-        
-       <h1><center>${event.title}</center> </h1>
-        <img src=${event.image} alt="Italian Trulli" width="100%">
-        <h2>Event Date: ${event.date}</h2>
-        <h2>Event Time: ${event.time}</h2>
-        <h2>Event Location: ${event.location}</h2>
-        <h2>Event Status: ${event.status}</h2>
-         <h2> ${event.description}</h2>
-         <h2>${event.goal}</h2>
-         
-      </div>
-       
-       
-      </body>
-    </html>
-  
-  `;
-  const genereatePdf = async () => {
-    const file = await printToFileAsync({
-      html: eventDetails,
-      base64: false,
-      fileName: "eventDetails",
-    });
-
-    //share with pdf name
-    await shareAsync(file.uri, {
-      mimeType: "application/pdf",
-      dialogTitle: "Share PDF",
-      UTI: "com.adobe.pdf",
-    });
+  const handleJoin = () => {
+    //update request participants
+    axios
+      .put(`${Constants.URL}/api/requests/participants/${request._id}`)
+      .then((response) => {
+        Alert.alert("Success", "You have successfully joined the request");
+        navigation.navigate("UpcomingRequest");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -87,36 +49,21 @@ export default function PreviousDetails({ route, navigation }) {
         }}
         shadow={3}
       >
-        {event.title}
+        {request.title}
       </Box>
       <View style={styles.card}>
         <Image
           style={styles.image}
-          source={event.image ? { uri: event.image } : null}
+          source={request.image ? { uri: request.image } : null}
         />
 
-        <Text style={styles.sub1}>
-          <Text style={styles.date}>Date : </Text> {event.date}
-        </Text>
-
         <Text style={styles.sub}>
-          <Text style={styles.date}>Location :</Text> {event.location}
+          <Text style={styles.date}>Location :</Text> {request.location}
         </Text>
 
-        <Text style={styles.sub}>
-          <Text style={styles.date}>Status :</Text> {event.status}
+        <Text style={styles.sub3}>
+          gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
         </Text>
-        <Text style={styles.sub3}>{event.description}</Text>
-
-        <Text style={styles.sub3}>{event.goal}</Text>
-
-        <Button
-          style={styles.button1}
-          backgroundColor="#rgba(26, 182, 92, 1)"
-          onPress={genereatePdf}
-        >
-          <Text style={styles.text1}>Get Report</Text>
-        </Button>
       </View>
     </NativeBaseProvider>
   );
@@ -195,21 +142,12 @@ const styles = StyleSheet.create({
   },
   button1: {
     marginTop: 20,
-    width: "30%",
-    marginLeft: "65%",
+    width: "24%",
+    marginLeft: -10,
     marginRight: 10,
     margin: 10,
     borderRadius: 10,
-    height: 45,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 3,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    margin: 10,
+    height: 50,
   },
   button2: {
     marginTop: 20,

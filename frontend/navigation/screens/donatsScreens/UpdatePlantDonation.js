@@ -163,7 +163,6 @@ export default function UpdatePlantDonation({ route, navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -349,7 +348,6 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#f6f5f8",
     fontSize: 20,
-    fontFamily: "Roboto",
   },
   main1: {
     backgroundColor: "white",

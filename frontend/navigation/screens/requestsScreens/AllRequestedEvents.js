@@ -22,6 +22,7 @@ import {
   Container,
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ({ navigation }) {
   const [event, setEvent] = React.useState([]);
@@ -74,12 +75,12 @@ export default function ({ navigation }) {
             letterSpacing: "lg",
           }}
         >
-          UPCOMING EVENTS
+          ALL REQUESTED EVENTS
         </Box>
 
         <VStack w="100%" space={5} alignSelf="center">
           <Input
-            placeholder="Search upcoming events here"
+            placeholder="Search All Requested Events"
             width="95%"
             borderRadius="6"
             alignSelf={{ base: "center", md: "flex-start" }}
@@ -120,9 +121,7 @@ export default function ({ navigation }) {
                     {item.title}
                   </Heading>
 
-                  <Text style={styles.sub1}>
-                    <Text style={styles.date}>DATE : </Text> {item.date}
-                  </Text>
+                  <Text style={styles.sub1}>{item.date}</Text>
 
                   <Text style={styles.sub}>
                     <Text style={styles.date}>Location :</Text> {item.location}
@@ -134,12 +133,30 @@ export default function ({ navigation }) {
                       size="sm"
                       backgroundColor={"rgba(26, 182, 92, 1)"}
                       onPress={() =>
-                        navigation.navigate("UpdateEvent", {
+                        navigation.navigate("RequestDetails", {
                           item: item,
                         })
                       }
                     >
                       <Text style={styles.text1}>Edit</Text>
+                    </Button>
+                    <Button
+                      style={styles.button2}
+                      size="sm"
+                      onPress={() =>
+                        navigation.navigate("RequestDetails", {
+                          item: item,
+                        })
+                      }
+                      backgroundColor={"white"}
+                    >
+                      <Icon
+                        m="1"
+                        ml="1"
+                        size="8"
+                        color="black"
+                        as={<MaterialIcons name="thumb-up" />}
+                      />
                     </Button>
                     <Button
                       style={styles.button2}
@@ -151,7 +168,13 @@ export default function ({ navigation }) {
                       }
                       backgroundColor={"white"}
                     >
-                      <Text style={styles.text2}>View</Text>
+                      <Icon
+                        m="1"
+                        ml="1"
+                        size="8"
+                        color="black"
+                        as={<MaterialIcons name="thumb-down" />}
+                      />
                     </Button>
                   </Flex>
                 </Stack>
@@ -186,12 +209,13 @@ const styles = StyleSheet.create({
     height: 50,
   },
   button2: {
-    marginTop: 20,
+    marginTop: 16,
+    marginLeft: -3,
     borderColor: "rgba(26, 182, 92, 1)",
     borderWidth: 2,
-    width: "24%",
-    borderRadius: 10,
-    margin: 10,
+    width: "17%",
+    borderRadius: 20,
+    margin: 1,
   },
 
   title1: {
