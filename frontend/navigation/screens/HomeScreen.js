@@ -62,7 +62,6 @@ export default function HomeScreen({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
         >
           <Text style={styles.headerText1}>
@@ -238,10 +237,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   card: {
-    width: "46%",
+    width: "48%",
     marginTop: 35,
     marginLeft: "1%",
-    marginRight: "2%",
+    marginRight: "1%",
     height: 200,
     paddingBottom: 15,
     marginBottom: 20,

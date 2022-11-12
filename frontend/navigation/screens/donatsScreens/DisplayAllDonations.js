@@ -54,7 +54,6 @@ export default function () {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
       >
         Previous Donation
@@ -71,7 +70,6 @@ export default function () {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -116,7 +114,7 @@ export default function () {
               />
               <Stack space={2} p="4" w="100%">
                 <Heading style={styles.title1}>
-                <Text style={styles.sub}> DONATOR :{item.eventName}</Text>
+                  <Text style={styles.sub}> DONATOR :{item.eventName}</Text>
                 </Heading>
 
                 <Text style={styles.title}>

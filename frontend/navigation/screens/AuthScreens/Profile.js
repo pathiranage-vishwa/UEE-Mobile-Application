@@ -54,7 +54,6 @@ export default function () {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
       >
         UPCOMING EVENTS

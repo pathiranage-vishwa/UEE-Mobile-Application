@@ -72,7 +72,6 @@ export default function ({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
         >
           UPCOMING EVENTS

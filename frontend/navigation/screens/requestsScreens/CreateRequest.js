@@ -137,7 +137,6 @@ export default function CreateRequest() {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -151,7 +150,7 @@ export default function CreateRequest() {
           alignSelf: "center",
           fontWeight: "medium",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
+
           shadow: 3,
         }}
         style={styles.helpBtn}
@@ -161,8 +160,8 @@ export default function CreateRequest() {
 
       <ScrollView style={styles.main}>
         <VStack style={styles.border}>
-        <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
-        <FormControl isRequired>
+          <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
+            <FormControl isRequired>
               <Box maxW="350" mt="5">
                 <FormControl.Label
                   _text={{
@@ -236,7 +235,6 @@ export default function CreateRequest() {
           </TouchableOpacity>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
-
             <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
@@ -284,7 +282,6 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#f6f5f8",
     fontSize: 20,
-    fontFamily: "Roboto",
   },
   main1: {
     backgroundColor: "white",
