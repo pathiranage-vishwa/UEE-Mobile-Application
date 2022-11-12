@@ -24,12 +24,16 @@ import {
   CheckIcon,
   Flex,
   TextArea,
+  AlertDialog,
+  Icon,
 } from "native-base";
 
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
 import Constants from "../../../constants/Constants";
+import SweetAlert from "react-native-sweet-alert";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function AddComment({ route, navigation }) {
   const [feed, setFeed] = React.useState(route.params.item);
@@ -56,14 +60,15 @@ export default function AddComment({ route, navigation }) {
     await axios
       .post(`${Constants.URL}/api/comments`, data)
       .then((res) => {
-        Alert.alert("Comment added successfully");
+        //confirm alert with success icon
+        Alert.alert("Comment added successfully", "Thank you for your comment");
       })
       .catch((err) => {
         console.log(err);
       });
 
-    setName("");
-    setComment("");
+    // setName("");
+    // setComment("");
   };
 
   return (
