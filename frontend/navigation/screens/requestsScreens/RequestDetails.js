@@ -46,7 +46,6 @@ export default function RequestDetails({ route, navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >

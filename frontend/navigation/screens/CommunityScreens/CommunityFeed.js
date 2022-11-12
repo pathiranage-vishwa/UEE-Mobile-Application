@@ -52,7 +52,6 @@ export default function CommunityFeed({ navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
       >
         Community Feed

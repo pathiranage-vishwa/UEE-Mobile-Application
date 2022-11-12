@@ -157,7 +157,6 @@ export default function ImagePickerExample() {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -171,7 +170,7 @@ export default function ImagePickerExample() {
           alignSelf: "center",
           fontWeight: "medium",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
+
           shadow: 3,
         }}
         style={styles.helpBtn}
@@ -364,7 +363,6 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#f6f5f8",
     fontSize: 20,
-    fontFamily: "Roboto",
   },
   main1: {
     backgroundColor: "white",

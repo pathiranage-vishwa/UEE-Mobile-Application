@@ -109,7 +109,7 @@ export default function ImagePickerExample() {
     const data = {
       eventID,
       eventName,
-      userId : "123456789",
+      userId: "123456789",
       plantName,
       date,
       amount,
@@ -149,7 +149,6 @@ export default function ImagePickerExample() {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
         shadow={3}
       >
@@ -157,13 +156,13 @@ export default function ImagePickerExample() {
       </Box>
 
       <ScrollView style={styles.main}>
-        <VStack >
-        <View style={styles.card}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/images/p1.jpg")}
-          />
-        </View>
+        <VStack>
+          <View style={styles.card}>
+            <Image
+              style={styles.image}
+              source={require("../../../assets/images/p1.jpg")}
+            />
+          </View>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
             <FormControl isRequired>
@@ -175,13 +174,13 @@ export default function ImagePickerExample() {
                 Event ID
               </FormControl.Label>
               <Input
-                 borderColor = {"#000"}
-                 heigh = {12}
-                 backgroundColor = {"rgba(217, 217, 217, 1)"}
-                 borderBottomLeftRadius ={10}
-                 borderBottomRightRadius = {10}
-                 borderTopLeftRadius = {10}
-                 borderTopRightRadius = {10}
+                borderColor={"#000"}
+                heigh={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
                 placeholder="Event eventID"
                 value={eventID}
                 type="text"
@@ -197,14 +196,13 @@ export default function ImagePickerExample() {
                 Event Name
               </FormControl.Label>
               <Input
-                 borderColor = {"#000"}
-                 heigh = {12}
-
-                 backgroundColor = {"rgba(217, 217, 217, 1)"}
-                 borderBottomLeftRadius ={10}
-                 borderBottomRightRadius = {10}
-                 borderTopLeftRadius = {10}
-                 borderTopRightRadius = {10}
+                borderColor={"#000"}
+                heigh={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
                 placeholder="Event Name"
                 value={eventName}
                 type="text"
@@ -278,7 +276,7 @@ export default function ImagePickerExample() {
                 onChangeText={(value) => setDescription(value)}
               />
             </FormControl>
-          <FormControl isRequired mt={5}>
+            <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
@@ -333,7 +331,6 @@ const styles = StyleSheet.create({
   uploadButtonText: {
     color: "#f6f5f8",
     fontSize: 20,
-    fontFamily: "Roboto",
   },
   main1: {
     backgroundColor: "white",
@@ -354,7 +351,6 @@ const styles = StyleSheet.create({
   image1: {
     width: "100%",
     height: "100%",
-
   },
   imageCon: {
     alignSelf: "center",

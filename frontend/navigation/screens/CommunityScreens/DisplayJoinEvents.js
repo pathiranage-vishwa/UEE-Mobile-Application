@@ -63,7 +63,6 @@ export default function DisplayJoinEvents({ navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
       >
         My EVENTS

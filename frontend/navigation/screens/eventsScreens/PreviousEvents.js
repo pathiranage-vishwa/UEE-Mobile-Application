@@ -55,7 +55,6 @@ export default function PreviousEvents({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
         >
           Previous Events

@@ -62,10 +62,8 @@ export default function RequestDashboard({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
         >
-
           <Text style={styles.headerText1}>
             Hey <Text style={styles.name}>Mark,</Text>
           </Text>
@@ -80,70 +78,81 @@ export default function RequestDashboard({ navigation }) {
 
         <ScrollView>
           <Flex direction="row" style={styles.container}>
-          <View style={styles.card2}>
-            <Image
-              style={styles.image2}
-              source={require("../../../assets/favicon.png")}
-            />
-            <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Donations</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
-            </Flex>
-          </View>
-            </Flex>
-            <Flex direction="row" style={styles.container}>
             <View style={styles.card2}>
-            <Image
-              style={styles.image2}
-              source={require("../../../assets/favicon.png")}
-            />
-            <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Donations</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
-            </Flex>
-          </View>
+              <Image
+                style={styles.image2}
+                source={require("../../../assets/favicon.png")}
+              />
+              <Flex direction="row" style={styles.cardContent}>
+                <Text style={styles.text2}>Donations</Text>
+                <Button
+                  style={styles.button2}
+                  size="sm"
+                  onPress={() => navigation.navigate("PreviousEvents")}
+                  backgroundColor={"rgba(26, 182, 92, 1)"}
+                >
+                  <Text style={styles.textBtn1}>
+                    <Ionicons
+                      name="ios-arrow-forward"
+                      size={26}
+                      color="white"
+                    />
+                  </Text>
+                </Button>
+              </Flex>
+            </View>
           </Flex>
           <Flex direction="row" style={styles.container}>
             <View style={styles.card2}>
-            <Image
-              style={styles.image2}
-              source={require("../../../assets/favicon.png")}
-            />
-            <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Donations</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
-            </Flex>
-          </View>
+              <Image
+                style={styles.image2}
+                source={require("../../../assets/favicon.png")}
+              />
+              <Flex direction="row" style={styles.cardContent}>
+                <Text style={styles.text2}>Donations</Text>
+                <Button
+                  style={styles.button2}
+                  size="sm"
+                  onPress={() => navigation.navigate("PreviousEvents")}
+                  backgroundColor={"rgba(26, 182, 92, 1)"}
+                >
+                  <Text style={styles.textBtn1}>
+                    <Ionicons
+                      name="ios-arrow-forward"
+                      size={26}
+                      color="white"
+                    />
+                  </Text>
+                </Button>
+              </Flex>
+            </View>
+          </Flex>
+          <Flex direction="row" style={styles.container}>
+            <View style={styles.card2}>
+              <Image
+                style={styles.image2}
+                source={require("../../../assets/favicon.png")}
+              />
+              <Flex direction="row" style={styles.cardContent}>
+                <Text style={styles.text2}>Donations</Text>
+                <Button
+                  style={styles.button2}
+                  size="sm"
+                  onPress={() => navigation.navigate("PreviousEvents")}
+                  backgroundColor={"rgba(26, 182, 92, 1)"}
+                >
+                  <Text style={styles.textBtn1}>
+                    <Ionicons
+                      name="ios-arrow-forward"
+                      size={26}
+                      color="white"
+                    />
+                  </Text>
+                </Button>
+              </Flex>
+            </View>
           </Flex>
         </ScrollView>
-
       </View>
     </NativeBaseProvider>
   );

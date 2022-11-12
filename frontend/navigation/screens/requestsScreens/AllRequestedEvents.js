@@ -73,7 +73,6 @@ export default function ({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
         >
           ALL REQUESTED EVENTS

@@ -53,7 +53,6 @@ export default function Comments({ route, navigation }) {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
-          fontFamily: "Roboto",
         }}
       >
         {event.name}

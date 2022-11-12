@@ -25,7 +25,6 @@ export default function Instructions() {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
-            fontFamily: "Roboto",
           }}
           shadow={3}
         >
