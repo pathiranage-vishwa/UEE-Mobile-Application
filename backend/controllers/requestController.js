@@ -1,4 +1,4 @@
-const Request = require("../models/eventModel");
+const Request = require("../models/requestModel");
 
 //create event
 const createRequest = async (req, res) => {
@@ -23,17 +23,17 @@ const createRequest = async (req, res) => {
   }
 };
 
-//get all events
+//get all requests
 const getAllRequests = async (req, res) => {
   try {
     const requests = await Request.find({});
-    res.status(200).json({ requests });
+    res.status(200).json(requests);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-//get event by id
+//get event request id
 const getRequestById = async (req, res) => {
   try {
     const { id } = req.params;

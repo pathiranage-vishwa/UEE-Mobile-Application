@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Platform,
@@ -25,23 +25,27 @@ import {
   Flex,
   TextArea,
 } from "native-base";
-
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
+import Constants from "../../../constants/Constants";
 
-export default function ImagePickerExample() {
-  const [image, setImage] = useState(null);
-  const [formData, setData] = React.useState({});
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
-  const [goal, setGoal] = useState("");
-  const [time, setTime] = useState("");
+export default function UpdateProfile({ route, navigation }) {
+  const [user, setUser] = React.useState({});
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNo, setContactNo] = useState("");
+  const [role, setRole] = useState("");
+  const [image, setImage] = useState("");
 
-  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setUser(route.params.item);
+    setName(route.params.item.name);
+    setEmail(route.params.item.email);
+    setContactNo(route.params.item.contactNo);
+    setRole(route.params.item.role);
+    setImage(route.params.item.image);
+  }, [request]);
 
   const pickImage = async () => {
     let permissionResult =
@@ -85,7 +89,7 @@ export default function ImagePickerExample() {
       });
   };
 
-  const handleSubmit = () => {
+  const handleUpdate = () => {
     if (title === "") {
       Alert.alert("Please enter a title");
       return;
@@ -98,17 +102,8 @@ export default function ImagePickerExample() {
     } else if (description === "") {
       Alert.alert("Please enter a description");
       return;
-    } else if (goal === "") {
-      Alert.alert("Please enter a goal");
-      return;
-    } else if (time === "") {
-      Alert.alert("Please enter a time");
-      return;
     } else if (image === null) {
       Alert.alert("Please upload an image");
-      return;
-    } else if (date === "") {
-      Alert.alert("Please enter a date");
       return;
     }
 
@@ -116,31 +111,33 @@ export default function ImagePickerExample() {
       title,
       category,
       location,
-      date,
-      time,
       description,
-      goal,
       image,
     };
 
     axios
-      .post("http://192.168.8.144:5000/api/events", data)
+      .put(`${Constants.URL}/api/requests/${request._id}`, data)
       .then((res) => {
         console.log(res.data);
-        Alert.alert("Event added successfully");
+        Alert.alert("Request updated successfully");
+        navigation.navigate("UpcomingRequest");
       })
       .catch((err) => {
         console.log(err);
       });
+  };
 
-    setTitle("");
-    setCategory("");
-    setLocation("");
-    setDate("");
-    setTime("");
-    setDescription("");
-    setGoal("");
-    setImage(null);
+  const handleDelete = async () => {
+    console.log("cccccccccccxxx")
+    await axios
+      .delete(`${Constants.URL}/api/requests/${request._id}`)
+      .then((res) => {
+        Alert.alert("Request deleted successfully");
+        navigation.navigate("UpcomingRequest");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -153,7 +150,7 @@ export default function ImagePickerExample() {
         style={styles.header}
         _text={{
           fontSize: "32",
-          fontWeight: "medium",
+          fontWeight: "lg",
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
@@ -161,23 +158,8 @@ export default function ImagePickerExample() {
         }}
         shadow={3}
       >
-        CREATE EVENT
+        Update Profile
       </Box>
-      <Button
-        shadow={3}
-        _text={{
-          color: "white",
-          fontSize: "lg",
-          alignSelf: "center",
-          fontWeight: "medium",
-          letterSpacing: "lg",
-          fontFamily: "Roboto",
-          shadow: 3,
-        }}
-        style={styles.helpBtn}
-      >
-        Help ?
-      </Button>
 
       <ScrollView style={styles.main}>
         <VStack style={styles.border}>
@@ -185,10 +167,7 @@ export default function ImagePickerExample() {
             {image ? (
               <Image source={{ uri: image }} style={styles.image1} />
             ) : (
-              <Image
-                source={require("../../../assets/images/upload.png")}
-                style={styles.image2}
-              />
+              <Image source={{ uri: request.image }} style={styles.image1} />
             )}
           </TouchableOpacity>
           <Spacer />
@@ -199,59 +178,46 @@ export default function ImagePickerExample() {
                   bold: true,
                 }}
               >
-                Event Title
+                Name
               </FormControl.Label>
               <Input
-                placeholder="Event Title"
+                placeholder="Full Name"
                 borderColor={"#000"}
+                value={name}
                 height={12}
-                onChangeText={(value) => setTitle(value)}
+                onChangeText={(value) => setName(value)}
               />
             </FormControl>
             <FormControl isRequired>
-              <Box maxW="350" mt="5">
-                <FormControl.Label
-                  _text={{
-                    bold: true,
-                  }}
-                >
-                  Event Category
-                </FormControl.Label>
-                <Select
-                  minWidth="200"
-                  borderColor={"#000"}
-                  selectedValue={category}
-                  height={12}
-                  accessibilityLabel="Choose Service"
-                  placeholder="Choose Service"
-                  _selectedItem={{
-                    bg: "green",
-                    endIcon: <CheckIcon size="5" />,
-                    fontSize: "lg",
-                    fontWeight: "bold",
-                  }}
-                  onValueChange={(itemValue) => setCategory(itemValue)}
-                  mt={1}
-                >
-                  <Select.Item label="Charity Service" value="charity" />
-                  <Select.Item label="Planting" value="planting" />
-                  <Select.Item label="Repairs" value="repair" />
-                </Select>
-              </Box>
-            </FormControl>
-            <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
                 }}
               >
-                Event Location
+                Email
               </FormControl.Label>
               <Input
-                placeholder="Event Location"
+                placeholder="Email Address"
+                borderColor={"#000"}
+                value={email}
+                height={12}
+                onChangeText={(value) => setEmail(value)}
+              />
+            </FormControl>
+            <FormControl isRequired mt={5}>
+              <FormControl.Label
+                _text={{
+                  bold: true,
+                }}
+              >
+                Contact Number
+              </FormControl.Label>
+              <Input
+                placeholder="Request Location"
                 borderColor={"#000"}
                 height={12}
-                onChangeText={(value) => setLocation(value)}
+                value={contactNo}
+                onChangeText={(value) => setContactNo(value)}
               />
             </FormControl>
             <FormControl isRequired mt={5}>
@@ -260,81 +226,34 @@ export default function ImagePickerExample() {
                   bold: true,
                 }}
               >
-                Event Date
-              </FormControl.Label>
-              <DatePicker
-                date={date}
-                mode="date"
-                selectorStartingYear={2022}
-                options={{
-                  selectedTextColor: "white",
-                  mainColor: "green",
-                  textColor: "black",
-                  backgroundColor: "rgba(245, 245, 245, 1)",
-                  borderColor: "black",
-                  borderWidth: 2,
-                  doneButtonColor: "green",
-                }}
-                onDateChange={(date) => setDate(date)}
-              />
-            </FormControl>
-            <FormControl isRequired mt={5}>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
-              >
-                Event Time
-              </FormControl.Label>
-              <DatePicker
-                date={time}
-                mode="time"
-                selectorStartingYear={2022}
-                options={{
-                  selectedTextColor: "white",
-                  mainColor: "rgba(26, 182, 92, 1)",
-                  textColor: "black",
-                  backgroundColor: "rgba(245, 245, 245, 1)",
-                  borderColor: "black",
-                  borderwidth: 2,
-                  doneButtonColor: "rgba(26, 182, 92, 1)",
-                }}
-                onTimeChange={(time) => setTime(time)}
-              />
-            </FormControl>
-            <FormControl isRequired mt={5}>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
-              >
-                Event Description
+                Role
               </FormControl.Label>
               <TextArea
-                placeholder="Event Location"
+                placeholder="Request Location"
                 borderColor={"#000"}
+                value={role}
                 w="100%"
-                onChangeText={(value) => setDescription(value)}
+                onChangeText={(value) => setRole(value)}
               />
             </FormControl>
-            <FormControl isRequired mt={5}>
-              <FormControl.Label
-                _text={{
-                  bold: true,
-                }}
+            <Flex direction="row">
+              <Button
+                style={styles.button1}
+                size="sm"
+                backgroundColor={"rgba(26, 182, 92, 1)"}
+                onPress={handleUpdate}
               >
-                Goal
-              </FormControl.Label>
-              <TextArea
-                placeholder="Goal"
-                borderColor={"#000"}
-                w="100%"
-                onChangeText={(value) => setGoal(value)}
-              />
-            </FormControl>
-            <Button style={styles.uploadButton} onPress={handleSubmit}>
-              <Text style={styles.uploadButtonText}> Create Event</Text>
-            </Button>
+                <Text style={styles.text1}>Update</Text>
+              </Button>
+              <Button
+                style={styles.button2}
+                size="sm"
+                onPress={handleDelete}
+                backgroundColor={"white"}
+              >
+                <Text style={styles.text2}>Delete</Text>
+              </Button>
+            </Flex>
           </VStack>
         </VStack>
       </ScrollView>
@@ -434,5 +353,33 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.58,
     shadowRadius: 9,
     elevation: 4,
+  },
+  button1: {
+    marginTop: 20,
+    width: "30%",
+    marginLeft: 90,
+    marginRight: 10,
+    margin: 10,
+    borderRadius: 10,
+    height: 50,
+  },
+  button2: {
+    marginTop: 20,
+    borderColor: "rgba(255, 0, 0, 1)",
+    borderWidth: 2,
+    width: "30%",
+    borderRadius: 10,
+    marginBottom: 10,
+    marginLeft: "auto",
+  },
+  text1: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  text2: {
+    color: "rgba(255, 0, 0, 1)",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

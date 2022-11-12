@@ -9,7 +9,6 @@ import HomeScreen from "./screens/HomeScreen";
 import AddEvent from "./screens/eventsScreens/AddEvent";
 import UpcomingEvent from "./screens/eventsScreens/UpcomingEvent";
 import EventDetails from "./screens/eventsScreens/EventDetails";
-import CreateRequest from "./screens/requestsScreens/CreateRequest";
 import Login from "./screens/AuthScreens/Login";
 import UpdateEvent from "./screens/eventsScreens/UpdateEvent";
 import Instructions from "./screens/eventsScreens/Instructions";
@@ -26,7 +25,13 @@ import { Hidden } from "native-base";
 import AddMoneyDonation from "./screens/donatsScreens/AddMoneyDonation";
 import AddPlantDonation from "./screens/donatsScreens/AddPlantDonation";
 import DisplayAllDonations from "./screens/donatsScreens/DisplayAllDonations";
-
+import RequestDashboard from "./screens/requestsScreens/RequestDashboard";
+import UpgradeUser from "./screens/AuthScreens/upgrade_user";
+import AllUsers from "./screens/AuthScreens/AllUsers";
+import CreateRequest from "./screens/requestsScreens/CreateRequest";
+import UpdateRequest from "./screens/requestsScreens/UpdateRequest";
+import AllRequestedEvents from "./screens/requestsScreens/AllRequestedEvents";
+import RequestDetails from "./screens/requestsScreens/RequestDetails";
 
 //Screen names
 const homeName = "Home";
@@ -39,7 +44,7 @@ const eventDetails = "EventDetails";
 const createRequest = "CreateRequest";
 const login = "Login";
 const profile = "Profile";
-
+const requestDashboard = "RequestDashboard";
 const updateEvent = "UpdateEvent";
 const instructions = "Instructions";
 const previousEvents = "PreviousEvents";
@@ -47,6 +52,11 @@ const previousDetails = "PreviousDetails";
 const eventDashboard = "EventDashboard";
 const register = "Register";
 const drawer = "Drawer";
+const upgradeUser = "UpgradeUser";
+const allUsers = "AllUsers";
+const updateRequest = "UpdateRequest";
+const allRequestedEvents = "AllRequestedEvents"
+const requestDetails = "RequestDetails"
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -75,6 +85,14 @@ function MainContainer() {
         <Stack.Screen name={addMoneyDonation} component={AddMoneyDonation} />
         <Stack.Screen name={addPlantDonation} component={AddPlantDonation} />
         <Stack.Screen name={displayAllDonations} component={DisplayAllDonations} />
+        <Stack.Screen name={requestDashboard} component={RequestDashboard} />
+        <Stack.Screen name={upgradeUser} component={UpgradeUser} />
+        <Stack.Screen name={allUsers} component={AllUsers} />
+        <Stack.Screen name={login} component={Login} />
+        <Stack.Screen name={createRequest} component={CreateRequest} />
+        <Stack.Screen name={updateRequest} component={UpdateRequest} />
+        <Stack.Screen name={allRequestedEvents} component={AllRequestedEvents} />
+        <Stack.Screen name={requestDetails} component={RequestDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

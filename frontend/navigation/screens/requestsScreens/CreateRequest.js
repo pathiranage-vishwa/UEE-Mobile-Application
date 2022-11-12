@@ -29,6 +29,7 @@ import {
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
+import Constants from "../../../constants/Constants";
 
 export default function CreateRequest() {
   const [formData, setData] = React.useState({});
@@ -106,8 +107,10 @@ export default function CreateRequest() {
       image,
     };
 
+    var url = `${Constants.URL}/api/requests/`;
+
     axios
-      .post("http://192.168.8.144:5000/api/requests", data)
+      .post(url, data)
       .then((res) => {
         console.log(res.data);
         Alert.alert("requests added successfully");
@@ -164,6 +167,12 @@ export default function CreateRequest() {
         <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
         <FormControl isRequired>
               <Box maxW="350" mt="5">
+              <View >
+            <Image
+              style={styles.image}
+              source={require("../../../assets/images/add_req.png")}
+            />
+          </View>
                 <FormControl.Label
                   _text={{
                     bold: true,
@@ -354,5 +363,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.58,
     shadowRadius: 9,
     elevation: 4,
+  },
+  image: {
+    width: "100%",
+    height: 250,
+    resizeMode: "cover",
+    zIndex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
 });

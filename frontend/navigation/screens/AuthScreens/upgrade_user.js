@@ -23,7 +23,7 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function RequestDashboard({ navigation }) {
+export default function UpgradeUser({ navigation }) {
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -55,10 +55,10 @@ export default function RequestDashboard({ navigation }) {
           <View style={styles.card2}>
             <Image
               style={styles.image3}
-              source={require("../../../assets/images/add_new.png")}
+              source={require("../../../assets/images/up-com-member.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Add new request for event</Text>
+              <Text style={styles.text2}>Upgrade to community member</Text>
               <Button
                 style={styles.button2}
                 size="sm"
@@ -76,7 +76,7 @@ export default function RequestDashboard({ navigation }) {
             <View style={styles.card2}>
             <Image
               style={styles.image4}
-              source={require("../../../assets/images/view_all_req.png")}
+              source={require("../../../assets/images/up-event-organizer.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
               <Text style={styles.text2}>View all pending event requests</Text>
@@ -97,7 +97,7 @@ export default function RequestDashboard({ navigation }) {
             <View style={styles.card2}>
             <Image
               style={styles.image2}
-              source={require("../../../assets/images/manage-req.jpg")}
+              source={require("../../../assets/images/manageUsers.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
               <Text style={styles.text2}>Manage Event Requests</Text>
@@ -192,9 +192,10 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   image2: {
-    width: "175%",
-    marginTop: -5,
-    height: 170,
+    width: "200%",
+    marginTop: 40,
+    marginBottom: -75,
+    height: 200,
     resizeMode: "contain",
     alignSelf: "center",
     shadowColor: "#000",
@@ -207,8 +208,10 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   image3: {
-    width: "175%",
-    marginTop: -5,
+    width: "200%",
+    marginTop: 35,
+    marginBottom: -70,
+    marginLeft: 100,
     height: 200,
     resizeMode: "contain",
     alignSelf: "center",
@@ -222,9 +225,10 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   image4: {
-    width: "125%",
-    marginTop: -5,
-    height: 163,
+    width: "100%",
+    marginTop: 35,
+    marginBottom: -70,
+    height: 200,
     resizeMode: "contain",
     alignSelf: "center",
     shadowColor: "#000",
@@ -276,10 +280,10 @@ const styles = StyleSheet.create({
   },
 
   text2: {
-    fontSize: 22,
+    fontSize: 25,
     fontWeight: "bold",
     color: "black",
-    marginTop: 30,
+    marginTop: -150,
     marginLeft: 10,
   },
   button1: {

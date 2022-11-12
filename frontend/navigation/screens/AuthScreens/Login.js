@@ -5,11 +5,11 @@ import {
   ScrollView,
   SafeAreaView,
   StyleSheet,
-  ImageBackground,
+  Image,
   TextInput,
   TouchableOpacity,
 } from "react-native";
-
+import Constants from "../../../constants/Constants";
 import {
   Box,
   Text,
@@ -42,9 +42,9 @@ export default function LoginScreen({ navigation }) {
         password: password,
       };
       if (isSelected) {
-        var url = `http://192.168.8.144:5000/api/supplier/supplierlogin`;
+        var url = `${Constants.URL}/api/supplier/supplierlogin`;
       } else {
-        var url = `http://192.168.8.144:5000/api/users/login`;
+        var url = `${Constants.URL}/api/users/login`;
       }
 
       await axios
@@ -64,7 +64,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider style={styles.main1}>
       <Center w="100%">
         <Box safeArea p="0" py="8" w="100%" maxW="340">
           <Heading
@@ -78,6 +78,12 @@ export default function LoginScreen({ navigation }) {
           >
             Welcome
           </Heading>
+          <View >
+            <Image
+              style={styles.image}
+              source={require("../../../assets/images/login2.png")}
+            />
+          </View>
           <Heading
             mt="1"
             _dark={{
@@ -150,9 +156,13 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: "100%",
+    width: "120%",
     height: 320,
+    marginLeft: -30,
     resizeMode: "cover",
+  },
+  main1: {
+    backgroundColor: "white",
   },
   formInput: {
     marginTop: 20,
