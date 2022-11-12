@@ -22,43 +22,40 @@ import {
   Container,
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ({ navigation }) {
-  const [event, setEvent] = React.useState([]);
+  const [user, setUser] = React.useState([]);
   const [search, setSearch] = React.useState("");
-  const [count, setCount] = React.useState();
 
   useEffect(() => {
     axios
-      .get(`${Constants.URL}/api/requests/all`)
+      .get(`${Constants.URL}/api/users`)
       .then((response) => {
-        setEvent(response.data);
+        setUser(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [event]);
+  }, [user]);
 
-  //serach event
-  // const searchEvent = (title) => {
+  //serach user
+  // const searchUser = (title) => {
   //   axios
-  //     .get(`${Constants.URL}/api/events/search?title=${title}`)
+  //     .get(`${Constants.URL}/api/users/search?title=${title}`)
   //     .then((response) => {
-  //       setEvent(response.data);
+  //       setUser(response.data);
   //     })
   //     .catch((error) => {
   //       console.log(error);
   //     });
   // };
 
-  const increment = () => {
-    setCount(count + 1);
-  };
-
-  const decrement = () => {
-    setCount(count - 1);
-  };
+  // const handleView = (item) => {
+  //   console.log(item_id);
+  //   navigation.navigate("UserDetails", {
+  //     id: item._id,
+  //   });
+  // };
 
   return (
     <NativeBaseProvider>
@@ -75,14 +72,15 @@ export default function ({ navigation }) {
             color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
+            fontFamily: "Roboto",
           }}
         >
-          ALL REQUESTED EVENTS
+          ALL USERS
         </Box>
 
         <VStack w="100%" space={5} alignSelf="center">
           <Input
-            placeholder="Search All Requested Events"
+            placeholder="Search upcoming users here"
             width="95%"
             borderRadius="6"
             alignSelf={{ base: "center", md: "flex-start" }}
@@ -105,12 +103,12 @@ export default function ({ navigation }) {
         </VStack>
 
         <FlatList
-          data={event}
+          data={user}
           renderItem={({ item }) => (
             <View style={styles.card} key={item._id} shadow={1}>
               {/* <Image source={""} style={styles.image} /> */}
               <Flex direction="row">
-                <Image
+                <Image 
                   style={styles.image}
                   source={
                     item.image
@@ -120,55 +118,25 @@ export default function ({ navigation }) {
                 />
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    {item.title}
+                    {item.name}
                   </Heading>
 
-                  <Text style={styles.sub1}>{item.date}</Text>
-
                   <Text style={styles.sub}>
-                    <Text style={styles.date}>Location :</Text> {item.location}
+                    <Text style={styles.date}>Role :</Text> {item.role}
                   </Text>
                   {/* flex two button */}
                   <Flex direction="row">
                     <Button
-                      style={styles.button1}
+                      style={styles.button2}
                       size="sm"
-                      backgroundColor={"rgba(26, 182, 92, 1)"}
                       onPress={() =>
-                        navigation.navigate("RequestDetails", {
+                        navigation.navigate("UpdateProfile", {
                           item: item,
                         })
                       }
-                    >
-                      <Text style={styles.text1}>Edit</Text>
-                    </Button>
-                    <Button
-                      style={styles.button2}
-                      size="sm"
-                      onPress={decrement}
                       backgroundColor={"white"}
                     >
-                      <Icon
-                        m="1"
-                        ml="1"
-                        size="8"
-                        color="black"
-                        as={<MaterialIcons name="thumb-up" />}
-                      />
-                    </Button>
-                    <Button
-                      style={styles.button2}
-                      size="sm"
-                      onPress={increment}
-                      backgroundColor={"white"}
-                    >
-                      <Icon
-                        m="1"
-                        ml="1"
-                        size="8"
-                        color="black"
-                        as={<MaterialIcons name="thumb-down" />}
-                      />
+                      <Text style={styles.text2}>View</Text>
                     </Button>
                   </Flex>
                 </Stack>
@@ -194,7 +162,7 @@ const styles = StyleSheet.create({
   },
 
   button1: {
-    marginTop: 10,
+    marginTop: 20,
     width: "24%",
     marginLeft: -10,
     marginRight: 10,
@@ -203,14 +171,12 @@ const styles = StyleSheet.create({
     height: 50,
   },
   button2: {
-    marginTop: 5,
-    marginBottom: 36,
-    marginLeft: -3,
+    marginTop: 20,
     borderColor: "rgba(26, 182, 92, 1)",
     borderWidth: 2,
-    width: "17%",
-    borderRadius: 20,
-    margin: 2,
+    width: "24%",
+    borderRadius: 10,
+    margin: 10,
   },
 
   title1: {
@@ -241,10 +207,9 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 160,
-    height: 230,
-    borderBottomLeftRadius: 30,
-    borderTopLeftRadius: 30,
+    width: 150,
+    height: 150,
+    borderRadius: 110,
   },
   card: {
     width: "96%",

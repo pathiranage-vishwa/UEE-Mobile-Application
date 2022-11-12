@@ -9,16 +9,43 @@ import {
   Button,
   Center,
   NativeBaseProvider,
+  ScrollView,
 } from "native-base";
 import axios from "axios";
+import Constants from "../../../constants/Constants";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+    card: {
+    width: "90%",
+    marginBottom: 10,
+    marginLeft: "5%",
+    height: "auto",
+    marginTop: 10,
+
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    shadowColor: "#000",
+
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   image: {
-    flex: 1,
-    justifyContent: "center",
+    width: "100%",
+    height: 250,
+    resizeMode: "cover",
+    zIndex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
   text: {
     color: "white",
@@ -39,8 +66,6 @@ export default function Register({ navigation }) {
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [contactNumber, setContactNumber] = React.useState("");
 
-  const image = { uri: "https://reactjs.org/logo-og.png" };
-
   const register = () => {
     if (name == "" || email == "" || password == "") {
       Alert.alert("Please fill all the fields");
@@ -53,7 +78,7 @@ export default function Register({ navigation }) {
         confirmPassword: confirmPassword,
       };
 
-      var url = `http://192.168.1.100:5000/api/users/`;
+      var url = `${Constants.URL}/api/users/`;
 
       axios
         .post(url, user)
@@ -83,6 +108,13 @@ export default function Register({ navigation }) {
           >
             Welcome
           </Heading>
+          <ScrollView style={styles.main}>
+          <View >
+            <Image
+              style={styles.image}
+              source={require("../../../assets/images/login.jpg")}
+            />
+          </View>
           <Heading
             onPress={() => navigation.navigate("Home")}
             mt="1"
@@ -140,6 +172,7 @@ export default function Register({ navigation }) {
               Sign up
             </Button>
           </VStack>
+          </ScrollView>
         </Box>
       </Center>
     </NativeBaseProvider>
