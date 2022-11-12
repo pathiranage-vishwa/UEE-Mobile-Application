@@ -130,7 +130,7 @@ export default function ({ navigation }) {
                       style={styles.button2}
                       size="sm"
                       onPress={() =>
-                        navigation.navigate("UserDetails", {
+                        navigation.navigate("UpdateProfile", {
                           item: item,
                         })
                       }

@@ -32,6 +32,7 @@ import CreateRequest from "./screens/requestsScreens/CreateRequest";
 import UpdateRequest from "./screens/requestsScreens/UpdateRequest";
 import AllRequestedEvents from "./screens/requestsScreens/AllRequestedEvents";
 import RequestDetails from "./screens/requestsScreens/RequestDetails";
+import UpdateProfile from "./screens/AuthScreens/UpdateProfile";
 
 //Screen names
 const homeName = "Home";
@@ -57,6 +58,7 @@ const allUsers = "AllUsers";
 const updateRequest = "UpdateRequest";
 const allRequestedEvents = "AllRequestedEvents"
 const requestDetails = "RequestDetails"
+const updateProfile = "UpdateProfile"
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -93,6 +95,7 @@ function MainContainer() {
         <Stack.Screen name={updateRequest} component={UpdateRequest} />
         <Stack.Screen name={allRequestedEvents} component={AllRequestedEvents} />
         <Stack.Screen name={requestDetails} component={RequestDetails} />
+        <Stack.Screen name={updateProfile} component={UpdateProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

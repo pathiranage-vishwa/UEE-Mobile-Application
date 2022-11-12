@@ -45,11 +45,11 @@ export default function UpdateProfile({ route, navigation }) {
     setContactNo(route.params.item.contactNo);
     setRole(route.params.item.role);
     setImage(route.params.item.image);
-  }, [request]);
+  }, [user]);
 
   const pickImage = async () => {
     let permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      await ImagePicker.userMediaLibraryPermissionsAsync();
 
     //this tells the application to give an alert if someone doesn't allow //permission.  It will return to the previous screen.
     if (permissionResult.granted === false) {
@@ -57,7 +57,7 @@ export default function UpdateProfile({ route, navigation }) {
       return;
     }
 
-    // No permissions request is necessary for launching the image library
+    // No permissions user is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -116,11 +116,11 @@ export default function UpdateProfile({ route, navigation }) {
     };
 
     axios
-      .put(`${Constants.URL}/api/requests/${request._id}`, data)
+      .put(`${Constants.URL}/api/users/${user._id}`, data)
       .then((res) => {
         console.log(res.data);
-        Alert.alert("Request updated successfully");
-        navigation.navigate("UpcomingRequest");
+        Alert.alert("User updated successfully");
+        navigation.navigate("UpcomingUser");
       })
       .catch((err) => {
         console.log(err);
@@ -130,10 +130,10 @@ export default function UpdateProfile({ route, navigation }) {
   const handleDelete = async () => {
     console.log("cccccccccccxxx")
     await axios
-      .delete(`${Constants.URL}/api/requests/${request._id}`)
+      .delete(`${Constants.URL}/api/users/${user._id}`)
       .then((res) => {
-        Alert.alert("Request deleted successfully");
-        navigation.navigate("UpcomingRequest");
+        Alert.alert("User deleted successfully");
+        navigation.navigate("UpcomingUser");
       })
       .catch((err) => {
         console.log(err);
@@ -167,7 +167,7 @@ export default function UpdateProfile({ route, navigation }) {
             {image ? (
               <Image source={{ uri: image }} style={styles.image1} />
             ) : (
-              <Image source={{ uri: request.image }} style={styles.image1} />
+              <Image source={{ uri: user.image }} style={styles.image1} />
             )}
           </TouchableOpacity>
           <Spacer />
@@ -213,7 +213,7 @@ export default function UpdateProfile({ route, navigation }) {
                 Contact Number
               </FormControl.Label>
               <Input
-                placeholder="Request Location"
+                placeholder="User Location"
                 borderColor={"#000"}
                 height={12}
                 value={contactNo}
@@ -229,7 +229,7 @@ export default function UpdateProfile({ route, navigation }) {
                 Role
               </FormControl.Label>
               <TextArea
-                placeholder="Request Location"
+                placeholder="User Location"
                 borderColor={"#000"}
                 value={role}
                 w="100%"
@@ -305,11 +305,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "cover",
-    borderRadius: 16,
+    borderRadius: 160,
   },
   imageCon: {
     marginTop: 20,
-    borderRadius: 16,
+    borderRadius: 160,
     alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: {
