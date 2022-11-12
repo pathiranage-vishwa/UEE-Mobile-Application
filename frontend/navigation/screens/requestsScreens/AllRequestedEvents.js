@@ -136,7 +136,7 @@ export default function ({ navigation }) {
                       size="sm"
                       backgroundColor={"rgba(26, 182, 92, 1)"}
                       onPress={() =>
-                        navigation.navigate("UpdateRequest", {
+                        navigation.navigate("RequestDetails", {
                           item: item,
                         })
                       }

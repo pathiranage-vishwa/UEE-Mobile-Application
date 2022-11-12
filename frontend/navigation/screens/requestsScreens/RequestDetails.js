@@ -63,8 +63,17 @@ export default function RequestDetails({ route, navigation }) {
         </Text>
 
         <Text style={styles.sub3}>
-          gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+        {request.description}
         </Text>
+        <Flex direction="row">
+        <Button style={styles.uploadButton}>
+              <Text style={styles.uploadButtonText}> Validate</Text>
+            </Button>
+
+            <Button style={styles.uploadButton}>
+              <Text style={styles.uploadButtonText}> Reject</Text>
+            </Button>
+        </Flex>
       </View>
     </NativeBaseProvider>
   );
@@ -191,5 +200,28 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "rgba(26, 182, 92, 1)",
     marginLeft: 10,
+  },
+  uploadButton: {
+    borderRadius: 10,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 12,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "45%",
+    marginLeft: "auto",
+    height: 70,
+  },
+  uploadButtonText: {
+    color: "#f6f5f8",
+    fontSize: 20,
+    fontFamily: "Roboto",
   },
 });

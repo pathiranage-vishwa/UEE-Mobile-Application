@@ -90,17 +90,17 @@ export default function UpdateProfile({ route, navigation }) {
   };
 
   const handleUpdate = () => {
-    if (title === "") {
-      Alert.alert("Please enter a title");
+    if (name === "") {
+      Alert.alert("Please enter name");
       return;
-    } else if (category === "") {
-      Alert.alert("Please enter a category");
+    } else if (email === "") {
+      Alert.alert("Please enter email address");
       return;
-    } else if (location === "") {
-      Alert.alert("Please enter a location");
+    } else if (contactNo === "") {
+      Alert.alert("Please enter contact number");
       return;
-    } else if (description === "") {
-      Alert.alert("Please enter a description");
+    } else if (role === "") {
+      Alert.alert("Please enter role");
       return;
     } else if (image === null) {
       Alert.alert("Please upload an image");
@@ -108,15 +108,17 @@ export default function UpdateProfile({ route, navigation }) {
     }
 
     const data = {
-      title,
-      category,
-      location,
-      description,
+      name,
+      email,
+      contactNo,
+      role,
       image,
     };
 
+    var url = `${Constants.URL}/api/users/${user._id}`;
+
     axios
-      .put(`${Constants.URL}/api/users/${user._id}`, data)
+      .put(url, data)
       .then((res) => {
         console.log(res.data);
         Alert.alert("User updated successfully");
@@ -172,7 +174,7 @@ export default function UpdateProfile({ route, navigation }) {
           </TouchableOpacity>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
-            <FormControl isRequired>
+            <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
@@ -188,7 +190,7 @@ export default function UpdateProfile({ route, navigation }) {
                 onChangeText={(value) => setName(value)}
               />
             </FormControl>
-            <FormControl isRequired>
+            <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
@@ -213,7 +215,7 @@ export default function UpdateProfile({ route, navigation }) {
                 Contact Number
               </FormControl.Label>
               <Input
-                placeholder="User Location"
+                placeholder="Contact Number"
                 borderColor={"#000"}
                 height={12}
                 value={contactNo}
@@ -228,7 +230,7 @@ export default function UpdateProfile({ route, navigation }) {
               >
                 Role
               </FormControl.Label>
-              <TextArea
+              <Input
                 placeholder="User Location"
                 borderColor={"#000"}
                 value={role}
