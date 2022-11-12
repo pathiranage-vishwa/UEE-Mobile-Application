@@ -7,6 +7,7 @@ var pDonationController = require('../controllers/pDonationController');
 router.post('/', pDonationController.createPlantDonation);
 router.get('/', pDonationController.getPlantDonations);
 router.get('/:id', pDonationController.getPlantDonationById);
+router.get('/event/:id', pDonationController.getPlantDonationByEventId);
 router.put('/:id',  pDonationController.updatePlantDonation);
 router.delete('/:id', pDonationController.deletePlantDonation);
 

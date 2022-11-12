@@ -46,6 +46,17 @@ const getPlantDonationById = function(req, res) {
         }
     });
 };
+
+//create PlantDonation get by event id function
+const getPlantDonationByEventId = function(req, res) {
+    PlantDonation.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(result);
+        }
+    });
+};
 //create PlantDonation update function
 const updatePlantDonation = function(req, res) {
     PlantDonation.findByIdAndUpdate(req.params.id, req.body, function(err, result) {
@@ -72,6 +83,7 @@ module.exports = {
     getPlantDonations,
     getPlantDonationById,
     updatePlantDonation,
-    deletePlantDonation
+    deletePlantDonation,
+    getPlantDonationByEventId
 };
 

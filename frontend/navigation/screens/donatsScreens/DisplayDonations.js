@@ -135,7 +135,7 @@ console.log(donation);
                 borderBottomRightRadius={10}
                 borderTopLeftRadius={10}
                 borderTopRightRadius={10}
-                value={donation.accountNumber.toString()} 
+                value={String(donation.accountNumber)} 
                 isDisabled={true}
                 nativeID="accountNumber"
                 name = "accountNumber"
@@ -183,7 +183,7 @@ console.log(donation);
                 borderBottomRightRadius={10}
                 borderTopLeftRadius={10}
                 borderTopRightRadius={10}
-                value={donation.branchCode.toString()}
+                value={String(donation.branchCode)}
                 isDisabled={true}
                 nativeID="branchCode"
                 type="number"
@@ -207,7 +207,7 @@ console.log(donation);
                 borderBottomRightRadius={10}
                 borderTopLeftRadius={10}
                 borderTopRightRadius={10}
-                value={donation.amount.toString()}
+                value={String(donation.amount)}
                 isDisabled={true}
                 nativeID="amount"
                 type="number"
@@ -231,7 +231,7 @@ console.log(donation);
                 borderBottomRightRadius={10}
                 borderTopLeftRadius={10}
                 borderTopRightRadius={10}
-                value={donation.date.toString()}
+                value={String(donation.date)}
                 isDisabled={true}
                 nativeID="date"
                 type="text"

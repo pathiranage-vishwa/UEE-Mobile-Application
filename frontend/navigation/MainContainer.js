@@ -19,6 +19,9 @@ import PreviousDetails from "./screens/eventsScreens/PreviousDetails";
 import AddProcess from "./screens/processScreens.js/AddProcess";
 import DisplayProcess from "./screens/processScreens.js/DisplayProcess";
 import DisplayAccount from "./screens/AccountScreens.js/DisplayAccount";
+import DonationUpcomingEvent from "./screens/donatsScreens/DonationUpcomingEvent";
+import DonationDash from "./screens/donatsScreens/DonationDash";
+import UpdatePlantDonation from "./screens/donatsScreens/UpdatePlantDonation";
 
 import Register from "./screens/AuthScreens/Register";
 
@@ -41,11 +44,14 @@ const addPlantDonation = "AddPlantDonation";
 const displayAllDonations = "DisplayAllDonations";
 const displayDonations = "DisplayDonations";
 const updateMoneyDonation = "UpdateMoneyDonation";
+const updatePlantDonation = "UpdatePlantDonation";
 const addProcess = "AddProcess";
 const displayProcess = "DisplayProcess";
 const displayAccount = "DisplayAccount";
 const upcomingEvent = "UpcomingEvent";
 const eventDetails = "EventDetails";
+const donationUpcomingEvent = "DonationUpcomingEvent";
+const donationDash = "DonationDash";
 const createRequest = "CreateRequest";
 const login = "Login";
 const profile = "Profile";
@@ -90,6 +96,9 @@ function MainContainer() {
         <Stack.Screen name={addProcess} component={AddProcess} />
         <Stack.Screen name={displayProcess} component={DisplayProcess} />
         <Stack.Screen name={displayAccount} component={DisplayAccount} />
+        <Stack.Screen name={donationUpcomingEvent} component={DonationUpcomingEvent} />
+        <Stack.Screen name={donationDash} component={DonationDash} />
+        <Stack.Screen name={updatePlantDonation} component={UpdatePlantDonation} />
         <Stack.Screen name={createRequest} component={CreateRequest} />
         <Stack.Screen name={login} component={Login} />
 

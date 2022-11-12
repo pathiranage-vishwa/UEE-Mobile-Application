@@ -1,10 +1,8 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect } from "react";
-import Constants from "../../../constants/Constants";
 import axios from "axios";
 import {
   VStack,
-  Image,
   Input,
   Button,
   IconButton,
@@ -24,25 +22,40 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function () {
+export default function DonationDash({ route, navigation }) {
+
   const [event, setEvent] = React.useState([]);
 
-  useEffect(() => {
-    axios
-      .get(`${Constants.URL}/api/events`)
-      .then((response) => {
-        setEvent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  console.log(event);
+  React.useEffect(() => {
+    setEvent(route.params.item);
+  }, [event]);
 
   return (
     <NativeBaseProvider>
-      <Box
+      <View style={styles.container}>
+        {/* icons for menu in the top left corner */}
+
+        <View style={styles.menu}>
+          <Flex direction="row" alignItems="center">
+            <IconButton
+              style={styles.menuIcon}
+              icon={
+                <Icon
+                  color={"black"}
+                  as={Ionicons}
+                  name="notifications-outline"
+                  size={8}
+                />
+              }
+              onPress={() => navigation.navigate("Home")}
+            />
+
+            <TouchableOpacity style={styles.menuButton}>
+              <Ionicons name="menu" size={40} color="black" />
+            </TouchableOpacity>
+          </Flex>
+        </View>
+        <Box
         p="2"
         alignSelf={{ base: "center", md: "flex-start" }}
         mt="20%"
@@ -56,150 +69,237 @@ export default function () {
           letterSpacing: "lg",
           fontFamily: "Roboto",
         }}
+        shadow={3}
       >
-        UPCOMING EVENTS
+        Donation Dashboard
       </Box>
-
-      <VStack w="100%" space={5} alignSelf="center">
-        <Input
-          placeholder="Search upcoming events here"
-          width="95%"
-          borderRadius="6"
-          alignSelf={{ base: "center", md: "flex-start" }}
-          py="3"
-          px="1"
-          backgroundColor="rgba(230, 255, 214, 1)"
-          marginTop={5}
-          fontSize="14"
-          InputLeftElement={
-            <Icon
-              m="2"
-              ml="3"
-              size="6"
-              color="black"
-              as={<MaterialIcons name="search" />}
+        <ScrollView>
+          <View style={styles.card2}>
+            <Image
+              style={styles.image2}
+              source={require("../../../assets/images/mdonation.png")}
             />
-          }
-        />
-      </VStack>
-
-      <FlatList
-        data={event}
-        renderItem={({ item }) => (
-          <Card style={styles.item} key={item._id}>
-            {/* <Image source={""} style={styles.image} /> */}
-            <Flex direction="row">
-              <Image
-                width={100}
-                height={200}
-                source={{
-                  uri: item.image,
-                }}
-                alt="Alternate Text"
-              />
-              <Stack space={2} p="4" w="100%">
-                <Heading size="sm" ml="-1" style={styles.title1}>
-                  {item.title}
-                </Heading>
-
-                <Text style={styles.title}>
-                  <Text style={styles.sub1}> DATE : {item.date}</Text>
+            <Flex direction="row" style={styles.cardContent}>
+              <Text style={styles.text2}>Money Donation</Text>
+              <Button
+                style={styles.button2}
+                size="sm"
+                onPress={() => navigation.navigate("AddMoneyDonation", { item: event })}
+                backgroundColor={"rgba(26, 182, 92, 1)"}
+              >
+                <Text style={styles.textBtn1}>
+                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
                 </Text>
-                <Text style={styles.title}>
-                  <Text style={styles.sub}> Location :</Text> {item.location}
-                </Text>
-              </Stack>
+              </Button>
             </Flex>
-          </Card>
-        )}
-      />
+          </View>
+          <View style={styles.card2}>
+            <Image
+              style={styles.image2}
+              source={require("../../../assets/images/pdonation.png")}
+            />
+            <Flex direction="row" style={styles.cardContent}>
+              <Text style={styles.text2}>Plant Donation</Text>
+              <Button
+                style={styles.button2}
+                size="sm"
+                onPress={() => navigation.navigate("AddPlantDonation", { item: event })}
+                backgroundColor={"rgba(26, 182, 92, 1)"}
+              >
+                <Text style={styles.textBtn1} >
+                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
+                </Text>
+              </Button>
+            </Flex>
+          </View>
+        </ScrollView>
+
+      </View>
     </NativeBaseProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  menu: {
+    position: "static",
+    top: 50,
+    left: -180,
+    zIndex: 1,
+  },
+  menuIcon: {
+    position: "static",
+    top: 0,
+    left: 360,
+    zIndex: 1,
+  },
+
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
   header: {
+    backgroundColor: "rgba(230, 255, 214, 1)",
     width: "90%",
     alignSelf: "center",
     height: 60,
   },
-  container: {
-    flex: 1,
-    paddingTop: 22,
-    borderRadius: 10,
-  },
-  item: {
-    fontSize: 18,
-    width: "95%",
-    alignSelf: "center",
-    height: "auto",
+  card: {
+    width: "46%",
+    marginTop: 35,
+    marginLeft: "1%",
+    marginRight: "2%",
+    height: 200,
+    paddingBottom: 15,
     marginBottom: 20,
-  },
-  button: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-    height: 50,
-  },
-  button1: {
-    marginTop: 10,
-    borderColor: "orange",
-    borderWidth: 2,
-    width: "30%",
-    marginLeft: "auto",
-    marginRight: 10,
-    margin: 10,
-    height: 50,
-  },
-  button2: {
-    marginTop: 10,
-    borderColor: "red",
-    borderWidth: 2,
-    width: "30%",
-    margin: 10,
-  },
-  title: {
-    fontSize: 18,
-    margin: 10,
-    fontWeight: "semibold",
-  },
-  title1: {
-    margin: 5,
-    fontSize: 28,
-    padding: 5,
-    paddingLeft: 14,
-    paddingTop: 10,
-  },
-  sub: {
-    fontWeight: "bold",
-  },
-  sub1: {
-    fontWeight: "bold",
-    fontSize: 22,
-  },
-  sub2: {
-    fontWeight: "bold",
+    backgroundColor: "#fff",
+    borderRadius: 24.43,
+    shadowColor: "#000",
 
-    color: "orange",
-  },
-  sub3: {
-    fontWeight: "bold",
-    color: "orange",
-    marginLeft: 10,
-  },
-  sub5: {
-    fontSize: 15,
-    marginBottom: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   image: {
-    width: 100,
+    width: "95%",
+    alignSelf: "center",
+    height: 160,
+    marginTop: -30,
+    marginBottom: 10,
+    resizeMode: "contain",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
+  },
+  image2: {
+    width: "75%",
+    marginTop: -35,
+    height: 160,
+    resizeMode: "contain",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "green",
+    marginTop: 10,
+    marginLeft: 10,
+  },
+
+  text1: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
+    width: "60%",
+    marginTop: 10,
+    marginLeft: 10,
+  },
+
+  card2: {
+    width: "82%",
+    marginBottom: 15,
+    marginTop: 60,
+    marginLeft: "8%",
+    marginRight: "8%",
+    height: "auto",
+    paddingBottom: 15,
+
+    backgroundColor: "#fff",
+    borderRadius: 24.43,
+    shadowColor: "#000",
+
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
+  text2: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "black",
+    marginTop: 30,
+    marginLeft: 10,
+  },
+  button1: {
+    width: "25%",
+    marginLeft: "3%",
+    marginTop: 10,
+    margin: 10,
+    borderRadius: 40,
+    height: 40,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
+  },
+  button2: {
+    width: "18%",
+    marginLeft: "20%",
+    marginTop: 20,
+
+    borderRadius: 40,
+    height: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 10,
+  },
+  textBtn1: {
+    color: "white",
+    fontSize: 19,
+    fontWeight: "bold",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: -3,
+  },
+  imageHead: {
+    width: "96%",
     height: 100,
-    borderRadius: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
+    resizeMode: "contain",
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
+    marginTop: 0,
+  },
+  headerText1: {
+    fontSize: 23,
+    fontWeight: "bold",
+    color: "black",
+    marginTop: 0,
+  },
+  name: {
+    color: "rgba(26, 182, 92, 1)",
   },
 });

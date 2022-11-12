@@ -7,6 +7,7 @@ var mDonationController = require('../controllers/mDonationController');
 router.post('/', mDonationController.createMoneyDonation);
 router.get('/', mDonationController.getMoneyDonations);
 router.get('/:id', mDonationController.getMoneyDonationById);
+router.get('/event/:id', mDonationController.getMoneyDonationByEventId);
 router.put('/:id', mDonationController.updateMoneyDonation);
 router.delete('/:id', mDonationController.deleteMoneyDonation);
 

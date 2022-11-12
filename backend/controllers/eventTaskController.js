@@ -31,6 +31,18 @@ const getTaskById = function(req, res) {
         }
     });
 };
+
+//create Task get by event id function
+const getTaskByEventId = function(req, res) {
+    Task.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(result);
+        }
+    });
+
+};
 //create Task update function
 const updateTask = function(req, res) {
     Task.findByIdAndUpdate(req.params.id, req.body, function(err, result) {
@@ -57,7 +69,8 @@ module.exports = {
     getTasks,
     getTaskById,
     updateTask,
-    deleteTask
+    deleteTask,
+    getTaskByEventId
 };
 
 

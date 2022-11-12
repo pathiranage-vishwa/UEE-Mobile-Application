@@ -48,6 +48,18 @@ const getMoneyDonationById = function(req, res) {
         }
     });
 };
+
+//create MoneyDonation get by event id function
+const getMoneyDonationByEventId = function(req, res) {
+    MoneyDonation.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(result);
+        }
+    });
+
+};
 //create MoneyDonation update function
 const updateMoneyDonation = function(req, res) {
 
@@ -85,6 +97,7 @@ module.exports = {
     getMoneyDonations,
     getMoneyDonationById,
     updateMoneyDonation,
-    deleteMoneyDonation
+    deleteMoneyDonation,
+    getMoneyDonationByEventId
 };
 

@@ -5,6 +5,7 @@ import {
   Button,
   Icon,
   AlertDialog,
+  ScrollView,
 } from "native-base";
 import React from "react";
 import { useState, useRef } from "react";
@@ -46,12 +47,14 @@ export default function EventDetails({ route, navigation }) {
   };
 
   return (
+    
     <NativeBaseProvider style={styles.container}>
+      
       <Box
         p="2"
         alignSelf={{ base: "center", md: "flex-start" }}
         mt="20%"
-        rounded="xl"
+        
         style={styles.header}
         _text={{
           fontSize: "32",
@@ -65,6 +68,7 @@ export default function EventDetails({ route, navigation }) {
       >
         {event.title}
       </Box>
+      <ScrollView>
       <View style={styles.card}>
         <Image
           style={styles.image}
@@ -92,6 +96,7 @@ export default function EventDetails({ route, navigation }) {
                 ms="2"
               />
             </Flex>
+            
           </Button>
         </Flex>
 
@@ -107,7 +112,35 @@ export default function EventDetails({ route, navigation }) {
           <Text style={styles.date}>Status :</Text> {event.status}
         </Text>
         <Text style={styles.sub3}>{event.description}</Text>
+        <Button style={styles.button4} 
+        size="sm"
+         backgroundColor={"rgba(232, 248, 239, 1)"}
+          onPress={() => navigation.navigate("DisplayAllDonations", {
+            item: event,
+          })
+        }
+         >
+              <Flex direction="row" alignItems="center" mr="2" m={1}>
+              <Text style={styles.seeAllButtonText}>See All</Text>
+              <Icon
+                as={<MaterialIcons name="arrow-right" />}
+                size="lg"
+                color="black"
+                ms="2"
+              />
+              </Flex>
+            </Button>
+        <Button style={styles.uploadButton} 
+          size="sm"
+          onPress={() => navigation.navigate("DonationDash", {
+            item: event,
+          })
+        }
+        >
+              <Text style={styles.uploadButtonText}>Donate Now</Text>
+            </Button>
       </View>
+      </ScrollView>
       {/* Alert Dialog */}
       <AlertDialog
         leastDestructiveRef={cancelRef}
@@ -158,10 +191,9 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: 20,
-    width: "94%",
+    width: "90%",
     marginBottom: 10,
-    marginLeft: "3%",
-    marginRight: "3%",
+    marginLeft: "5%",
     height: "auto",
     paddingBottom: 15,
     backgroundColor: "#fff",
@@ -239,6 +271,23 @@ const styles = StyleSheet.create({
     margin: 10,
     marginLeft: "auto",
   },
+  button4: {
+    marginTop: 20,
+    borderColor: "rgba(26, 182, 92, 1)",
+    borderWidth: 2,
+    width: "30%",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+    marginLeft: "auto",
+  },
   button3: {
     marginTop: 20,
     borderColor: "rgba(26, 182, 92, 1)",
@@ -263,5 +312,33 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "rgba(26, 182, 92, 1)",
     marginLeft: 10,
+  },
+  uploadButton: {
+    borderRadius: 30,
+    marginTop: 130,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 10,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "45%",
+    height: 60,
+  },
+  uploadButtonText: {
+    color: "#f6f5f8",
+    fontSize: 20,
+    fontFamily: "Roboto",
+  },
+  seeAllButtonText: {
+    color: "rgba(26, 182, 92, 1)",
+    fontSize: 20,
+    fontFamily: "Roboto",
   },
 });

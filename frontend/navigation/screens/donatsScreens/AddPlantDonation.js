@@ -31,7 +31,7 @@ import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
 import Constants from "../../../constants/Constants";
 
-export default function ImagePickerExample() {
+export default function ImagePickerExample({ route, navigation }) {
   const [image, setImage] = useState(null);
   const [formData, setData] = React.useState({});
   const [date, setDate] = useState(new Date(1598051730000));
@@ -40,8 +40,16 @@ export default function ImagePickerExample() {
   const [plantName, setPlantName] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  const [event, setEvent] = React.useState({});
 
   const [show, setShow] = useState(false);
+
+  React.useEffect(() => {
+    setEvent(route.params.item);
+
+    setEventID(route.params.item._id);
+    setEventName(route.params.item.title);
+  }, [event]);
 
   const pickImage = async () => {
     let permissionResult =
@@ -162,7 +170,7 @@ export default function ImagePickerExample() {
         <View style={styles.card}>
           <Image
             style={styles.image}
-            source={require("../../../assets/images/p1.jpg")}
+            source={event.image ? { uri: event.image } : null}
           />
         </View>
           <Spacer />
@@ -186,6 +194,7 @@ export default function ImagePickerExample() {
                 placeholder="Event eventID"
                 value={eventID}
                 type="text"
+                isDisabled={true}
                 onChangeText={(value) => setEventID(value)}
               />
             </FormControl>
@@ -209,6 +218,7 @@ export default function ImagePickerExample() {
                 placeholder="Event Name"
                 value={eventName}
                 type="text"
+                isDisabled={true}
                 onChangeText={(value) => setEventName(value)}
               />
             </FormControl>

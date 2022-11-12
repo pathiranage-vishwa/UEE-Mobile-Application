@@ -1,8 +1,7 @@
-import { View, StyleSheet, TouchableOpacity, Image,Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import Constants from "../../../constants/Constants";
 import axios from "axios";
-import moment from "moment";
 import {
   VStack,
   Input,
@@ -24,65 +23,27 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function DisplayProcess ({ route, navigation }) {
-  const [processData, setProcessData] = React.useState([]);
+export default function ({ navigation }) {
+  const [event, setEvent] = React.useState([]);
   const [search, setSearch] = React.useState("");
-
-  const [event, setEvent] = React.useState({});
-
-  React.useEffect(() => {
-    setEvent(route.params.item);
-  }, [event]);
 
   useEffect(() => {
     axios
-      .get(`${Constants.URL}/api/tasks/event/${event._id}`)
+      .get(`${Constants.URL}/api/events`)
       .then((response) => {
-        setProcessData(response.data);
+        setEvent(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [processData]);
+  }, [event]);
 
-
-  //create a funtion to delete a process
-  const deleteProcess = (id) => {
-
-    //ask the user to confirm the deletion
-    Alert.alert(  
-      'Delete Process',
-      'Are you sure you want to delete this process?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel'
-        },
-        { text: 'OK', onPress: () => {
-          axios
-          .delete(`${Constants.URL}/api/tasks/${id}`)
-          .then((response) => {
-            console.log(response.data);
-          }
-          )
-          .catch((error) => {
-            console.log(error);
-          }
-          );
-        } }
-      ],
-      { cancelable: false }
-    );
-  };
-
-
-  //serach processData
-  // const searchprocessData = (title) => {
+  //serach event
+  // const searchEvent = (title) => {
   //   axios
-  //     .get(`${Constants.URL}/api/processDatas/search?title=${title}`)
+  //     .get(`${Constants.URL}/api/events/search?title=${title}`)
   //     .then((response) => {
-  //       setProcessData(response.data);
+  //       setEvent(response.data);
   //     })
   //     .catch((error) => {
   //       console.log(error);
@@ -91,7 +52,7 @@ export default function DisplayProcess ({ route, navigation }) {
 
   // const handleView = (item) => {
   //   console.log(item_id);
-  //   navigation.navigate("processDataDetails", {
+  //   navigation.navigate("EventDetails", {
   //     id: item._id,
   //   });
   // };
@@ -104,21 +65,22 @@ export default function DisplayProcess ({ route, navigation }) {
           alignSelf={{ base: "center", md: "flex-start" }}
           mt="20%"
           rounded="xl"
-          style={styles.header1}
+          style={styles.header}
           _text={{
             fontSize: "32",
             fontWeight: "medium",
-            color: "rgba(57, 73, 41, 1)",
+            color: "black",
             alignSelf: "center",
             letterSpacing: "lg",
             fontFamily: "Roboto",
           }}
         >
-          Event process deatils
+          UPCOMING EVENTS
         </Box>
+
         <VStack w="100%" space={5} alignSelf="center">
           <Input
-            placeholder="Search processDatas here"
+            placeholder="Search upcoming events here"
             width="95%"
             borderRadius="6"
             alignSelf={{ base: "center", md: "flex-start" }}
@@ -141,40 +103,57 @@ export default function DisplayProcess ({ route, navigation }) {
         </VStack>
 
         <FlatList
-          data={processData}
+          data={event}
           renderItem={({ item }) => (
             <View style={styles.card} key={item._id} shadow={1}>
               {/* <Image source={""} style={styles.image} /> */}
               <Flex direction="row">
-                <Stack space={1} p="4" w="100%">
-                  <Text style={styles.sub}>
-                  <Text style={styles.date}>Task Name : </Text>{item.taskName}
-                    </Text>
+                <Image
+                  style={styles.image}
+                  source={
+                    item.image
+                      ? { uri: item.image }
+                      : require("../../../assets/images/p1.jpg")
+                  }
+                />
+                <Stack space={2} p="4" w="100%">
+                  <Heading size="sm" ml="-1" style={styles.title1}>
+                    {item.title}
+                  </Heading>
 
                   <Text style={styles.sub1}>
-                    <Text style={styles.date}>Start date : </Text> {moment(item.startDate).format("DD-MM-YYYY")}
+                    <Text style={styles.date}>DATE : </Text> {item.date}
                   </Text>
 
-                  <Text style={styles.sub1}>
-                    <Text style={styles.date}>End date : </Text> {moment(item.endDate).format('DD-MM-YYYY')}
-                  </Text>
                   <Text style={styles.sub}>
-                    <Text style={styles.date}>Cost :</Text> {item.cost}
-                  </Text>
-
-                  <Text style={styles.subArea}>
-                    <Text style={styles.date}>Discription about :</Text> {item.taskDescription}
+                    <Text style={styles.date}>Location :</Text> {item.location}
                   </Text>
                   {/* flex two button */}
                   <Flex direction="row">
                     <Button
-                      style={styles.button}
+                      style={styles.button2}
                       size="sm"
-                      onPress={() => {
-                        deleteProcess(item._id);
-                      }}
+                      backgroundColor={"white"}
+                      textAlign="center"
+                      onPress={() =>
+                        navigation.navigate("DisplayProcess", {
+                          item: item,
+                        })
+                      }
                     >
-                      <Text style={styles.text1}>Delete</Text>
+                      <Text style={styles.text2}>View Tasks</Text>
+                    </Button>
+                    <Button
+                      style={styles.button2}
+                      size="sm"
+                      onPress={() =>
+                        navigation.navigate("EventDetails", {
+                          item: item,
+                        })
+                      }
+                      backgroundColor={"white"}
+                    >
+                      <Text style={styles.text2}>View</Text>
                     </Button>
                   </Flex>
                 </Stack>
@@ -193,26 +172,28 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     height: 60,
   },
-  header1: {
-    backgroundColor: "rgba(230, 255, 214, 1)",
-    width: "95%",
-    alignSelf: "center",
-    height: 60,
-    borderRadius: 10,
-  },
   container: {
     flex: 1,
     paddingTop: 22,
     borderRadius: 10,
   },
-  button: {
+
+  button1: {
     marginTop: 20,
-    borderColor: "rgba(255, 6, 6, 1)",
-    backgroundColor: "white",
+    width: "24%",
+    marginLeft: -10,
+    marginRight: 10,
+    margin: 10,
+    borderRadius: 10,
+    height: 50,
+  },
+  button2: {
+    marginTop: 20,
+    borderColor: "rgba(26, 182, 92, 1)",
     borderWidth: 2,
     width: "24%",
     borderRadius: 10,
-    marginLeft: "75%",
+    margin: 10,
   },
 
   title1: {
@@ -225,17 +206,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   date: {
-    color: "rgba(124, 194, 81, 1)",
+    color: "rgba(26, 182, 92, 1)",
   },
   sub: {
     fontWeight: "bold",
     fontSize: 16,
-    width: "90%",
-  },
-  subArea: {
-    fontWeight: "bold",
-    fontSize: 16,
-    width: "100%",
+    width: "50%",
   },
   sub1: {
     marginTop: 15,
@@ -249,7 +225,7 @@ const styles = StyleSheet.create({
 
   image: {
     width: 160,
-    height: 230,
+    height: "100%",
     borderBottomLeftRadius: 30,
     borderTopLeftRadius: 30,
   },
@@ -272,7 +248,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   text1: {
-    color: "rgba(255, 6, 6, 1)",
+    color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -280,5 +256,6 @@ const styles = StyleSheet.create({
     color: "rgba(26, 182, 92, 1)",
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: "center",
   },
 });

@@ -23,20 +23,33 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function ({ navigation }) {
+export default function ({ route, navigation }) {
   const [donation, setDonation] = React.useState([]);
+  const [plantDonation, setPlantDonation] = React.useState("");
+  const [event, setEvent] = React.useState({});
   const [search, setSearch] = React.useState("");
 
-  useEffect(() => {
+  React.useEffect(() => {
+    setEvent(route.params.item);
     axios
-      .get(`${Constants.URL}/api/moneyDonations`)
+      .get(`${Constants.URL}/api/moneyDonations/event/${route.params.item._id}`)
       .then((response) => {
         setDonation(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [donation]);
+
+      axios
+      .get(`${Constants.URL}/api/plantDonations/event/${route.params.item._id}`)
+      .then((response) => {
+        setPlantDonation(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }, [event]);
 
   //serach donation
   // const searchdonation = (title) => {
@@ -94,7 +107,7 @@ export default function ({ navigation }) {
         }}
         shadow={3}
       >
-        Beach cleanup
+      {event.title}  
       </Box>
         <VStack w="100%" space={5} alignSelf="center">
           <Input
@@ -130,7 +143,7 @@ export default function ({ navigation }) {
                   style={styles.image}
                   source={
                     item.image
-                      ? { uri: item.image }
+                      ? { uri: event.image }
                       : require("../../../assets/images/p1.jpg")
                   }
                 />
@@ -166,6 +179,65 @@ export default function ({ navigation }) {
                       onPress={() =>
                         navigation.navigate("DisplayDonations", {
                           item: item,
+                        })
+                      }
+                      backgroundColor={"white"}
+                    >
+                      <Text style={styles.text2}>View</Text>
+                    </Button>
+                  </Flex>
+                </Stack>
+              </Flex>
+            </View>
+          )}
+        />
+
+          <FlatList
+          data={plantDonation}
+          renderItem={({ item }) => (
+            <View style={styles.card} key={item._id} shadow={1}>
+              {/* <Image source={""} style={styles.image} /> */}
+              <Flex direction="row">
+                <Image
+                  style={styles.image}
+                  source={
+                    event.image
+                      ? { uri: event.image }
+                      : require("../../../assets/images/p1.jpg")
+                  }
+                />
+                <Stack space={1} p="4" w="100%">
+                  <Text style={styles.sub}>
+                  <Text style={styles.date}>Donater : </Text>{item.userName}
+                    </Text>
+
+                  <Text style={styles.sub1}>
+                    <Text style={styles.date}>Donated date : </Text> {item.date}
+                  </Text>
+
+                  <Text style={styles.sub}>
+                    <Text style={styles.date}>Amount of plants :</Text> {item.amount}
+                  </Text>
+                  {/* flex two button */}
+                  <Flex direction="row">
+                    <Button
+                      style={styles.button1}
+                      size="sm"
+                      backgroundColor={"rgba(26, 182, 92, 1)"}
+                      onPress={() =>
+                        navigation.navigate("UpdatePlantDonation", {
+                          item: item,
+                        })
+                      }
+                    >
+                      <Text style={styles.text1}>Edit</Text>
+                    </Button>
+                    <Button
+                      style={styles.button2}
+                      size="sm"
+                      onPress={() =>
+                        navigation.navigate("DisplayDonations", {
+                          item: item,event:event
                         })
                       }
                       backgroundColor={"white"}
