@@ -96,10 +96,6 @@ function MainContainer() {
         <Stack.Screen name={eventDashboard} component={EventDashboard} />
         <Stack.Screen name={addMoneyDonation} component={AddMoneyDonation} />
         <Stack.Screen name={addPlantDonation} component={AddPlantDonation} />
-        <Stack.Screen
-          name={displayAllDonations}
-          component={DisplayAllDonations}
-        />
         <Stack.Screen name={joinEvent} component={JoinEvent} />
         <Stack.Screen name={displayJoinEvents} component={DisplayJoinEvents} />
         <Stack.Screen name={shareEvent} component={ShareEvent} />

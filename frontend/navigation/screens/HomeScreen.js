@@ -108,11 +108,11 @@ export default function HomeScreen({ navigation }) {
                 source={require("../../assets/images/joinCom.png")}
               />
               <Flex direction="row" style={styles.cardContent}>
-                <Text style={styles.text1}>Join Community</Text>
+                <Text style={styles.text1}>Request Dashboard</Text>
                 <Button
                   style={styles.button1}
                   size="sm"
-                  onPress={() => navigation.navigate("UpgradeUser")}
+                  onPress={() => navigation.navigate("RequestDashboard")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
                 >
                   <Text style={styles.textBtn1}>
