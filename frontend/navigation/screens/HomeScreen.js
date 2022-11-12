@@ -114,7 +114,7 @@ export default function HomeScreen({ navigation }) {
                 <Button
                   style={styles.button1}
                   size="sm"
-                  onPress={() => navigation.navigate("AllRequestedEvents")}
+                  onPress={() => navigation.navigate("UpgradeUser")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
                 >
                   <Text style={styles.textBtn1}>
