@@ -24,30 +24,19 @@ import {
 } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-export default function DisplayJoinEvents({ navigation }) {
-  const [event, setEvent] = React.useState([]);
+export default function CommunityFeed({ navigation }) {
+  const [share, setShare] = React.useState([]);
 
   useEffect(() => {
     axios
-      .get(`${Constants.URL}/api/joinEvents`)
+      .get(`${Constants.URL}/api/shares`)
       .then((response) => {
-        setEvent(response.data);
+        setShare(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [event]);
-
-  const deleteEvent = (item) => {
-    axios
-      .delete(`${Constants.URL}/api/joinEvents/${item}`)
-      .then((response) => {
-        Alert.alert("Successfully leave from event");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  }, [share]);
 
   return (
     <NativeBaseProvider>
@@ -66,11 +55,18 @@ export default function DisplayJoinEvents({ navigation }) {
           fontFamily: "Roboto",
         }}
       >
-        My EVENTS
+        Community Feed
       </Box>
+      <Button
+        style={styles.button3}
+        backgroundColor={"rgba(26, 182, 92, 1)"}
+        onPress={() => navigation.navigate("ShareEvent")}
+      >
+        Share Event
+      </Button>
       <ScrollView>
         <FlatList
-          data={event}
+          data={share}
           renderItem={({ item }) => (
             <View style={styles.card} key={item._id} shadow={1}>
               {/* <Image source={""} style={styles.image} /> */}
@@ -86,33 +82,27 @@ export default function DisplayJoinEvents({ navigation }) {
                 />
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    {item.eventName}
+                    {item.name}
                   </Heading>
 
                   <Text style={styles.sub1}>
-                    <Text style={styles.eventDate}>DATE : </Text> {item.date}
+                    <Text style={styles.date}>DATE : </Text> {item.date}
                   </Text>
 
-                  <Text style={styles.sub}>
-                    <Text style={styles.date}>Location :</Text>
-                    {item.eventLocation}
-                  </Text>
+                  <Text style={styles.sub}>{item.caption}</Text>
                   {/* flex two button */}
                   <Flex direction="row">
                     <Button
                       style={styles.button1}
                       size="sm"
+                      onPress={() =>
+                        navigation.navigate("Comments", {
+                          item: item,
+                        })
+                      }
                       backgroundColor={"rgba(26, 182, 92, 1)"}
                     >
-                      <Text style={styles.text1}>{item.status}</Text>
-                    </Button>
-                    <Button
-                      style={styles.button2}
-                      size="sm"
-                      onPress={() => deleteEvent(item._id)}
-                      backgroundColor={"white"}
-                    >
-                      <Text style={styles.text2}>Leave</Text>
+                      <Text style={styles.text1}>Comments</Text>
                     </Button>
                   </Flex>
                 </Stack>
@@ -140,13 +130,23 @@ const styles = StyleSheet.create({
   },
 
   button1: {
-    marginTop: 20,
-    width: "24%",
-    marginLeft: -10,
+    marginTop: "5%",
+    width: "30%",
+    marginLeft: 80,
     marginRight: 10,
     margin: 10,
     borderRadius: 10,
-    height: 50,
+    height: 40,
+  },
+  button3: {
+    marginTop: "5%",
+    width: "30%",
+    marginLeft: "auto",
+    marginBottom: 20,
+    marginRight: 10,
+    margin: 10,
+    borderRadius: 10,
+    height: 40,
   },
   button2: {
     marginTop: 20,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 
   image: {
     width: 160,
-    height: 230,
+    height: "100%",
     borderBottomLeftRadius: 30,
     borderTopLeftRadius: 30,
   },
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: "2%",
     marginRight: "2%",
-    height: 230,
+    height: "auto",
     paddingBottom: 0,
     backgroundColor: "#fff",
     borderRadius: 30,

@@ -1,13 +1,5 @@
-import {
-  NativeBaseProvider,
-  Box,
-  Flex,
-  Button,
-  Icon,
-  AlertDialog,
-} from "native-base";
+import { NativeBaseProvider, Box, Flex, Button, Icon } from "native-base";
 import React from "react";
-import { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -20,18 +12,25 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import Constants from "../../../constants/Constants";
 
-export default function EventDetails({ route, navigation }) {
-  const [event, setEvent] = React.useState({});
-
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const onClose = () => setIsOpen(false);
-
-  const cancelRef = React.useRef(null);
+export default function RequestDetails({ route, navigation }) {
+  const [request, setRequest] = React.useState({});
 
   React.useEffect(() => {
-    setEvent(route.params.item);
-  }, [event]);
+    setRequest(route.params.item);
+  }, [request]);
+
+  const handleJoin = () => {
+    //update request participants
+    axios
+      .put(`${Constants.URL}/api/requests/participants/${request._id}`)
+      .then((response) => {
+        Alert.alert("Success", "You have successfully joined the request");
+        navigation.navigate("UpcomingRequest");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <NativeBaseProvider style={styles.container}>
@@ -51,81 +50,22 @@ export default function EventDetails({ route, navigation }) {
         }}
         shadow={3}
       >
-        {event.title}
+        {request.title}
       </Box>
       <View style={styles.card}>
         <Image
           style={styles.image}
-          source={event.image ? { uri: event.image } : null}
+          source={request.image ? { uri: request.image } : null}
         />
-        <Flex direction="row">
-          {/* group icon with text */}
-          <Flex direction="row" alignItems="center" mr="2" ml={5}>
-            <Icon as={<MaterialIcons name="group" />} size="xl" color="black" />
-            <Text style={styles.iGroup}>{event.participants} Joined</Text>
-          </Flex>
-
-          <Button
-            style={styles.button2}
-            size="sm"
-            onPress={() => navigation.navigate("JoinEvent", { item: event })}
-            backgroundColor={"rgba(26, 182, 92, 1)"}
-          >
-            <Flex direction="row" alignItems="center" mr="2" m={1}>
-              <Text style={styles.text1}>Join</Text>
-              <Icon
-                as={<MaterialIcons name="group" />}
-                size="lg"
-                color="white"
-                ms="2"
-              />
-            </Flex>
-          </Button>
-        </Flex>
-
-        <Text style={styles.sub1}>
-          <Text style={styles.date}>Date : </Text> {event.date}
-        </Text>
 
         <Text style={styles.sub}>
-          <Text style={styles.date}>Location :</Text> {event.location}
+          <Text style={styles.date}>Location :</Text> {request.location}
         </Text>
 
-        <Text style={styles.sub}>
-          <Text style={styles.date}>Status :</Text> {event.status}
+        <Text style={styles.sub3}>
+          gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
         </Text>
-        <Text style={styles.sub3}>{event.description}</Text>
       </View>
-      {/* Alert Dialog */}
-      <AlertDialog
-        leastDestructiveRef={cancelRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <AlertDialog.Content>
-          <AlertDialog.CloseButton />
-          <AlertDialog.Header>Delete Customer</AlertDialog.Header>
-          <AlertDialog.Body>
-            This will remove all data relating to Alex. This action cannot be
-            reversed. Deleted data can not be recovered.
-          </AlertDialog.Body>
-          <AlertDialog.Footer>
-            <Button.Group space={2}>
-              <Button
-                variant="unstyled"
-                colorScheme="coolGray"
-                onPress={onClose}
-                ref={cancelRef}
-              >
-                Cancel
-              </Button>
-              <Button colorScheme="danger" onPress={onClose}>
-                Delete
-              </Button>
-            </Button.Group>
-          </AlertDialog.Footer>
-        </AlertDialog.Content>
-      </AlertDialog>
     </NativeBaseProvider>
   );
 }
