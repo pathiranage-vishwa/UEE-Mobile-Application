@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   uploadButton: {
     borderRadius: 10,
 
-    shadowColor: "#000",
+    shadowColor: "gray",
     shadowOffset: {
       width: 7,
       height: 5,

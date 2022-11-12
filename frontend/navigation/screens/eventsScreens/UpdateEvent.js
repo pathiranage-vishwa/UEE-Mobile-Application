@@ -7,6 +7,9 @@ import {
   Alert,
   Dimensions,
   TouchableOpacity,
+  Modal,
+  Pressable,
+  ActivityIndicator,
   Image,
 } from "react-native";
 import {
@@ -32,18 +35,39 @@ import Constants from "../../../constants/Constants";
 
 export default function UpdateEvent({ route, navigation }) {
   const [event, setEvent] = React.useState({});
-  const [date, setDate] = useState(event.date);
-  const [title, setTitle] = useState(event.title);
-  const [category, setCategory] = useState(event.category);
-  const [location, setLocation] = useState(event.location);
-  const [description, setDescription] = useState(event.description);
-  const [goal, setGoal] = useState(event.goal);
-  const [time, setTime] = useState(event.time);
-  const [image, setImage] = useState(event.image);
+  const [date, setDate] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [goal, setGoal] = useState("");
+  const [time, setTime] = useState("");
+  const [image, setImage] = useState("");
 
+  const [approveModalVisible, setApproveModalVisible] = useState(false);
+  const [rejectModalVisible, setRejectModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setEvent(route.params.item);
-  }, [event]);
+    setDate(route.params.item.date);
+    setTitle(route.params.item.title);
+    setCategory(route.params.item.category);
+    setLocation(route.params.item.location);
+    setDescription(route.params.item.description);
+    setGoal(route.params.item.goal);
+    setTime(route.params.item.time);
+    setImage(route.params.item.image);
+  }, []);
+
+  const approvePressed = () => {
+    setApproveModalVisible(true);
+    // setuserDetails(data);
+  };
+
+  const rejectPressed = () => {
+    setRejectModalVisible(true);
+    // setuserDetails(data);
+  };
 
   const pickImage = async () => {
     let permissionResult =
@@ -65,22 +89,28 @@ export default function UpdateEvent({ route, navigation }) {
     });
 
     let base64Img = `data:image/jpg;base64,${result.base64}`;
+
     uploadImage(base64Img);
   };
 
   //image upload start
-  const uploadImage = (photo) => {
+  const uploadImage = async (photo) => {
     const data = new FormData();
     data.append("file", photo);
     data.append("upload_preset", "Chat-app");
 
-    fetch("https://api.cloudinary.com/v1_1/donfmtaf4/image/upload", {
+    setLoading(true);
+
+    await fetch("https://api.cloudinary.com/v1_1/donfmtaf4/image/upload", {
       method: "POST",
       body: data,
     })
       .then((res) => res.json())
       .then((data) => {
         setImage(data.secure_url);
+      })
+      .finally(() => {
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -128,8 +158,7 @@ export default function UpdateEvent({ route, navigation }) {
     axios
       .put(`${Constants.URL}/api/events/${event._id}`, data)
       .then((res) => {
-        console.log(res.data);
-        Alert.alert("Event updated successfully");
+        setApproveModalVisible(false);
         navigation.navigate("UpcomingEvent");
       })
       .catch((err) => {
@@ -172,11 +201,17 @@ export default function UpdateEvent({ route, navigation }) {
       <ScrollView style={styles.main}>
         <VStack style={styles.border}>
           <TouchableOpacity style={styles.imageCon} onPress={pickImage}>
-            {image ? (
+            {/* //loading when image is uploading */}
+            {loading ? (
+              <ActivityIndicator size="large" color="rgba(26, 182, 92, 1)" />
+            ) : (
+              <Image source={{ uri: image }} style={styles.image1} />
+            )}
+            {/* {image ? (
               <Image source={{ uri: image }} style={styles.image1} />
             ) : (
               <Image source={{ uri: event.image }} style={styles.image1} />
-            )}
+            )} */}
           </TouchableOpacity>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
@@ -191,7 +226,7 @@ export default function UpdateEvent({ route, navigation }) {
               <Input
                 placeholder="Event Title"
                 borderColor={"#000"}
-                value={event.title}
+                value={title}
                 height={12}
                 onChangeText={(value) => setTitle(value)}
               />
@@ -210,7 +245,7 @@ export default function UpdateEvent({ route, navigation }) {
                   borderColor={"#000"}
                   selectedValue={category}
                   height={12}
-                  accessibilityLabel={event.category}
+                  accessibilityLabel={category}
                   placeholder="Choose Service"
                   _selectedItem={{
                     bg: "green",
@@ -239,7 +274,7 @@ export default function UpdateEvent({ route, navigation }) {
                 placeholder="Event Location"
                 borderColor={"#000"}
                 height={12}
-                value={event.location}
+                value={location}
                 onChangeText={(value) => setLocation(value)}
               />
             </FormControl>
@@ -302,7 +337,7 @@ export default function UpdateEvent({ route, navigation }) {
               <TextArea
                 placeholder="Event Location"
                 borderColor={"#000"}
-                value={event.description}
+                value={description}
                 w="100%"
                 onChangeText={(value) => setDescription(value)}
               />
@@ -318,7 +353,7 @@ export default function UpdateEvent({ route, navigation }) {
               <TextArea
                 placeholder="Goal"
                 borderColor={"#000"}
-                value={event.goal}
+                value={goal}
                 w="100%"
                 onChangeText={(value) => setGoal(value)}
               />
@@ -328,14 +363,14 @@ export default function UpdateEvent({ route, navigation }) {
                 style={styles.button1}
                 size="sm"
                 backgroundColor={"rgba(26, 182, 92, 1)"}
-                onPress={handleUpdate}
+                onPress={approvePressed}
               >
                 <Text style={styles.text1}>Update</Text>
               </Button>
               <Button
                 style={styles.button2}
                 size="sm"
-                onPress={handleDelete}
+                onPress={rejectPressed}
                 backgroundColor={"white"}
               >
                 <Text style={styles.text2}>Delete</Text>
@@ -344,6 +379,179 @@ export default function UpdateEvent({ route, navigation }) {
           </VStack>
         </VStack>
       </ScrollView>
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={approveModalVisible}
+            onRequestClose={() => {
+              setApproveModalVisible(!approveModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>
+                  Confirm to <Text style={styles.modalText2}> Update !</Text>
+                </Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleUpdate}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Yes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.warningBtnNo}
+                    onPress={() => setApproveModalVisible(!approveModalVisible)}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "rgba(26, 182, 92, 1)" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      No
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={rejectModalVisible}
+            onRequestClose={() => {
+              setRejectModalVisible(!rejectModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>
+                  Confirm to <Text style={styles.modalText3}> Delete !</Text>
+                </Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleDelete}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Yes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.warningBtnNo}
+                    onPress={() => setRejectModalVisible(!rejectModalVisible)}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "rgba(26, 182, 92, 1)" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      No
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
+      {/* loading */}
+
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={loading}
+            onRequestClose={() => {
+              setLoading(!loading);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView1}>
+                <Text style={styles.modalText5}>Please wait...</Text>
+
+                <Image
+                  style={styles.loading}
+                  source={require("../../../assets/images/loading.png")}
+                />
+                {/* 
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleDelete}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Yes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.warningBtnNo}
+                    onPress={() => setRejectModalVisible(!rejectModalVisible)}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "rgba(26, 182, 92, 1)" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      No
+                    </Text>
+                  </Pressable>
+                </View> */}
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
     </NativeBaseProvider>
   );
 }
@@ -467,5 +675,146 @@ const styles = StyleSheet.create({
     color: "rgba(255, 0, 0, 1)",
     fontSize: 16,
     fontWeight: "bold",
+  },
+
+  // alert
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    backgroundColor: "#000000aa",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "auto",
+    width: "90%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backfaceVisibility: "hidden",
+    backgroundColor: "red",
+  },
+  modal: {
+    background: "red",
+    position: "absolute",
+    top: "50px",
+    right: "calc(50% - 200px)",
+    border: "1px solid #ccc",
+    padding: "1px",
+    minHeight: "300px",
+  },
+  warningBtnYes: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    elevation: 7,
+    width: 130,
+    height: 60,
+    maxWidth: 150,
+    padding: 15,
+    marginLeft: 10,
+    paddingStart: 20,
+    borderRadius: 25,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  warningBtnNo: {
+    backgroundColor: "rgba(232, 248, 239, 1)",
+
+    elevation: 7,
+    width: 130,
+    height: 60,
+    marginLeft: 45,
+    maxWidth: 150,
+    padding: 15,
+    paddingStart: 25,
+    borderRadius: 25,
+    marginRight: 10,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 22,
+    height: 30,
+  },
+  modalText1: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+
+    marginTop: 20,
+  },
+  modalText2: {
+    fontWeight: "bold",
+    color: "orange",
+  },
+  modalText3: {
+    fontWeight: "bold",
+    color: "red",
+  },
+  alertButtonContainer: {
+    flexDirection: "row",
+  },
+  hr: {
+    color: "rgba(26, 182, 92, 1)",
+    marginBottom: 20,
+  },
+  modalText5: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+    color: "rgba(26, 182, 92, 1)",
+  },
+  loading: {
+    width: "50%",
+    marginTop: 23,
+    height: 100,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  modalView1: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "30%",
+    width: "80%",
   },
 });
