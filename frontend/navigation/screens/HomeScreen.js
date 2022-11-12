@@ -65,7 +65,6 @@ export default function HomeScreen({ navigation }) {
             fontFamily: "Roboto",
           }}
         >
-
           <Text style={styles.headerText1}>
             Hey <Text style={styles.name}>Mark,</Text>
           </Text>
@@ -90,7 +89,7 @@ export default function HomeScreen({ navigation }) {
                 <Button
                   style={styles.button1}
                   size="sm"
-                  onPress={() => navigation.navigate("PreviousEvents")}
+                  onPress={() => navigation.navigate("CommunityFeed")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
                 >
                   <Text style={styles.textBtn1}>
@@ -164,7 +163,7 @@ export default function HomeScreen({ navigation }) {
                 <Button
                   style={styles.button1}
                   size="sm"
-                  onPress={() => navigation.navigate("PreviousEvents")}
+                  onPress={() => navigation.navigate("DisplayJoinEvents")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
                 >
                   <Text style={styles.textBtn1}>
@@ -199,7 +198,6 @@ export default function HomeScreen({ navigation }) {
             </Flex>
           </View>
         </ScrollView>
-
       </View>
     </NativeBaseProvider>
   );
