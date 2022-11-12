@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
 
   button1: {
     marginTop: "5%",
-    width: "30%",
+    width: "32%",
     marginLeft: 80,
     marginRight: 10,
     margin: 10,
@@ -209,7 +209,8 @@ const styles = StyleSheet.create({
   },
   text1: {
     color: "white",
-    fontSize: 16,
+    fontSize: 15,
+    marginRight: 2,
     fontWeight: "bold",
   },
   text2: {
