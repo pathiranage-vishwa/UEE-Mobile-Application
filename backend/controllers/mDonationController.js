@@ -92,12 +92,42 @@ const deleteMoneyDonation = function(req, res) {
     });
 };
 
+//get total amount of given event
+
+const getTotalAmount = function(req, res) {
+    MoneyDonation.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            var total = 0;
+            for (var i = 0; i < result.length; i++) {
+                total += result[i].amount;
+            }
+            res.json(total);
+        }
+    });
+};
+
+//get a count of donations of given event
+const getDonationCount = function(req, res) {
+    MoneyDonation.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(result.length);
+        }
+    });
+};
+
+
 module.exports = {
     createMoneyDonation,
     getMoneyDonations,
     getMoneyDonationById,
     updateMoneyDonation,
     deleteMoneyDonation,
-    getMoneyDonationByEventId
+    getMoneyDonationByEventId,
+    getTotalAmount,
+    getDonationCount
 };
 

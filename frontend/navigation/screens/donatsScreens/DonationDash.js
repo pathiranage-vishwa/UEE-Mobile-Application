@@ -83,7 +83,7 @@ export default function DonationDash({ route, navigation }) {
               <Button
                 style={styles.button2}
                 size="sm"
-                onPress={() => navigation.navigate("AddMoneyDonation", { item: event })}
+                onPress={() => navigation.navigate("DisplayAccount", { item: event })}
                 backgroundColor={"rgba(26, 182, 92, 1)"}
               >
                 <Text style={styles.textBtn1}>

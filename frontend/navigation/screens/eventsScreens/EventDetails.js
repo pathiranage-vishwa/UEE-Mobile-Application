@@ -16,6 +16,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  ProgressBarAndroid,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
@@ -23,6 +24,11 @@ import Constants from "../../../constants/Constants";
 
 export default function EventDetails({ route, navigation }) {
   const [event, setEvent] = React.useState({});
+  const [total, setTotal] = React.useState(0);
+  const [plantTotal, setPlantTotal] = React.useState(0);
+  const[count,setCount]=React.useState(0);
+  const [plantCount, setPlantCount] = React.useState(0);
+  const [presentage, setPresentage] = React.useState(0.4);
 
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -32,8 +38,47 @@ export default function EventDetails({ route, navigation }) {
 
   React.useEffect(() => {
     setEvent(route.params.item);
-  }, [event]);
+    axios
+      .get(`${Constants.URL}/api/moneyDonations/total/${route.params.item._id}`)
+      .then((response) => {
+        setTotal(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+      axios
+      .get(`${Constants.URL}/api/plantDonations/total/${route.params.item._id}`)
+      .then((response) => {
+        setPlantTotal(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      axios
+      .get(`${Constants.URL}/api/moneyDonations/count/${route.params.item._id}`)
+      .then((response) => {
+        setCount(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      axios
+      .get(`${Constants.URL}/api/plantDonations/count/${route.params.item._id}`)
+      .then((response) => {
+        setPlantCount(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      setPresentage((((count+plantCount)/event.participants)*100).toFixed(2))
+    
+  }, [plantCount,count,event,plantTotal,total,presentage]);
+
+  
   return (
     
     <NativeBaseProvider style={styles.container}>
@@ -99,6 +144,43 @@ export default function EventDetails({ route, navigation }) {
           <Text style={styles.date}>Status :</Text> {event.status}
         </Text>
         <Text style={styles.sub3}>{event.description}</Text>
+        <Text style={styles.sub}>
+          <Text style={styles.date}>Total Amount of Money Donation :</Text> {total}
+        </Text>
+        <Text style={styles.sub}>
+          <Text style={styles.date}>Total Amount of Plant Donation :</Text> {plantTotal}
+        </Text>
+        <Text style={styles.sub3}>{`Donation ${presentage}%`}</Text>
+        <ProgressBarAndroid
+          styleAttr="Horizontal"
+          backgroundColor="rgba(230, 255, 214, 1)"
+          indeterminate={false}
+          progress={
+            presentage
+          }
+          width='90%'
+          marginLeft='5%'
+        />
+         <Flex direction="row" alignItems="center" mr="2" m={1}>
+          <Flex direction="row" alignItems="center" mr="2" m={1}>
+         <Text style={styles.sub3}>Participents</Text>
+        <Icon
+                as={<MaterialIcons name="group" />}
+                size="lg"
+                color="black"
+                ms="2"
+                marginLeft={-160}
+                marginTop={10}
+              />
+              <Icon
+                as={<MaterialIcons name="group" />}
+                size="lg"
+                color="black"
+                ms="2"
+                marginTop={10}
+              />
+
+        </Flex>
         <Button style={styles.button4} 
         size="sm"
          backgroundColor={"rgba(232, 248, 239, 1)"}
@@ -117,6 +199,7 @@ export default function EventDetails({ route, navigation }) {
               />
               </Flex>
             </Button>
+            </Flex>
         <Button style={styles.uploadButton} 
           size="sm"
           onPress={() => navigation.navigate("DonationDash", {
@@ -302,7 +385,7 @@ const styles = StyleSheet.create({
   },
   uploadButton: {
     borderRadius: 30,
-    marginTop: 130,
+    marginTop: 50,
     alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: {

@@ -59,14 +59,28 @@ const getPlantDonationByEventId = function(req, res) {
 };
 //create PlantDonation update function
 const updatePlantDonation = function(req, res) {
-    PlantDonation.findByIdAndUpdate(req.params.id, req.body, function(err, result) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.json(result);
-        }
-    });
+   //create funtion to update amount with the new amount
+   //create funtion to update amount with new amount
+   PlantDonation.findById(req.params.id, function(err, result) {
+    if (err) {
+        res.status(500).send(err);
+    } else {
+
+        //increse amount
+        result.amount = Number(result.amount) + Number(req.body.amount);
+        result.eventID = req.body.eventID;
+        result.eventName = req.body.eventName;
+        result.userId = req.body.userId;
+        result.userName = req.body.userName;
+        result.plantName = req.body.plantName;
+        result.description = req.body.description;
+        result.date = req.body.date;
+        result.save();
+        res.json(result);
+    }
+});
 };
+
 //create PlantDonation delete function
 const deletePlantDonation = function(req, res) {
     PlantDonation.findByIdAndRemove(req.params.id, function(err, result) {
@@ -78,12 +92,41 @@ const deletePlantDonation = function(req, res) {
     });
 };
 
+//get total amount of given event
+
+const getTotalAmount = function(req, res) {
+    PlantDonation.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            var total = 0;
+            for (var i = 0; i < result.length; i++) {
+                total += result[i].amount;
+            }
+            res.json(total);
+        }
+    });
+};
+
+//get a count of donations of given event
+const getDonationCount = function(req, res) {
+    PlantDonation.find({eventID: req.params.id}, function(err, result) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(result.length);
+        }
+    });
+};
+
 module.exports = {
     createPlantDonation,
     getPlantDonations,
     getPlantDonationById,
     updatePlantDonation,
     deletePlantDonation,
-    getPlantDonationByEventId
+    getPlantDonationByEventId,
+    getTotalAmount,
+    getDonationCount
 };
 

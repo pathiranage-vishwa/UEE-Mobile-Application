@@ -47,56 +47,13 @@ export default function UpdatePlantDonation({ route, navigation }) {
 
   React.useEffect(() => {
     setPlanDonation(route.params.item);
-
-    setEventID(route.params.item._id);
+    setEventID(route.params.item.eventID);
     setEventName(route.params.item.eventName);
     setPlantName(route.params.item.plantName);
     setDescription(route.params.item.description);
     setAmount(String(route.params.item.amount));
     setDate(route.params.item.date);
   }, [planDonation]);
-
-  const pickImage = async () => {
-    let permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    //this tells the application to give an alert if someone doesn't allow //permission.  It will return to the previous screen.
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true,
-    });
-
-    let base64Img = `data:image/jpg;base64,${result.base64}`;
-    uploadImage(base64Img);
-  };
-
-  //image upload start
-  const uploadImage = (photo) => {
-    const data = new FormData();
-    data.append("file", photo);
-    data.append("upload_preset", "Chat-app");
-
-    fetch("https://api.cloudinary.com/v1_1/donfmtaf4/image/upload", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setImage(data.secure_url);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const handleSubmit = () => {
     if (eventID === "") {
@@ -131,7 +88,7 @@ export default function UpdatePlantDonation({ route, navigation }) {
     };
 
     axios
-      .post(`${Constants.URL}/api/plantDonations`, data)
+      .put(`${Constants.URL}/api/plantDonations/${planDonation._id}`, data)
       .then((res) => {
         console.log(res.data);
         Alert.alert("Doantion added successfully");
@@ -146,7 +103,6 @@ export default function UpdatePlantDonation({ route, navigation }) {
     setDate("");
     setAmount("");
     setDescription("");
-    setImage(null);
   };
 
   return (
@@ -171,12 +127,6 @@ export default function UpdatePlantDonation({ route, navigation }) {
 
       <ScrollView style={styles.main}>
         <VStack >
-        <View style={styles.card}>
-          {/* <Image
-            style={styles.image}
-            source={event.image ? { uri: event.image } : null}
-          /> */}
-        </View>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
             <FormControl isRequired>
@@ -245,6 +195,7 @@ export default function UpdatePlantDonation({ route, navigation }) {
                 borderTopRightRadius={10}
                 value={plantName}
                 type="text"
+                isDisabled={true}
                 onChangeText={(value) => setPlantName(value)}
               />
             </FormControl>

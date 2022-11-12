@@ -31,14 +31,19 @@ import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
 import Constants from "../../../constants/Constants";
 
-export default function DisplayAccount() {
+export default function DisplayAccount({ route, navigation }) {
+  const [event, setEvent] = React.useState([]);
+
+  React.useEffect(() => {
+    setEvent(route.params.item);
+  }, [event]);
 
 
   return (
     <NativeBaseProvider style={styles.main1}>
       <Box
         p="2"
-        alignSelf={{ base: "center", md: "flex-start" }}
+        alignSelf={'center'}
         mt="20%"
         rounded="xl"
         style={styles.header}
@@ -48,10 +53,11 @@ export default function DisplayAccount() {
           color: "black",
           alignSelf: "center",
           letterSpacing: "lg",
+         
         }}
         shadow={3}
       >
-        Send your donation to this account
+        Send your Donation to this account
       </Box>
 
       <ScrollView style={styles.main}>
@@ -180,10 +186,20 @@ export default function DisplayAccount() {
             Do you confirm/decline account details?
             </Text>
             <Flex direction="row">
-            <Button style={styles.declineButton} >
+            <Button style={styles.declineButton} 
+            
+            onPress={() => {
+              navigation.navigate("DonationDash");
+            }}
+            >
               <Text style={styles.declineButtonText}>Decline</Text>
             </Button>
-            <Button style={styles.confirmButton}>
+            <Button style={styles.confirmButton}
+            onPress={() => {
+              navigation.navigate("AddMoneyDonation", {
+                item: event,});
+            }}
+            >
               <Text style={styles.confirmButtonText}>Confirm</Text>
             </Button>
             </Flex>
@@ -284,8 +300,10 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "rgba(230, 255, 214, 1)",
     width: "90%",
-    alignSelf: "center",
+    
     height: 120,
+    textAlign: "center",
+    justifyContent:"center"
   },
   helpBtn: {
     backgroundColor: "rgba(26, 182, 92, 1)",

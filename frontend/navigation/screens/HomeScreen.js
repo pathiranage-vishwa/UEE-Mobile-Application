@@ -64,8 +64,12 @@ export default function HomeScreen({ navigation }) {
             letterSpacing: "lg",
           }}
         >
-          <Text style={styles.headerText1}>
-            Hey <Text style={styles.name}>Mark,</Text>
+          <Text style={styles.headerText1}
+          onPress={() => navigation.navigate("ProcessUpCommingEvent")}
+          >
+            Hey 
+          
+            <Text style={styles.name}>Mark,</Text>
           </Text>
           <Text style={styles.headerText}>
             Let's start working with our city
@@ -158,11 +162,11 @@ export default function HomeScreen({ navigation }) {
                 source={require("../../assets/images/ourGoals.png")}
               />
               <Flex direction="row" style={styles.cardContent}>
-                <Text style={styles.text1}>Our Goals</Text>
+                <Text style={styles.text1}>Add Task</Text>
                 <Button
                   style={styles.button1}
                   size="sm"
-                  onPress={() => navigation.navigate("DisplayJoinEvents")}
+                  onPress={() => navigation.navigate("ProcessUpCommingEvent")}
                   backgroundColor={"rgba(26, 182, 92, 1)"}
                 >
                   <Text style={styles.textBtn1}>

@@ -30,7 +30,7 @@ import axios from "axios";
 import DatePicker from "react-native-modern-datepicker";
 import Constants from "../../../constants/Constants";
 
-export default function AddProcess() {
+export default function AddProcess({ route, navigation }) {
   const [formData, setData] = React.useState({});
   const [startDate, setStartDate] = useState(new Date(1598051730000));
   const [endDate, setEndDate] = useState(new Date(1598051730000));
@@ -38,8 +38,15 @@ export default function AddProcess() {
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [cost, setCost] = useState("");
+  const [event, setEvent] = React.useState({});
 
   const [show, setShow] = useState(false);
+
+  React.useEffect(() => {
+    setEvent(route.params.item);
+    setEventID(route.params.item._id);
+  
+  }, [event]);
 
  
   const handleSubmit = () => {
@@ -64,7 +71,7 @@ export default function AddProcess() {
     }
 
     const data = {
-      eventID: "123456789",
+      eventID,
       taskName,
       startDate,
       endDate,

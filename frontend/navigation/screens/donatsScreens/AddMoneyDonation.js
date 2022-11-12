@@ -104,7 +104,10 @@ export default function ImagePickerExample({ route, navigation }) {
     } else if (accountNumber === "") {
       Alert.alert("Please enter a accountNumber");
       return;
-    } else if (bankName === "") {
+    } else if (accountNumber.length !== 16) {
+      Alert.alert("Please enter a valid accountNumber");
+      return;
+    }else if (bankName === "") {
       Alert.alert("Please enter a bankName");
       return;
     } else if (branchCode === "") {
@@ -249,6 +252,7 @@ export default function ImagePickerExample({ route, navigation }) {
                 borderTopLeftRadius={10}
                 borderTopRightRadius={10}
                 value={accountNumber}
+                keyboardType="numeric"
                 type="number"
                 onChangeText={(value) => setAccountNumber(value)}
               />
@@ -355,6 +359,7 @@ export default function ImagePickerExample({ route, navigation }) {
                 borderTopRightRadius={10}
                 value={amount}
                 type="number"
+                keyboardType="numeric"
                 onChangeText={(value) => setAmount(value)}
               />
             </FormControl>

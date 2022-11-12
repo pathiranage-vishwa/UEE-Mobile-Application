@@ -8,6 +8,8 @@ router.post('/', mDonationController.createMoneyDonation);
 router.get('/', mDonationController.getMoneyDonations);
 router.get('/:id', mDonationController.getMoneyDonationById);
 router.get('/event/:id', mDonationController.getMoneyDonationByEventId);
+router.get('/total/:id', mDonationController.getTotalAmount);
+router.get('/count/:id', mDonationController.getDonationCount);
 router.put('/:id', mDonationController.updateMoneyDonation);
 router.delete('/:id', mDonationController.deleteMoneyDonation);
 
