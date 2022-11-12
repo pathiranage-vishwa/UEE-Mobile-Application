@@ -170,8 +170,8 @@ export default function UpdateEvent({ route, navigation }) {
     await axios
       .delete(`${Constants.URL}/api/events/${event._id}`)
       .then((res) => {
-        Alert.alert("Event deleted successfully");
         navigation.navigate("UpcomingEvent");
+        setRejectModalVisible(false);
       })
       .catch((err) => {
         console.log(err);
