@@ -135,12 +135,12 @@ export default function ({ navigation }) {
                       size="sm"
                       backgroundColor={"rgba(26, 182, 92, 1)"}
                       onPress={() =>
-                        navigation.navigate("RequestDetails", {
+                        navigation.navigate("UpdateRequest", {
                           item: item,
                         })
                       }
                     >
-                      <Text style={styles.text1}>View</Text>
+                      <Text style={styles.text1}>Edit</Text>
                     </Button>
                     <Button
                       style={styles.button2}

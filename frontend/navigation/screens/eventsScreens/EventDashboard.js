@@ -1,4 +1,10 @@
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Linking,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import Constants from "../../../constants/Constants";
 import axios from "axios";
@@ -24,13 +30,6 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function EventDashboard({ navigation }) {
-  //open gmail when click on button with to and subject
-  const sendEmail = () => {
-    Linking.openURL(
-      'mailto: "sarangahettiarachchi1999@gmail.com" ?subject= Reject the request  &body= I am sorry to inform you that your request has been rejected'
-    );
-  };
-
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -116,20 +115,12 @@ export default function EventDashboard({ navigation }) {
               <Button
                 style={styles.button2}
                 size="sm"
+                onPress={() => navigation.navigate("AllRequestedEvents")}
                 backgroundColor={"rgba(26, 182, 92, 1)"}
               >
                 <Text style={styles.textBtn1}>View</Text>
               </Button>
             </Flex>
-          </View>
-
-          <View style={styles.container}>
-            <Button onPress={() => navigation.navigate("PreviousEvents")}>
-              previous Events
-            </Button>
-            <Button m={10} onPress={sendEmail}>
-              open Email
-            </Button>
           </View>
         </ScrollView>
       </View>

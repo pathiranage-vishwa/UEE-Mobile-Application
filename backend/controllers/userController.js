@@ -55,7 +55,7 @@ const login = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
-    res.status(200).json({ users });
+    res.status(200).json(users);
   } catch (err) {
     console.log(err);
   }
@@ -71,6 +71,47 @@ const getUserById = async (req, res) => {
     res.status(404).send("User not found");
   } catch (err) {
     console.log(err);
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name,
+      email,
+      contactNo,
+      role,
+      image,
+    } = req.body;
+    const upUser = await Request.findByIdAndUpdate(
+      id,
+      {
+        name,
+        email,
+        contactNo,
+        role,
+        image,
+      },
+      { new: true }
+    );
+    res.status(200).json({ upUser });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//delete user
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const upUser = await Request.findByIdAndDelete(id);
+    if (upUser) {
+      return res.status(200).json({ message: "Request deleted" });
+    }
+    res.status(404).send("Request not found");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -118,4 +159,6 @@ module.exports = {
   getUserById,
   forgetPassword,
   resetPassword,
+  updateUser,
+  deleteUser
 };

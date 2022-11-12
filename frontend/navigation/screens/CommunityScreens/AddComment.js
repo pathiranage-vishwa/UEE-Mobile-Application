@@ -3,6 +3,8 @@ import {
   View,
   Platform,
   StyleSheet,
+  Modal,
+  Pressable,
   Text,
   Alert,
   Dimensions,
@@ -41,6 +43,9 @@ export default function AddComment({ route, navigation }) {
   const [name, setName] = React.useState("");
   const [id, setId] = React.useState("");
 
+  const [userDetails, setuserDetails] = useState([]);
+  const [approveModalVisible, setApproveModalVisible] = useState(false);
+
   useEffect(() => {
     setId(feed._id);
   }, []);
@@ -61,14 +66,19 @@ export default function AddComment({ route, navigation }) {
       .post(`${Constants.URL}/api/comments`, data)
       .then((res) => {
         //confirm alert with success icon
-        Alert.alert("Comment added successfully", "Thank you for your comment");
+        setApproveModalVisible(false);
+        navigation.navigate("CommunityFeed");
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // setName("");
-    // setComment("");
+    setName("");
+    setComment("");
+  };
+
+  const approvePressed = () => {
+    setApproveModalVisible(true);
   };
 
   return (
@@ -131,7 +141,7 @@ export default function AddComment({ route, navigation }) {
               onChangeText={(value) => setComment(value)}
             />
           </FormControl>
-          <Button style={styles.uploadButton} onPress={handleSubmit}>
+          <Button style={styles.uploadButton} onPress={approvePressed}>
             <Text style={styles.uploadButtonText}> Ok</Text>
           </Button>
         </VStack>
@@ -142,6 +152,48 @@ export default function AddComment({ route, navigation }) {
           <Text style={styles.uploadButtonText1}> Back</Text>
         </Button>
       </ScrollView>
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={approveModalVisible}
+            onRequestClose={() => {
+              setApproveModalVisible(!approveModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>Comment added</Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleSubmit}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 15 },
+                      ]}
+                    >
+                      Ok
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
     </NativeBaseProvider>
   );
 }
@@ -154,7 +206,7 @@ const styles = StyleSheet.create({
   uploadButton: {
     borderRadius: 10,
 
-    shadowColor: "#000",
+    shadowColor: "grey",
     shadowOffset: {
       width: 7,
       height: 5,
@@ -173,14 +225,14 @@ const styles = StyleSheet.create({
   uploadButton1: {
     borderRadius: 10,
 
-    shadowColor: "#000",
+    shadowColor: "grey",
     shadowOffset: {
       width: 7,
       height: 5,
     },
     shadowOpacity: 1.58,
     shadowRadius: 9,
-    elevation: 4,
+    elevation: 2,
     margin: 10,
     padding: 10,
     backgroundColor: "rgba(26, 182, 92, 1)",
@@ -266,5 +318,112 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.58,
     shadowRadius: 9,
     elevation: 4,
+  },
+
+  // alert
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    backgroundColor: "#000000aa",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "auto",
+    width: "90%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backfaceVisibility: "hidden",
+    backgroundColor: "red",
+  },
+  modal: {
+    background: "red",
+    position: "absolute",
+    top: "50px",
+    right: "calc(50% - 200px)",
+    border: "1px solid #ccc",
+    padding: "1px",
+    minHeight: "300px",
+  },
+  warningBtnYes: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    elevation: 7,
+    width: 100,
+    height: 60,
+    maxWidth: 150,
+    padding: 15,
+    marginLeft: 10,
+    paddingStart: 20,
+    borderRadius: 25,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  warningBtnNo: {
+    backgroundColor: "rgba(232, 248, 239, 1)",
+
+    elevation: 7,
+    width: 130,
+    height: 60,
+    marginLeft: 45,
+    maxWidth: 150,
+    padding: 15,
+    paddingStart: 25,
+    borderRadius: 25,
+    marginRight: 10,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 22,
+    height: 30,
+  },
+  modalText1: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+
+    marginTop: 20,
+  },
+  modalText2: {
+    fontWeight: "bold",
+    color: "orange",
+  },
+  alertButtonContainer: {
+    flexDirection: "row",
+  },
+  hr: {
+    color: "rgba(26, 182, 92, 1)",
+    marginBottom: 20,
   },
 });

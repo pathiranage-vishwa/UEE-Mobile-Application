@@ -9,7 +9,6 @@ import HomeScreen from "./screens/HomeScreen";
 import AddEvent from "./screens/eventsScreens/AddEvent";
 import UpcomingEvent from "./screens/eventsScreens/UpcomingEvent";
 import EventDetails from "./screens/eventsScreens/EventDetails";
-import CreateRequest from "./screens/requestsScreens/CreateRequest";
 import Login from "./screens/AuthScreens/Login";
 import UpdateEvent from "./screens/eventsScreens/UpdateEvent";
 import Instructions from "./screens/eventsScreens/Instructions";
@@ -38,6 +37,15 @@ import ShareEvent from "./screens/CommunityScreens/ShareEvent";
 import CommunityFeed from "./screens/CommunityScreens/CommunityFeed";
 import Comments from "./screens/CommunityScreens/Comments";
 import AddComment from "./screens/CommunityScreens/AddComment";
+import RequestDashboard from "./screens/requestsScreens/RequestDashboard";
+import UpgradeUser from "./screens/AuthScreens/upgrade_user";
+import AllUsers from "./screens/AuthScreens/AllUsers";
+import CreateRequest from "./screens/requestsScreens/CreateRequest";
+import UpdateRequest from "./screens/requestsScreens/UpdateRequest";
+import AllRequestedEvents from "./screens/requestsScreens/AllRequestedEvents";
+import RequestDetails from "./screens/requestsScreens/RequestDetails";
+import UpdateProfile from "./screens/AuthScreens/UpdateProfile";
+
 //Screen names
 const homeName = "Home";
 const addEvent = "AddEvent";
@@ -60,6 +68,7 @@ const login = "Login";
 const profile = "Profile";
 const joinEvent = "JoinEvent";
 
+const requestDashboard = "RequestDashboard";
 const updateEvent = "UpdateEvent";
 const instructions = "Instructions";
 const previousEvents = "PreviousEvents";
@@ -72,6 +81,12 @@ const shareEvent = "ShareEvent";
 const communityFeed = "CommunityFeed";
 const comments = "Comments";
 const addComment = "AddComment";
+const upgradeUser = "UpgradeUser";
+const allUsers = "AllUsers";
+const updateRequest = "UpdateRequest";
+const allRequestedEvents = "AllRequestedEvents"
+const requestDetails = "RequestDetails"
+const updateProfile = "UpdateProfile"
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -117,6 +132,15 @@ function MainContainer() {
         <Stack.Screen name={communityFeed} component={CommunityFeed} />
         <Stack.Screen name={comments} component={Comments} />
         <Stack.Screen name={addComment} component={AddComment} />
+        <Stack.Screen name={requestDashboard} component={RequestDashboard} />
+        <Stack.Screen name={upgradeUser} component={UpgradeUser} />
+        <Stack.Screen name={allUsers} component={AllUsers} />
+        <Stack.Screen name={login} component={Login} />
+        <Stack.Screen name={createRequest} component={CreateRequest} />
+        <Stack.Screen name={updateRequest} component={UpdateRequest} />
+        <Stack.Screen name={allRequestedEvents} component={AllRequestedEvents} />
+        <Stack.Screen name={requestDetails} component={RequestDetails} />
+        <Stack.Screen name={updateProfile} component={UpdateProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
