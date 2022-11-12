@@ -30,13 +30,6 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function EventDashboard({ navigation }) {
-  //open gmail when click on button with to and subject
-  const sendEmail = async () => {
-    Linking.openURL(
-      'mailto: "sarangahettiarachchi1999@gmail.com" ?subject= Reject the request  '
-    );
-  };
-
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -128,12 +121,6 @@ export default function EventDashboard({ navigation }) {
                 <Text style={styles.textBtn1}>View</Text>
               </Button>
             </Flex>
-          </View>
-
-          <View style={styles.container}>
-            <Button m={10} onPress={sendEmail}>
-              open Email
-            </Button>
           </View>
         </ScrollView>
       </View>

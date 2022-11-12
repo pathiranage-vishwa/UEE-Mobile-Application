@@ -66,19 +66,19 @@ export default function AddComment({ route, navigation }) {
       .post(`${Constants.URL}/api/comments`, data)
       .then((res) => {
         //confirm alert with success icon
+        setApproveModalVisible(false);
+        navigation.navigate("CommunityFeed");
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // setName("");
-    // setComment("");
-    setApproveModalVisible(false);
+    setName("");
+    setComment("");
   };
 
   const approvePressed = () => {
     setApproveModalVisible(true);
-    // setuserDetails(data);
   };
 
   return (
@@ -166,9 +166,7 @@ export default function AddComment({ route, navigation }) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText1}>
-                  Confirm to <Text style={styles.modalText2}> Update !</Text>
-                </Text>
+                <Text style={styles.modalText1}>Comment added</Text>
                 <Text style={styles.hr}>
                   _____________________________________________
                 </Text>
@@ -184,24 +182,10 @@ export default function AddComment({ route, navigation }) {
                       style={[
                         styles.modalText,
                         { color: "#ffffff" },
-                        { marginLeft: 25 },
+                        { marginLeft: 15 },
                       ]}
                     >
-                      Yes
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.warningBtnNo}
-                    onPress={() => setApproveModalVisible(!approveModalVisible)}
-                  >
-                    <Text
-                      style={[
-                        styles.modalText,
-                        { color: "rgba(26, 182, 92, 1)" },
-                        { marginLeft: 25 },
-                      ]}
-                    >
-                      No
+                      Ok
                     </Text>
                   </Pressable>
                 </View>
@@ -380,7 +364,7 @@ const styles = StyleSheet.create({
   warningBtnYes: {
     backgroundColor: "rgba(26, 182, 92, 1)",
     elevation: 7,
-    width: 130,
+    width: 100,
     height: 60,
     maxWidth: 150,
     padding: 15,
