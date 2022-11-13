@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 
-export default function Instructions() {
+export default function RequestInstructions() {
   return (
     <NativeBaseProvider>
       <ScrollView style={styles.container}>
@@ -29,7 +29,7 @@ export default function Instructions() {
           }}
           shadow={3}
         >
-          Instructions
+          Request Instructions
         </Box>
         <Text style={styles.textHeader}>
           Step by step process to create an event request.

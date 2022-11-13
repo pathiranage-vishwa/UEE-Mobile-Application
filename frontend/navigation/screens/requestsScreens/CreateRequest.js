@@ -31,7 +31,7 @@ import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-modern-datepicker";
 import Constants from "../../../constants/Constants";
 
-export default function CreateRequest() {
+export default function CreateRequest({ navigation }) {
   const [formData, setData] = React.useState({});
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
@@ -147,6 +147,7 @@ export default function CreateRequest() {
       </Box>
       <Button
         shadow={3}
+        onPress={() => navigation.navigate("RequestInstructions")}
         _text={{
           color: "white",
           fontSize: "lg",

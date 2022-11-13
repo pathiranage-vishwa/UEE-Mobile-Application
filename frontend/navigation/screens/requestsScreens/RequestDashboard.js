@@ -49,6 +49,23 @@ export default function RequestDashboard({ navigation }) {
             </TouchableOpacity>
           </Flex>
         </View>
+        <Box
+          p="2"
+          alignSelf={{ base: "center", md: "flex-start" }}
+          mt="20%"
+          rounded="xl"
+          style={styles.header}
+          _text={{
+            fontSize: "28",
+            fontWeight: "medium",
+            color: "black",
+            alignSelf: "center",
+            letterSpacing: "lg",
+            fontFamily: "Roboto",
+          }}
+        >
+          REQUEST DASHBOARD
+        </Box>
 
         <ScrollView>
           <Flex direction="row" style={styles.container}>

@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image, Modal,Pressable, Alert, } from "react-native";
 import React, { useState, useEffect } from "react";
 import Constants from "../../../constants/Constants";
 import axios from "axios";
@@ -24,6 +24,19 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function UpgradeUser({ navigation }) {
+
+  const [approveModalVisible, setApproveModalVisible] = useState(false);
+
+  const approvePressed = () => {
+    console.log("Approve pressed");
+    setApproveModalVisible(true);
+  };
+
+  const navigateController = () => {
+    navigation.navigate("AddEvent");
+    setApproveModalVisible(false);
+  };
+
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -41,7 +54,7 @@ export default function UpgradeUser({ navigation }) {
                   size={8}
                 />
               }
-              onPress={() => navigation.navigate("Home")}
+              onPress={() => navigation.navigate("RequestInstructions")}
             />
 
             <TouchableOpacity style={styles.menuButton}>
@@ -49,6 +62,23 @@ export default function UpgradeUser({ navigation }) {
             </TouchableOpacity>
           </Flex>
         </View>
+        <Box
+          p="2"
+          alignSelf={{ base: "center", md: "flex-start" }}
+          mt="20%"
+          rounded="xl"
+          style={styles.header}
+          _text={{
+            fontSize: "32",
+            fontWeight: "medium",
+            color: "black",
+            alignSelf: "center",
+            letterSpacing: "lg",
+            fontFamily: "Roboto",
+          }}
+        >
+          UPGRADE PROFILE
+        </Box>
 
         <ScrollView>
           <Flex direction="row" style={styles.container}>
@@ -58,17 +88,8 @@ export default function UpgradeUser({ navigation }) {
               source={require("../../../assets/images/up-com-member.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Upgrade to community member</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
+              <Text style={styles.text3} onPress={() => approvePressed()}>
+                Upgrade to community member</Text>
             </Flex>
           </View>
             </Flex>
@@ -79,17 +100,8 @@ export default function UpgradeUser({ navigation }) {
               source={require("../../../assets/images/up-event-organizer.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>View all pending event requests</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
+              <Text style={styles.text4} onPress={() => approvePressed()} 
+              >Upgrade to Event Organizer</Text>
             </Flex>
           </View>
           </Flex>
@@ -100,22 +112,55 @@ export default function UpgradeUser({ navigation }) {
               source={require("../../../assets/images/manageUsers.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Manage Event Requests</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
+              <Text style={styles.text2}
+              onPress={() => navigation.navigate("AllUsers")}>Manage Users</Text>
             </Flex>
           </View>
           </Flex>
         </ScrollView>
 
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={approveModalVisible}
+            onRequestClose={() => {
+              setApproveModalVisible(!approveModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>Your requests will pending for approval</Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={navigateController}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Ok
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
       </View>
     </NativeBaseProvider>
   );
@@ -194,7 +239,7 @@ const styles = StyleSheet.create({
   image2: {
     width: "200%",
     marginTop: 40,
-    marginBottom: -75,
+    marginBottom: -15,
     height: 200,
     resizeMode: "contain",
     alignSelf: "center",
@@ -209,8 +254,8 @@ const styles = StyleSheet.create({
   },
   image3: {
     width: "200%",
-    marginTop: 35,
-    marginBottom: -70,
+    marginTop: 40,
+    marginBottom: -10,
     marginLeft: 100,
     height: 200,
     resizeMode: "contain",
@@ -226,8 +271,8 @@ const styles = StyleSheet.create({
   },
   image4: {
     width: "100%",
-    marginTop: 35,
-    marginBottom: -70,
+    marginTop: 40,
+    marginBottom: -10,
     height: 200,
     resizeMode: "contain",
     alignSelf: "center",
@@ -283,7 +328,21 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: "black",
-    marginTop: -150,
+    marginTop: -210,
+    marginLeft: 10,
+  },
+  text3: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "black",
+    marginTop: -200,
+    marginLeft: 10,
+  },
+  text4: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "black",
+    marginTop: -200,
     marginLeft: 10,
   },
   button1: {
@@ -345,5 +404,145 @@ const styles = StyleSheet.create({
   },
   name: {
     color: "rgba(26, 182, 92, 1)",
+  },
+   // alert
+   centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    backgroundColor: "#000000aa",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "auto",
+    width: "90%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backfaceVisibility: "hidden",
+    backgroundColor: "red",
+  },
+  modal: {
+    background: "red",
+    position: "absolute",
+    top: "50px",
+    right: "calc(50% - 200px)",
+    border: "1px solid #ccc",
+    padding: "1px",
+    minHeight: "300px",
+  },
+  warningBtnYes: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    elevation: 7,
+    width: 130,
+    height: 60,
+    maxWidth: 150,
+    padding: 15,
+    marginLeft: 10,
+    paddingStart: 20,
+    borderRadius: 25,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  warningBtnNo: {
+    backgroundColor: "rgba(232, 248, 239, 1)",
+
+    elevation: 7,
+    width: 130,
+    height: 60,
+    marginLeft: 45,
+    maxWidth: 150,
+    padding: 15,
+    paddingStart: 25,
+    borderRadius: 25,
+    marginRight: 10,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 22,
+    height: 30,
+  },
+  modalText1: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 40,
+
+    marginTop: 20,
+  },
+  modalText2: {
+    fontWeight: "bold",
+    color: "orange",
+  },
+  modalText3: {
+    fontWeight: "bold",
+    color: "red",
+  },
+  alertButtonContainer: {
+    flexDirection: "row",
+  },
+  hr: {
+    color: "rgba(26, 182, 92, 1)",
+    marginBottom: 20,
+  },
+  modalText5: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+    color: "rgba(26, 182, 92, 1)",
+  },
+  loading: {
+    width: "50%",
+    marginTop: 23,
+    height: 100,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  modalView1: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "30%",
+    width: "80%",
   },
 });

@@ -77,7 +77,22 @@ export default function ({ navigation }) {
         >
           ALL USERS
         </Box>
+        <Button
+        shadow={3}
+        onPress={() => navigation.navigate("PendingUsersApprove")}
+        _text={{
+          color: "white",
+          fontSize: "lg",
+          alignSelf: "center",
+          fontWeight: "medium",
+          letterSpacing: "lg",
 
+          shadow: 3,
+        }}
+        style={styles.helpBtn}
+      >
+        Manage Pending Users
+      </Button>
         <VStack w="100%" space={5} alignSelf="center">
           <Input
             placeholder="Search upcoming users here"
@@ -238,5 +253,22 @@ const styles = StyleSheet.create({
     color: "rgba(26, 182, 92, 1)",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  helpBtn: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "80%",
+    alignSelf: "center",
+    marginTop: "6%",
+    color: "black",
+    height: 50,
+    borderRadius: 40,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
   },
 });

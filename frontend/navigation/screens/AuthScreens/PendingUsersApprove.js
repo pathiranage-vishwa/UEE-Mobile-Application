@@ -75,7 +75,7 @@ export default function ({ navigation }) {
             fontFamily: "Roboto",
           }}
         >
-          ALL USERS
+          PENDING USERS
         </Box>
 
         <VStack w="100%" space={5} alignSelf="center">
@@ -102,43 +102,92 @@ export default function ({ navigation }) {
           />
         </VStack>
 
-        <FlatList
-          data={user}
-          renderItem={({ item }) => (
-            <View style={styles.card} key={item._id} shadow={1}>
-              {/* <Image source={""} style={styles.image} /> */}
+            <View style={styles.card} key={1} shadow={1}>
               <Flex direction="row">
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    {item.name}
+                    Sanjula Mihiran
                   </Heading>
 
                   <Text style={styles.sub}>
-                    <Text style={styles.date}>Current Status :</Text> {item.role}
+                    <Text style={styles.date}>Current Status :</Text> Non-Community Member
                   </Text>
                   <Text style={styles.sub}>
-                    <Text style={styles.date}>Requested Status :</Text> {item.role}
+                    <Text style={styles.date}>Requested Status :</Text>Community Member
                   </Text>
                   {/* flex two button */}
                   <Flex direction="row">
-                    <Button
+                  <Button
                       style={styles.button2}
                       size="sm"
-                      onPress={() =>
-                        navigation.navigate("UserDetails", {
-                          item: item,
-                        })
-                      }
+                      // onPress={() =>
+                      //   navigation.navigate("UserDetails", {
+                      //     item: item,
+                      //   })
+                      // }
                       backgroundColor={"white"}
                     >
-                      <Text style={styles.text2}>View</Text>
+                      <Text style={styles.text2}>Accept</Text>
+                    </Button>
+                    <Button
+                      style={styles.button3}
+                      size="sm"
+                      // onPress={() =>
+                      //   navigation.navigate("UserDetails", {
+                      //     item: item,
+                      //   })
+                      // }
+                      backgroundColor={"white"}
+                    >
+                      <Text style={styles.text3}>Reject</Text>
                     </Button>
                   </Flex>
                 </Stack>
               </Flex>
             </View>
-          )}
-        />
+            <View style={styles.card} key={2} shadow={1}>
+              <Flex direction="row">
+                <Stack space={2} p="4" w="100%">
+                  <Heading size="sm" ml="-1" style={styles.title1}>
+                    Tharindu Perera
+                  </Heading>
+
+                  <Text style={styles.sub}>
+                    <Text style={styles.date}>Current Status :</Text> Community Member
+                  </Text>
+                  <Text style={styles.sub}>
+                    <Text style={styles.date}>Requested Status :</Text> Event Organizer
+                  </Text>
+                  {/* flex two button */}
+                  <Flex direction="row">
+                  <Button
+                      style={styles.button2}
+                      size="sm"
+                      // onPress={() =>
+                      //   navigation.navigate("UserDetails", {
+                      //     item: item,
+                      //   })
+                      // }
+                      backgroundColor={"white"}
+                    >
+                      <Text style={styles.text2}>Accept</Text>
+                    </Button>
+                    <Button
+                      style={styles.button3}
+                      size="sm"
+                      // onPress={() =>
+                      //   navigation.navigate("UserDetails", {
+                      //     item: item,
+                      //   })
+                      // }
+                      backgroundColor={"white"}
+                    >
+                      <Text style={styles.text3}>Reject</Text>
+                    </Button>
+                  </Flex>
+                </Stack>
+              </Flex>
+            </View>
       </ScrollView>
     </NativeBaseProvider>
   );
@@ -166,8 +215,16 @@ const styles = StyleSheet.create({
     height: 50,
   },
   button2: {
-    marginTop: 20,
+    marginTop: 30,
     borderColor: "rgba(26, 182, 92, 1)",
+    borderWidth: 2,
+    width: "24%",
+    borderRadius: 10,
+    margin: 10,
+  },
+  button3: {
+    marginTop: 30,
+    borderColor: "red",
     borderWidth: 2,
     width: "24%",
     borderRadius: 10,
@@ -189,7 +246,7 @@ const styles = StyleSheet.create({
   sub: {
     fontWeight: "bold",
     fontSize: 16,
-    width: "50%",
+    width: "100%",
   },
   sub1: {
     marginTop: 15,
@@ -231,6 +288,11 @@ const styles = StyleSheet.create({
   },
   text2: {
     color: "rgba(26, 182, 92, 1)",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  text3: {
+    color: "red",
     fontSize: 16,
     fontWeight: "bold",
   },

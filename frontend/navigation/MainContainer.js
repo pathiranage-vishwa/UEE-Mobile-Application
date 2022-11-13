@@ -46,6 +46,8 @@ import AllRequestedEvents from "./screens/requestsScreens/AllRequestedEvents";
 import RequestDetails from "./screens/requestsScreens/RequestDetails";
 import UpdateProfile from "./screens/AuthScreens/UpdateProfile";
 import AllRequestedEventsEdit from "./screens/requestsScreens/AllRequestedEventsEdit";
+import RequestInstructions from "./screens/requestsScreens/ReqInstructions";
+import PendingUsersApprove from "./screens/AuthScreens/PendingUsersApprove";
 
 //Screen names
 const homeName = "Home";
@@ -89,6 +91,8 @@ const allRequestedEvents = "AllRequestedEvents"
 const requestDetails = "RequestDetails"
 const updateProfile = "UpdateProfile"
 const allRequestedEventsEdit = "AllRequestedEventsEdit"
+const requestInstructions = "RequestInstructions"
+const pendingUsersApprove = "PendingUsersApprove"
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -144,6 +148,9 @@ function MainContainer() {
         <Stack.Screen name={requestDetails} component={RequestDetails} />
         <Stack.Screen name={updateProfile} component={UpdateProfile} />
         <Stack.Screen name={allRequestedEventsEdit} component={AllRequestedEventsEdit} />
+        <Stack.Screen name={requestInstructions} component={RequestInstructions} />
+        <Stack.Screen name={pendingUsersApprove} component={PendingUsersApprove} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -183,6 +190,8 @@ function DrawerFun() {
             iconName = "people";
           } else if (route.name === upcomingEvent) {
             iconName = "calendar";
+          } else if (route.name === upgradeUser) {
+            iconName = "body";
           }
 
           // You can return any component that you like here!

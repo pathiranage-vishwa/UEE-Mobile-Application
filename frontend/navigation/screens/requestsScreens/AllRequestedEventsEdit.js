@@ -205,12 +205,13 @@ const styles = StyleSheet.create({
   button2: {
     marginTop: 5,
     marginBottom: 36,
-    marginLeft: -3,
+    marginLeft: -5,
     borderColor: "rgba(26, 182, 92, 1)",
     borderWidth: 2,
+    backgroundColor: "rgba(26, 182, 92, 1)",
     width: "17%",
     borderRadius: 20,
-    margin: 2,
+    margin: 7,
   },
 
   title1: {
