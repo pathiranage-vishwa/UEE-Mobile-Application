@@ -130,6 +130,7 @@ export default function ImagePickerExample({ route, navigation }) {
       .then((res) => {
         console.log(res.data);
         Alert.alert("Doantion added successfully");
+        navigation.navigate("DonationUpcomingEvent");
       })
       .catch((err) => {
         console.log(err);
