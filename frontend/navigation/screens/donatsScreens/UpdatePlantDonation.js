@@ -43,7 +43,6 @@ export default function UpdatePlantDonation({ route, navigation }) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [planDonation, setPlanDonation] = React.useState({});
-  
 
   const [show, setShow] = useState(false);
 
@@ -94,8 +93,8 @@ export default function UpdatePlantDonation({ route, navigation }) {
     const data = {
       eventID,
       eventName,
-      userId : "123456789",
-      userName : "test",
+      userId: "63709eb972c9fc8b672d9958",
+      userName: "user",
       plantName,
       date,
       amount,
@@ -141,7 +140,7 @@ export default function UpdatePlantDonation({ route, navigation }) {
       </Box>
 
       <ScrollView style={styles.main}>
-        <VStack >
+        <VStack>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
             <FormControl isRequired>
@@ -153,13 +152,13 @@ export default function UpdatePlantDonation({ route, navigation }) {
                 Event ID
               </FormControl.Label>
               <Input
-                 borderColor = {"#000"}
-                 heigh = {12}
-                 backgroundColor = {"rgba(217, 217, 217, 1)"}
-                 borderBottomLeftRadius ={10}
-                 borderBottomRightRadius = {10}
-                 borderTopLeftRadius = {10}
-                 borderTopRightRadius = {10}
+                borderColor={"#000"}
+                heigh={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
                 placeholder="Event eventID"
                 value={eventID}
                 type="text"
@@ -176,14 +175,13 @@ export default function UpdatePlantDonation({ route, navigation }) {
                 Event Name
               </FormControl.Label>
               <Input
-                 borderColor = {"#000"}
-                 heigh = {12}
-
-                 backgroundColor = {"rgba(217, 217, 217, 1)"}
-                 borderBottomLeftRadius ={10}
-                 borderBottomRightRadius = {10}
-                 borderTopLeftRadius = {10}
-                 borderTopRightRadius = {10}
+                borderColor={"#000"}
+                heigh={12}
+                backgroundColor={"rgba(217, 217, 217, 1)"}
+                borderBottomLeftRadius={10}
+                borderBottomRightRadius={10}
+                borderTopLeftRadius={10}
+                borderTopRightRadius={10}
                 placeholder="Event Name"
                 value={eventName}
                 type="text"
@@ -259,7 +257,7 @@ export default function UpdatePlantDonation({ route, navigation }) {
                 onChangeText={(value) => setDescription(value)}
               />
             </FormControl>
-          <FormControl isRequired mt={5}>
+            <FormControl isRequired mt={5}>
               <FormControl.Label
                 _text={{
                   bold: true,
@@ -392,7 +390,6 @@ const styles = StyleSheet.create({
   image1: {
     width: "100%",
     height: "100%",
-
   },
   imageCon: {
     alignSelf: "center",
@@ -468,7 +465,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
   },
 
-  
   // alert
   centeredView: {
     flex: 1,

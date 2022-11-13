@@ -107,7 +107,7 @@ export default function ImagePickerExample({ route, navigation }) {
     } else if (accountNumber.length !== 16) {
       Alert.alert("Please enter a valid accountNumber");
       return;
-    }else if (bankName === "") {
+    } else if (bankName === "") {
       Alert.alert("Please enter a bankName");
       return;
     } else if (branchCode === "") {
@@ -127,8 +127,8 @@ export default function ImagePickerExample({ route, navigation }) {
     const data = {
       eventID,
       eventName,
-      userId: "123456789",
-      userName: "test",
+      userId: "63709eb972c9fc8b672d9958",
+      userName: "user",
       accountNumber,
       date,
       amount,
@@ -180,13 +180,13 @@ export default function ImagePickerExample({ route, navigation }) {
       </Box>
 
       <ScrollView style={styles.main}>
-        <VStack >
-        <View style={styles.card}>
-          <Image
-            style={styles.image}
-            source={event.image ? { uri: event.image } : null}
-          />
-        </View>
+        <VStack>
+          <View style={styles.card}>
+            <Image
+              style={styles.image}
+              source={event.image ? { uri: event.image } : null}
+            />
+          </View>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
             <FormControl isRequired>
