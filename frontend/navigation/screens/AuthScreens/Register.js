@@ -10,6 +10,7 @@ import {
   Center,
   NativeBaseProvider,
   ScrollView,
+  Spacer,
 } from "native-base";
 import axios from "axios";
 import Constants from "../../../constants/Constants";
@@ -54,6 +55,27 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     backgroundColor: "#000000c0",
+  },
+  uploadButton: {
+    borderRadius: 10,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 12,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "45%",
+    height: 70,
+  },
+  uploadButtonText: {
+    color: "#f6f5f8",
+    fontSize: 20,
   },
 });
 
@@ -168,8 +190,8 @@ export default function Register({ navigation }) {
                 }
               />
             </FormControl>
-            <Button height={50} mt="2" colorScheme="orange" onPress={register}>
-              Sign up
+            <Button style={styles.uploadButton} onPress={register}>
+              <Text style={styles.uploadButtonText}> Sign up</Text>
             </Button>
           </VStack>
           </ScrollView>

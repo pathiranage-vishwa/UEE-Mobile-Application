@@ -40,7 +40,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     console.log(email, password);
-    const user = await Users.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "User does not exist." });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -84,7 +84,7 @@ const updateUser = async (req, res) => {
       role,
       image,
     } = req.body;
-    const upUser = await Request.findByIdAndUpdate(
+    const upUser = await User.findByIdAndUpdate(
       id,
       {
         name,
@@ -105,7 +105,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const upUser = await Request.findByIdAndDelete(id);
+    const upUser = await User.findByIdAndDelete(id);
     if (upUser) {
       return res.status(200).json({ message: "Request deleted" });
     }

@@ -33,7 +33,7 @@ export default function UpgradeUser({ navigation }) {
   };
 
   const navigateController = () => {
-    navigation.navigate("AddEvent");
+    navigation.navigate("UpgradeUser");
     setApproveModalVisible(false);
   };
 
