@@ -128,7 +128,7 @@ export default function ImagePickerExample({ route, navigation }) {
       eventID,
       eventName,
       userId: "123456789",
-      userName: "test",
+      userName: "user",
       accountNumber,
       date,
       amount,
