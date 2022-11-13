@@ -36,6 +36,7 @@ import UpdateRequest from "./screens/requestsScreens/UpdateRequest";
 import AllRequestedEvents from "./screens/requestsScreens/AllRequestedEvents";
 import RequestDetails from "./screens/requestsScreens/RequestDetails";
 import UpdateProfile from "./screens/AuthScreens/UpdateProfile";
+import AllRequestedEventsEdit from "./screens/requestsScreens/AllRequestedEventsEdit";
 
 //Screen names
 const homeName = "Home";
@@ -69,6 +70,7 @@ const updateRequest = "UpdateRequest";
 const allRequestedEvents = "AllRequestedEvents"
 const requestDetails = "RequestDetails"
 const updateProfile = "UpdateProfile"
+const allRequestedEventsEdit = "AllRequestedEventsEdit"
 
 //Stack navigator
 const Stack = createNativeStackNavigator();
@@ -112,6 +114,7 @@ function MainContainer() {
         <Stack.Screen name={allRequestedEvents} component={AllRequestedEvents} />
         <Stack.Screen name={requestDetails} component={RequestDetails} />
         <Stack.Screen name={updateProfile} component={UpdateProfile} />
+        <Stack.Screen name={allRequestedEventsEdit} component={AllRequestedEventsEdit} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -163,6 +166,7 @@ function DrawerFun() {
       <Drawer.Screen name={homeName} component={HomeScreen} />
       <Drawer.Screen name={eventDashboard} component={EventDashboard} />
       <Drawer.Screen name={upcomingEvent} component={UpcomingEvent} />
+      <Drawer.Screen name={upgradeUser} component={UpgradeUser} />
     </Drawer.Navigator>
   );
 }
