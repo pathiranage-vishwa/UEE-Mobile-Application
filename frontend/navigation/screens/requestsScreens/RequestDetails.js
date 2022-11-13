@@ -90,61 +90,64 @@ export default function RequestDetails({ route, navigation }) {
             <Text style={styles.uploadButtonText}> Reject</Text>
           </Button>
         </Flex>
-      </View>
-      {/* pop up alert */}
-      <View style={styles.centeredView}>
-        <View style={styles.modalContainer}>
-          <Modal
-            style={styles.modal}
-            animationType="fade"
-            transparent={true}
-            visible={approveModalVisible}
-            onRequestClose={() => {
-              setApproveModalVisible(!approveModalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText1}>Confirm to continue</Text>
-                <Text style={styles.hr}>
-                  _____________________________________________
-                </Text>
 
-                <Image source={require("../../../assets/images/done.png")} />
+        {/* pop up alert */}
+        <View style={styles.centeredView}>
+          <View style={styles.modalContainer}>
+            <Modal
+              style={styles.modal}
+              animationType="fade"
+              transparent={true}
+              visible={approveModalVisible}
+              onRequestClose={() => {
+                setApproveModalVisible(!approveModalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText1}>Confirm to continue</Text>
+                  <Text style={styles.hr}>
+                    _____________________________________________
+                  </Text>
 
-                <View style={styles.alertButtonContainer}>
-                  <Pressable
-                    style={styles.warningBtnYes}
-                    onPress={navigateController}
-                  >
-                    <Text
-                      style={[
-                        styles.modalText,
-                        { color: "#ffffff" },
-                        { marginLeft: 25 },
-                      ]}
+                  <Image source={require("../../../assets/images/done.png")} />
+
+                  <View style={styles.alertButtonContainer}>
+                    <Pressable
+                      style={styles.warningBtnYes}
+                      onPress={navigateController}
                     >
-                      Yes
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.warningBtnNo}
-                    onPress={() => setApproveModalVisible(!approveModalVisible)}
-                  >
-                    <Text
-                      style={[
-                        styles.modalText,
-                        { color: "rgba(26, 182, 92, 1)" },
-                        { marginLeft: 25 },
-                      ]}
+                      <Text
+                        style={[
+                          styles.modalText,
+                          { color: "#ffffff" },
+                          { marginLeft: 25 },
+                        ]}
+                      >
+                        Yes
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.warningBtnNo}
+                      onPress={() =>
+                        setApproveModalVisible(!approveModalVisible)
+                      }
                     >
-                      No
-                    </Text>
-                  </Pressable>
+                      <Text
+                        style={[
+                          styles.modalText,
+                          { color: "rgba(26, 182, 92, 1)" },
+                          { marginLeft: 25 },
+                        ]}
+                      >
+                        No
+                      </Text>
+                    </Pressable>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Modal>
+            </Modal>
+          </View>
         </View>
       </View>
     </NativeBaseProvider>
