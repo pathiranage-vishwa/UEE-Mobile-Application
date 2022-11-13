@@ -141,6 +141,7 @@ export default function ImagePickerExample({ route, navigation }) {
       .post(`${Constants.URL}/api/moneyDonations`, data)
       .then((res) => {
         Alert.alert("Donation added successfully");
+        navigation.navigate("DonationUpcomingEvent");
         console.log(res.data);
       })
 

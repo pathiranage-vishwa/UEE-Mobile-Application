@@ -62,12 +62,6 @@ console.log(donation);
 
       <ScrollView style={styles.main}>
         <VStack >
-        <View style={styles.card}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/images/p1.jpg")}
-          />
-        </View>
           <Spacer />
           <VStack width="90%" mx="3" ml={6} maxW="350px" alignSelf="center">
             <FormControl isRequired>

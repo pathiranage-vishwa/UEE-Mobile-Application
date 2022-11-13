@@ -6,7 +6,9 @@ import {
   Text,
   Alert,
   Dimensions,
+  Modal,
   TouchableOpacity,
+  Pressable,
   Image,
 } from "react-native";
 import {
@@ -45,6 +47,9 @@ export default function UpdatePlantDonation({ route, navigation }) {
 
   const [show, setShow] = useState(false);
 
+  const [approveModalVisible, setApproveModalVisible] = useState(false);
+  const [rejectModalVisible, setRejectModalVisible] = useState(false);
+
   React.useEffect(() => {
     setPlanDonation(route.params.item);
     setEventID(route.params.item.eventID);
@@ -54,6 +59,16 @@ export default function UpdatePlantDonation({ route, navigation }) {
     setAmount(String(route.params.item.amount));
     setDate(route.params.item.date);
   }, [planDonation]);
+
+  const approvePressed = () => {
+    setApproveModalVisible(true);
+    // setuserDetails(data);
+  };
+
+  const rejectPressed = () => {
+    setRejectModalVisible(true);
+    // setuserDetails(data);
+  };
 
   const handleSubmit = () => {
     if (eventID === "") {
@@ -90,8 +105,8 @@ export default function UpdatePlantDonation({ route, navigation }) {
     axios
       .put(`${Constants.URL}/api/plantDonations/${planDonation._id}`, data)
       .then((res) => {
-        console.log(res.data);
-        Alert.alert("Doantion added successfully");
+        setApproveModalVisible(false);
+        navigation.navigate("DonationUpcomingEvent");
       })
       .catch((err) => {
         console.log(err);
@@ -268,12 +283,70 @@ export default function UpdatePlantDonation({ route, navigation }) {
                 onDateChange={(date) => setDate(date)}
               />
             </FormControl>
-            <Button style={styles.uploadButton} onPress={handleSubmit}>
-              <Text style={styles.uploadButtonText}>Donate</Text>
+            <Button style={styles.uploadButton} onPress={approvePressed}>
+              <Text style={styles.uploadButtonText}>Update</Text>
             </Button>
           </VStack>
         </VStack>
       </ScrollView>
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={approveModalVisible}
+            onRequestClose={() => {
+              setApproveModalVisible(!approveModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>
+                  Confirm to <Text style={styles.modalText2}> Update !</Text>
+                </Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleSubmit}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Yes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.warningBtnNo}
+                    onPress={() => setApproveModalVisible(!approveModalVisible)}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "rgba(26, 182, 92, 1)" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      No
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
     </NativeBaseProvider>
   );
 }
@@ -393,5 +466,147 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+  },
+
+  
+  // alert
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    backgroundColor: "#000000aa",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "auto",
+    width: "90%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backfaceVisibility: "hidden",
+    backgroundColor: "red",
+  },
+  modal: {
+    background: "red",
+    position: "absolute",
+    top: "50px",
+    right: "calc(50% - 200px)",
+    border: "1px solid #ccc",
+    padding: "1px",
+    minHeight: "300px",
+  },
+  warningBtnYes: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    elevation: 7,
+    width: 130,
+    height: 60,
+    maxWidth: 150,
+    padding: 15,
+    marginLeft: 10,
+    paddingStart: 20,
+    borderRadius: 25,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  warningBtnNo: {
+    backgroundColor: "rgba(232, 248, 239, 1)",
+
+    elevation: 7,
+    width: 130,
+    height: 60,
+    marginLeft: 45,
+    maxWidth: 150,
+    padding: 15,
+    paddingStart: 25,
+    borderRadius: 25,
+    marginRight: 10,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 22,
+    height: 30,
+  },
+  modalText1: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+
+    marginTop: 20,
+  },
+  modalText2: {
+    fontWeight: "bold",
+    color: "orange",
+  },
+  modalText3: {
+    fontWeight: "bold",
+    color: "red",
+  },
+  alertButtonContainer: {
+    flexDirection: "row",
+  },
+  hr: {
+    color: "rgba(26, 182, 92, 1)",
+    marginBottom: 20,
+  },
+  modalText5: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+    color: "rgba(26, 182, 92, 1)",
+  },
+  loading: {
+    width: "50%",
+    marginTop: 23,
+    height: 100,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  modalView1: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "30%",
+    width: "80%",
   },
 });

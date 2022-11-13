@@ -84,6 +84,7 @@ export default function AddProcess({ route, navigation }) {
       .then((res) => {
         console.log(res.data);
         Alert.alert("Task added successfully");
+        navigation.navigate("ProcessUpCommingEvent");
       })
       .catch((err) => {
         console.log(err);

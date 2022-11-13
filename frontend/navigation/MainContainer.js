@@ -135,8 +135,6 @@ function MainContainer() {
         <Stack.Screen name={requestDashboard} component={RequestDashboard} />
         <Stack.Screen name={upgradeUser} component={UpgradeUser} />
         <Stack.Screen name={allUsers} component={AllUsers} />
-        <Stack.Screen name={login} component={Login} />
-        <Stack.Screen name={createRequest} component={CreateRequest} />
         <Stack.Screen name={updateRequest} component={UpdateRequest} />
         <Stack.Screen name={allRequestedEvents} component={AllRequestedEvents} />
         <Stack.Screen name={requestDetails} component={RequestDetails} />
