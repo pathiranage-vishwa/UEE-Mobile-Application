@@ -114,6 +114,7 @@ export default function CreateRequest({ navigation }) {
       .then((res) => {
         console.log(res.data);
         Alert.alert("requests added successfully");
+        navigation.navigate("RequestDashboard")
       })
       .catch((err) => {
         console.log(err);

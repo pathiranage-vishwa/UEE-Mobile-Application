@@ -31,7 +31,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isSelected, setSelection] = useState([]);
 
   const login = async () => {
     if (email == "" || password == "") {
@@ -41,11 +40,8 @@ export default function LoginScreen({ navigation }) {
         email: email,
         password: password,
       };
-      if (isSelected) {
-        var url = `${Constants.URL}/api/supplier/supplierlogin`;
-      } else {
-        var url = `${Constants.URL}/api/users/login`;
-      }
+
+      var url = `${Constants.URL}/api/users/login`;
 
       await axios
         .post(url, user)
@@ -55,7 +51,7 @@ export default function LoginScreen({ navigation }) {
           AsyncStorage.setItem("name", response.data.user.name);
           AsyncStorage.setItem("email", response.data.user.email);
           AsyncStorage.setItem("role", response.data.user.role);
-          navigation.navigate("BottomBar");
+          navigation.navigate("Home");
         })
         .catch((error) => {
           Alert.alert(error.response.data.msg);
@@ -78,6 +74,7 @@ export default function LoginScreen({ navigation }) {
           >
             Welcome
           </Heading>
+          <ScrollView style={styles.main}>
           <View >
             <Image
               style={styles.image}
@@ -85,6 +82,7 @@ export default function LoginScreen({ navigation }) {
             />
           </View>
           <Heading
+          onPress={() => navigation.navigate("Home")}
             mt="1"
             _dark={{
               color: "warmGray.200",
@@ -109,17 +107,9 @@ export default function LoginScreen({ navigation }) {
                 onChangeText={(password) => setPassword(password)}
               />
             </FormControl>
-            <Checkbox
-              colorScheme="orange"
-              value={isSelected}
-              onChange={setSelection}
-            >
-              <Text fontSize="sm" ml="2" color="coolGray.800">
-                Login as a Supplier
-              </Text>
-            </Checkbox>
-            <Button mt="2" colorScheme="orange" height={50} onPress={login}>
-              Sign in
+
+            <Button style={styles.uploadButton} onPress={login}>
+              <Text style={styles.uploadButtonText}> Sign up</Text>
             </Button>
             <HStack mt="6" justifyContent="center">
               <Text
@@ -144,6 +134,7 @@ export default function LoginScreen({ navigation }) {
               </Text>
             </HStack>
           </VStack>
+          </ScrollView>
         </Box>
       </Center>
     </NativeBaseProvider>
@@ -205,5 +196,26 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10,
     alignSelf: "center",
+  },
+  uploadButton: {
+    borderRadius: 10,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+    margin: 12,
+    padding: 10,
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    width: "45%",
+    height: 70,
+  },
+  uploadButtonText: {
+    color: "#f6f5f8",
+    fontSize: 20,
   },
 });

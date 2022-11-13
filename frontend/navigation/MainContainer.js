@@ -130,7 +130,6 @@ function MainContainer() {
         <Stack.Screen name={processUpCommingEvent} component={ProcessUpCommingEvent} />
         <Stack.Screen name={donationDash} component={DonationDash} />
         <Stack.Screen name={updatePlantDonation} component={UpdatePlantDonation} />
-        <Stack.Screen name={createRequest} component={CreateRequest} />
         <Stack.Screen name={login} component={Login} />
         <Stack.Screen name={joinEvent} component={JoinEvent} />
         <Stack.Screen name={displayJoinEvents} component={DisplayJoinEvents} />
@@ -141,6 +140,7 @@ function MainContainer() {
         <Stack.Screen name={requestDashboard} component={RequestDashboard} />
         <Stack.Screen name={upgradeUser} component={UpgradeUser} />
         <Stack.Screen name={allUsers} component={AllUsers} />
+        <Stack.Screen name={createRequest} component={CreateRequest} />
         <Stack.Screen name={updateRequest} component={UpdateRequest} />
         <Stack.Screen name={allRequestedEvents} component={AllRequestedEvents} />
         <Stack.Screen name={requestDetails} component={RequestDetails} />
@@ -198,7 +198,7 @@ function DrawerFun() {
       })}
       //add icon to drawer
     >
-      <Stack.Screen name={register} component={Register} />
+      <Stack.Screen name={login} component={Login} />
       <Drawer.Screen name={homeName} component={HomeScreen} />
       <Drawer.Screen name={eventDashboard} component={EventDashboard} />
       <Drawer.Screen name={upcomingEvent} component={UpcomingEvent} />

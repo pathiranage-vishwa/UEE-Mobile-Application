@@ -106,7 +106,7 @@ export default function ({ navigation }) {
               <Flex direction="row">
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    Sanjula Mihiran
+                    Sanjula
                   </Heading>
 
                   <Text style={styles.sub}>
@@ -149,7 +149,7 @@ export default function ({ navigation }) {
               <Flex direction="row">
                 <Stack space={2} p="4" w="100%">
                   <Heading size="sm" ml="-1" style={styles.title1}>
-                    Tharindu Perera
+                    Dilsha
                   </Heading>
 
                   <Text style={styles.sub}>

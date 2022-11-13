@@ -8,6 +8,9 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  Modal,
+  Pressable,
+  ActivityIndicator,
 } from "react-native";
 import {
   NativeBaseProvider,
@@ -37,6 +40,8 @@ export default function UpdateRequest({ route, navigation }) {
   const [category, setCategory] = useState(request.category);
   const [location, setLocation] = useState(request.location);
   const [description, setDescription] = useState(request.description);
+  const [approveModalVisible, setApproveModalVisible] = useState(false);
+  const [rejectModalVisible, setRejectModalVisible] = useState(false);
 
   useEffect(() => {
     setRequest(route.params.item);
@@ -89,6 +94,16 @@ export default function UpdateRequest({ route, navigation }) {
       });
   };
 
+  const approvePressed = () => {
+    setApproveModalVisible(true);
+    // setuserDetails(data);
+  };
+
+  const rejectPressed = () => {
+    setRejectModalVisible(true);
+    // setuserDetails(data);
+  };
+
   const handleUpdate = () => {
     if (title === "") {
       Alert.alert("Please enter a title");
@@ -120,7 +135,7 @@ export default function UpdateRequest({ route, navigation }) {
       .then((res) => {
         console.log(res.data);
         Alert.alert("Request updated successfully");
-        navigation.navigate("UpcomingRequest");
+        navigation.navigate("RequestDashboard");
       })
       .catch((err) => {
         console.log(err);
@@ -133,7 +148,7 @@ export default function UpdateRequest({ route, navigation }) {
       .delete(`${Constants.URL}/api/requests/${request._id}`)
       .then((res) => {
         Alert.alert("Request deleted successfully");
-        navigation.navigate("UpcomingRequest");
+        navigation.navigate("RequestDashboard");
       })
       .catch((err) => {
         console.log(err);
@@ -255,14 +270,14 @@ export default function UpdateRequest({ route, navigation }) {
                 style={styles.button1}
                 size="sm"
                 backgroundColor={"rgba(26, 182, 92, 1)"}
-                onPress={handleUpdate}
+                onPress={approvePressed}
               >
                 <Text style={styles.text1}>Update</Text>
               </Button>
               <Button
                 style={styles.button2}
                 size="sm"
-                onPress={handleDelete}
+                onPress={rejectPressed}
                 backgroundColor={"white"}
               >
                 <Text style={styles.text2}>Delete</Text>
@@ -271,6 +286,122 @@ export default function UpdateRequest({ route, navigation }) {
           </VStack>
         </VStack>
       </ScrollView>
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={approveModalVisible}
+            onRequestClose={() => {
+              setApproveModalVisible(!approveModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>
+                  Confirm to <Text style={styles.modalText2}> Update !</Text>
+                </Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleUpdate}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Yes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.warningBtnNo}
+                    onPress={() => setApproveModalVisible(!approveModalVisible)}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "rgba(26, 182, 92, 1)" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      No
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
+      {/* pop up alert */}
+      <View style={styles.centeredView}>
+        <View style={styles.modalContainer}>
+          <Modal
+            style={styles.modal}
+            animationType="fade"
+            transparent={true}
+            visible={rejectModalVisible}
+            onRequestClose={() => {
+              setRejectModalVisible(!rejectModalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText1}>
+                  Confirm to <Text style={styles.modalText3}> Delete !</Text>
+                </Text>
+                <Text style={styles.hr}>
+                  _____________________________________________
+                </Text>
+
+                <Image source={require("../../../assets/images/done.png")} />
+
+                <View style={styles.alertButtonContainer}>
+                  <Pressable
+                    style={styles.warningBtnYes}
+                    onPress={handleDelete}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "#ffffff" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      Yes
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.warningBtnNo}
+                    onPress={() => setRejectModalVisible(!rejectModalVisible)}
+                  >
+                    <Text
+                      style={[
+                        styles.modalText,
+                        { color: "rgba(26, 182, 92, 1)" },
+                        { marginLeft: 25 },
+                      ]}
+                    >
+                      No
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
     </NativeBaseProvider>
   );
 }
@@ -394,5 +525,145 @@ const styles = StyleSheet.create({
     color: "rgba(255, 0, 0, 1)",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  // alert
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    backgroundColor: "#000000aa",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "auto",
+    width: "90%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backfaceVisibility: "hidden",
+    backgroundColor: "red",
+  },
+  modal: {
+    background: "red",
+    position: "absolute",
+    top: "50px",
+    right: "calc(50% - 200px)",
+    border: "1px solid #ccc",
+    padding: "1px",
+    minHeight: "300px",
+  },
+  warningBtnYes: {
+    backgroundColor: "rgba(26, 182, 92, 1)",
+    elevation: 7,
+    width: 130,
+    height: 60,
+    maxWidth: 150,
+    padding: 15,
+    marginLeft: 10,
+    paddingStart: 20,
+    borderRadius: 25,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  warningBtnNo: {
+    backgroundColor: "rgba(232, 248, 239, 1)",
+
+    elevation: 7,
+    width: 130,
+    height: 60,
+    marginLeft: 45,
+    maxWidth: 150,
+    padding: 15,
+    paddingStart: 25,
+    borderRadius: 25,
+    marginRight: 10,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 7,
+      height: 5,
+    },
+    shadowOpacity: 1.58,
+    shadowRadius: 9,
+    elevation: 4,
+  },
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 22,
+    height: 30,
+  },
+  modalText1: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+
+    marginTop: 20,
+  },
+  modalText2: {
+    fontWeight: "bold",
+    color: "orange",
+  },
+  modalText3: {
+    fontWeight: "bold",
+    color: "red",
+  },
+  alertButtonContainer: {
+    flexDirection: "row",
+  },
+  hr: {
+    color: "rgba(26, 182, 92, 1)",
+    marginBottom: 20,
+  },
+  modalText5: {
+    fontWeight: "bold",
+    fontSize: 24,
+    height: 30,
+    color: "rgba(26, 182, 92, 1)",
+  },
+  loading: {
+    width: "50%",
+    marginTop: 23,
+    height: 100,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  modalView1: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 15,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: "30%",
+    width: "80%",
   },
 });

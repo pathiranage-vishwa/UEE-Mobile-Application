@@ -122,7 +122,7 @@ export default function UpdateProfile({ route, navigation }) {
       .then((res) => {
         console.log(res.data);
         Alert.alert("User updated successfully");
-        navigation.navigate("UpcomingUser");
+        navigation.navigate("AllUsers");
       })
       .catch((err) => {
         console.log(err);
@@ -130,12 +130,11 @@ export default function UpdateProfile({ route, navigation }) {
   };
 
   const handleDelete = async () => {
-    console.log("cccccccccccxxx")
     await axios
       .delete(`${Constants.URL}/api/users/${user._id}`)
       .then((res) => {
         Alert.alert("User deleted successfully");
-        navigation.navigate("UpcomingUser");
+        navigation.navigate("AllUsers");
       })
       .catch((err) => {
         console.log(err);
@@ -232,7 +231,7 @@ export default function UpdateProfile({ route, navigation }) {
                 placeholder="Contact Number"
                 borderColor={"#000"}
                 height={12}
-                value={contactNo}
+                value="0712345678"
                 onChangeText={(value) => setContactNo(value)}
               />
             </FormControl>
