@@ -58,17 +58,8 @@ export default function RequestDashboard({ navigation }) {
               source={require("../../../assets/images/add_new.png")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Add new request for event</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
+              <Text style={styles.text2} onPress={() => navigation.navigate("CreateRequest")}
+              >Add new request for event</Text>
             </Flex>
           </View>
             </Flex>
@@ -76,14 +67,15 @@ export default function RequestDashboard({ navigation }) {
             <View style={styles.card2}>
             <Image
               style={styles.image4}
-              source={require("../../../assets/images/view_all_req.png")}
+              source={require("../../../assets/images/view_all_req.png")}AllRequestedEvents
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>View all pending event requests</Text>
+              <Text style={styles.text2} onPress={() => navigation.navigate("AllRequestedEventsEdit")}
+              >View all pending event requests</Text>
               <Button
                 style={styles.button2}
                 size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
+                
                 backgroundColor={"rgba(26, 182, 92, 1)"}
               >
                 <Text style={styles.textBtn1}>
@@ -100,17 +92,7 @@ export default function RequestDashboard({ navigation }) {
               source={require("../../../assets/images/manage-req.jpg")}
             />
             <Flex direction="row" style={styles.cardContent}>
-              <Text style={styles.text2}>Manage Event Requests</Text>
-              <Button
-                style={styles.button2}
-                size="sm"
-                onPress={() => navigation.navigate("PreviousEvents")}
-                backgroundColor={"rgba(26, 182, 92, 1)"}
-              >
-                <Text style={styles.textBtn1}>
-                  <Ionicons name="ios-arrow-forward" size={26} color="white" />
-                </Text>
-              </Button>
+              <Text style={styles.text2} onPress={() => navigation.navigate("AllRequestedEvents")}>Manage Event Requests</Text>
             </Flex>
           </View>
           </Flex>
